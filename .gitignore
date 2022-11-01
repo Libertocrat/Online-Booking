@@ -1,5 +1,8 @@
 #Project-wide
 .DS_Store
+Thumbs.db
+*.log
+*.env
 
 #Final and starting project files to be ignored
 final/
@@ -8,3 +11,7 @@ starter/
 #Node.js NPM files
 node_modules/
 package-lock.json
+
+#Python cache
+__pycache__/**
+*.pyc
