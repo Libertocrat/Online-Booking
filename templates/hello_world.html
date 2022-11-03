@@ -1,11 +1,7 @@
-{% load static %}
-<!doctype html>
-<html>
-  <head>
-    <title>Getting Started with Django and React!</title>
-  </head>
-  <body>
-    <div id="root" />
-    <script src="{% static 'index-bundle.js' %}"></script>
-  </body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}Django, React & Sass App!{% endblock %}
+
+{% block body %}
+  <div id="app" />
+{% endblock %}

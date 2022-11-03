@@ -1,0 +1,28 @@
+/*!********************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/App.module.scss ***!
+  \********************************************************************************************************************************************************************/
+.Cbdx5X23Dv_NkQKbgec4 {
+  color: #666;
+  background-image: linear-gradient(to right bottom, rgba(51, 51, 51, 0.2), rgba(187, 187, 187, 0.1));
+  font-weight: 600;
+  font-size: 5rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  text-align: center;
+  transition: all 0.5s ease-out;
+}
+.Cbdx5X23Dv_NkQKbgec4:hover {
+  font-size: 5.2rem;
+  transform: rotateZ(0.5deg);
+}
+/*!*******************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./front-end/sass/main.scss ***!
+  \*******************************************************************************************************************/
+
+/*!***************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./front-end/styles.css ***!
+  \***************************************************************************************************************/
+/* You may delete this file if using just SASS/SCSS. */
+body {
+  background-color: rgba(71, 175, 249, 0.2);
+  color: #111;
+}

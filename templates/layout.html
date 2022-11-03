@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}App title{% endblock %}</title>
+
+        <!-- Bundled SCSS & CSS by Webpack -->
+        <link href="{% static 'main.css' %}" rel="stylesheet">
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        <!-- Bundled JS by Webpack -->
+        <script src="{% static 'main.js' %}"></script>
+    </body>
+</html>
