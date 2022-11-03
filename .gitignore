@@ -4,14 +4,13 @@ Thumbs.db
 *.log
 *.env
 
-#Final and starting project files to be ignored
-final/
-starter/
+#Built directories
+**/build
+**/dist
 
 #Node.js NPM files
-node_modules/
+**/node_modules
 package-lock.json
 
 #Python cache
-__pycache__/**
-*.pyc
+**/__pycache__
