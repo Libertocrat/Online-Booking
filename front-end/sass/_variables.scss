@@ -1,0 +1,32 @@
+
+:root {
+
+    /*** FONTS ***/
+    --font-family-default: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    /*** COLORS ***/
+    /*
+    --color-primary: #ea2e63;
+    --color-primary-rgb: 234, 46, 99;
+    --color-primary-light: #FF3366;
+    --color-primary-dark: #BA265D;
+    */
+    --color-primary: #55c57a;
+    --color-primary-rgb: 85, 197, 122;
+    --color-primary-light: #7ed56f;
+    --color-primary-dark: #28b485;
+
+    --color-grey-light-1: #faf9f9;
+    --color-grey-light-2: #f4f2f2;
+    --color-grey-light-3: #f0eeee;
+    --color-grey-light-4: #ccc;
+
+    --color-grey-dark-1: #333;
+    --color-grey-dark-2: #777;
+    --color-grey-dark-3: #999;
+
+    --shadow-dark: 0 2rem 6rem rgba(0,0,0,.3);
+    --shadow-light: 0 2rem 5rem rgba(0,0,0,.06);
+
+    --line: 1px solid var(--color-grey-light-2);
+}

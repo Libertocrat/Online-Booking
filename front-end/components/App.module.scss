@@ -6,10 +6,11 @@ $light-color: #bbb;
     background-image: linear-gradient(to right bottom, rgba($dark-color, .2), rgba($light-color, .1));
     font-weight: 600;
     font-size: 5rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: var(--font-family-default);
     text-align: center;
 
     transition: all .5s ease-out;
+    backface-visibility: hidden;
 
     &:hover{
         font-size: 5.2rem;
