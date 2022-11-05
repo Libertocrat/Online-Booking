@@ -101,7 +101,7 @@ body {
   width: 4rem;
   height: 4rem;
   border-radius: 0.5rem;
-  background-color: var(--color-grey-dark-3);
+  background-color: var(--color-grey-light-4);
   backface-visibility: hidden;
   transition: all 0.2s ease-out;
 }

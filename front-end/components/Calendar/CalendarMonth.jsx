@@ -6,6 +6,8 @@ import CalendarDay from "./CalendarDay.jsx";
 
 function CalendarMonth (props) {
 
+    const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
+
     /*
     console.log(calendarMonth.currentDate);
     console.log(calendarMonth.monthDays[15].date);
@@ -15,18 +17,18 @@ function CalendarMonth (props) {
 
     return (
         <div className={styles['month']}>
-            <div className={styles['title']}>{props.calendarMonth.titleMonth} {props.calendarMonth.titleYear}</div>
+            <div className={styles['title']}>{calendarMonth.titleMonth} {calendarMonth.titleYear}</div>
         
                 <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
                 {
-                    props.calendarMonth.weekDayLabels.map( dayLabel => {
+                    calendarMonth.weekDayLabels.map( dayLabel => {
                         return(<div key={dayLabel}>{dayLabel}</div>);
                     })
                 }
                 </div>
                 
                 {
-                    props.calendarMonth.monthDays.map((week, weekNum) => {
+                    calendarMonth.monthDays.map((week, weekNum) => {
                         return(
                             <div className={styles['week']} key={weekNum}>
                                 {
