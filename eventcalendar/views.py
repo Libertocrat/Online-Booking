@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse # User added
 import datetime # User added
 import calendar # User added
 
@@ -11,6 +12,22 @@ def calendar_month(request, year, month):
     today = datetime.date.today()
     cal = calendar.Calendar(6)
     month_days = cal.monthdatescalendar(year, month)
+
+    # Set last month url
+    last_year = year
+    last_month = month - 1
+    if month == 1:
+        last_year = year - 1
+        last_month = 12
+    last_month_url = reverse("eventcalendar:calendar_month", kwargs={"year" : last_year, "month": last_month})
+
+    # Set next month url
+    next_year = year
+    next_month = month + 1
+    if month == 12:
+        next_year = year + 1
+        next_month = 1
+    next_month_url = reverse("eventcalendar:calendar_month", kwargs={"year" : next_year, "month": next_month})
 
     weekday_labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     month_calendar_days = []
@@ -49,6 +66,8 @@ def calendar_month(request, year, month):
         #"startDate": month_calendar_days[0][0].date,
         #"endDate": month_calendar_days[4][6].date,
         "weekDayLabels": weekday_labels,
+        "lastMonthUrl" : last_month_url,
+        "nextMonthUrl" : next_month_url,
         "monthDays": month_calendar_days
     }
 

@@ -6,6 +6,7 @@ import CalendarDay from "./CalendarDay.jsx";
 
 function CalendarMonth (props) {
 
+    // Initial context sent from backend
     const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
 
     /*
@@ -15,38 +16,52 @@ function CalendarMonth (props) {
     console.log(calendarMonth.monthDays[15].status);
     */
 
+    function loadMonth(event) {
+        const monthUrl = event.target.getAttribute('aref');
+        window.open(monthUrl,"_self");
+    }
+
     return (
         <div className={styles['month']}>
-            <div className={styles['title']}>{calendarMonth.titleMonth} {calendarMonth.titleYear}</div>
-        
-                <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
-                {
-                    calendarMonth.weekDayLabels.map( dayLabel => {
-                        return(<div key={dayLabel}>{dayLabel}</div>);
-                    })
-                }
+
+            <div className={styles['nav-bar']}>
+                <div className={`${styles['nav-btn']}`}>
+                    <span className={`material-icons`} onClick={loadMonth} aref={calendarMonth.lastMonthUrl}>chevron_left</span>
                 </div>
-                
-                {
-                    calendarMonth.monthDays.map((week, weekNum) => {
-                        return(
-                            <div className={styles['week']} key={weekNum}>
-                                {
-                                    week.map( (monthDay, index) => {
-                                    return(
-                                        <CalendarDay
-                                            key={monthDay.id}  
-                                            id={monthDay.id}
-                                            day={monthDay.day} 
-                                            isToday={monthDay.isToday}
-                                            status={monthDay.status}
-                                        />);
-                                    })
-                                }
-                            </div>
-                        );
-                    })
-                }
+                <div className={styles['title']}>{calendarMonth.titleMonth} {calendarMonth.titleYear}</div>
+                <div className={`${styles['nav-btn']}`}>
+                    <span className={`material-icons`} onClick={loadMonth} aref={calendarMonth.nextMonthUrl}>chevron_right</span>
+                </div>
+            </div>
+        
+            <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
+            {
+                calendarMonth.weekDayLabels.map( dayLabel => {
+                    return(<div key={dayLabel}>{dayLabel}</div>);
+                })
+            }
+            </div>
+            
+            {
+                calendarMonth.monthDays.map((week, weekNum) => {
+                    return(
+                        <div className={styles['week']} key={weekNum}>
+                            {
+                                week.map( (monthDay, index) => {
+                                return(
+                                    <CalendarDay
+                                        key={monthDay.id}  
+                                        id={monthDay.id}
+                                        day={monthDay.day} 
+                                        isToday={monthDay.isToday}
+                                        status={monthDay.status}
+                                    />);
+                                })
+                            }
+                        </div>
+                    );
+                })
+            }
             
         </div>
         

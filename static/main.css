@@ -86,6 +86,24 @@ body {
   padding: 2rem;
   flex-basis: 100%;
 }
+
+.Ab0b93e5OJkH6oZK_b_b {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.S43y75By4qvxPNLtig6U {
+  cursor: pointer;
+}
+.S43y75By4qvxPNLtig6U span {
+  font-size: 2.5rem;
+  color: var(--color-primary-dark);
+  transition: all 0.5s ease-out;
+}
+.S43y75By4qvxPNLtig6U span:hover {
+  color: var(--color-primary-light);
+}
 /*!*************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarDay.module.scss ***!
   \*************************************************************************************************************************************************************************************/
@@ -103,6 +121,7 @@ body {
   border-radius: 0.5rem;
   background-color: var(--color-grey-light-4);
   backface-visibility: hidden;
+  cursor: pointer;
   transition: all 0.2s ease-out;
 }
 .X7tcvSdZfe7M9sz72Dho:hover {
@@ -111,6 +130,7 @@ body {
 }
 .X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd {
   background-color: var(--color-grey-dark-3);
+  cursor: default;
 }
 .X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd:hover {
   background-color: var(--color-grey-dark-2);
