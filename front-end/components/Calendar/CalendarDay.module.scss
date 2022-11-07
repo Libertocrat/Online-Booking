@@ -26,4 +26,20 @@
         background-color: var(--color-primary-light);
         transform: scale(1.05);
     }
+
+    &.inactive {
+
+        background-color: var(--color-grey-dark-3);
+
+        &:hover {
+            background-color: var(--color-grey-dark-2);
+            transform: scale(1);
+        }
+    }
+
+    &.today {
+        border: 5px solid var(--color-primary);//width style color
+        //background-color: var(--color-primary-light);
+    }
+    
 }

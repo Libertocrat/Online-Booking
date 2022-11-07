@@ -109,3 +109,13 @@ body {
   background-color: var(--color-primary-light);
   transform: scale(1.05);
 }
+.X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd {
+  background-color: var(--color-grey-dark-3);
+}
+.X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd:hover {
+  background-color: var(--color-grey-dark-2);
+  transform: scale(1);
+}
+.X7tcvSdZfe7M9sz72Dho.hXpS4ZIDClOZukmz1O_Z {
+  border: 5px solid var(--color-primary);
+}

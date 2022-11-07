@@ -15,20 +15,6 @@ module.exports = {
         loader: "babel-loader",
         options: { presets: ["@babel/preset-env", "@babel/preset-react"] }
       },
-      /*
-      { // CSS loaders
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
-      },
-      
-      { // Sass & SCSS loaders
-        test: /\.s[ac]ss$/i,
-        use: [
-            "style-loader",
-            "css-loader",
-            "sass-loader",
-        ]
-      },*/
       { // Global SCSS/CSS + React SCSS/CSS Modules
         test: /\.s?css$/,
         oneOf: [

@@ -29,10 +29,11 @@ def calendar_month(request, year, month):
             date = str(date_day) + str(date_month) + str(date_year)
             weekday = day.strftime("%a")
             weekday_num = day.strftime("%w")
-            status = "active" if (day >= today) else "inactive"
+            status = "active" if (day >= today and int(weekday_num) != 0) else "inactive"
+            is_today = (day == today)
 
             # Create & add current day object
-            calendar_day = {"id": id, "weekNum": week_num, "date": date, "day": date_day, "month": date_month, "year": date_year, "weekDay": weekday, "weekDayNum": weekday_num, "status": status}
+            calendar_day = {"id": id, "weekNum": week_num, "date": date, "day": date_day, "month": date_month, "year": date_year, "weekDay": weekday, "weekDayNum": weekday_num, "status": status, "isToday": is_today}
             week_days.append(calendar_day)
             id = id + 1
         

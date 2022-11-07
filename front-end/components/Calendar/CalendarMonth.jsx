@@ -38,6 +38,7 @@ function CalendarMonth (props) {
                                             key={monthDay.id}  
                                             id={monthDay.id}
                                             day={monthDay.day} 
+                                            isToday={monthDay.isToday}
                                             status={monthDay.status}
                                         />);
                                     })
