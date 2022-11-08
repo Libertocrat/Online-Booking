@@ -104,10 +104,10 @@ body {
 .S43y75By4qvxPNLtig6U span:hover {
   color: var(--color-primary-light);
 }
-/*!*************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarDay.module.scss ***!
-  \*************************************************************************************************************************************************************************************/
-.X7tcvSdZfe7M9sz72Dho {
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarMonthDay.module.scss ***!
+  \******************************************************************************************************************************************************************************************/
+.QvhPPpdvCtHCVy4mGSFV {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,18 +124,94 @@ body {
   cursor: pointer;
   transition: all 0.2s ease-out;
 }
-.X7tcvSdZfe7M9sz72Dho:hover {
+.QvhPPpdvCtHCVy4mGSFV:hover {
   background-color: var(--color-primary-light);
   transform: scale(1.05);
 }
-.X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd {
+.QvhPPpdvCtHCVy4mGSFV.Q7z2vWqe3HphYmpDRMh1 {
   background-color: var(--color-grey-dark-3);
   cursor: default;
 }
-.X7tcvSdZfe7M9sz72Dho.BNgiGpOKBBlx2ysnGeGd:hover {
+.QvhPPpdvCtHCVy4mGSFV.Q7z2vWqe3HphYmpDRMh1:hover {
   background-color: var(--color-grey-dark-2);
   transform: scale(1);
 }
-.X7tcvSdZfe7M9sz72Dho.hXpS4ZIDClOZukmz1O_Z {
+.QvhPPpdvCtHCVy4mGSFV.FRdUvWJfMXOzIhIng7_T {
   border: 5px solid var(--color-primary);
+}
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/TimeBlock.module.scss ***!
+  \***********************************************************************************************************************************************************************************/
+.yA_mXY8pL_jTDpkQNk3e {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  background-color: lightblue;
+}
+.yA_mXY8pL_jTDpkQNk3e.KoYTf2A7hN4wxV_K0dG2 {
+  background-color: green;
+  cursor: pointer;
+  border: 1px solid #006700;
+}
+.yA_mXY8pL_jTDpkQNk3e.KoYTf2A7hN4wxV_K0dG2:hover {
+  background-color: #009a00;
+}
+.yA_mXY8pL_jTDpkQNk3e.jqAY2AO95YomoLJGhjMs {
+  background-color: var(--color-grey-dark-3);
+}
+.yA_mXY8pL_jTDpkQNk3e.Cxqu0R2BwrNnTmtVjBTs {
+  background-color: var(--color-grey-dark-1);
+}
+.yA_mXY8pL_jTDpkQNk3e .qyiBfYr4tWKRknerMaLl {
+  color: var(--color-grey-light-1);
+  font-size: 1rem;
+}
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarDay.module.scss ***!
+  \*************************************************************************************************************************************************************************************/
+.RKGN381OgNJGYU_NNTLR {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 100%;
+}
+
+.EZLfJSZ3ROHVR6Tq7Yym {
+  color: #555;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.sq2bGhtkPrd_MVe_aKmk {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.QOxRCJ0lEzUAgA4ZKsGt {
+  cursor: pointer;
+}
+.QOxRCJ0lEzUAgA4ZKsGt span {
+  font-size: 2.5rem;
+  color: var(--color-primary-dark);
+  transition: all 0.5s ease-out;
+}
+.QOxRCJ0lEzUAgA4ZKsGt span:hover {
+  color: var(--color-primary-light);
+}
+
+.cNnsxdu66JSCej0ASlPN {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  width: 100%;
+  flex-grow: 1;
+  max-width: 500px;
+  min-height: 600px;
 }

@@ -1,47 +1,50 @@
 
-.day {
+.calendar-day {
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 100%;
+}
+
+.title {
+    color: #555;
+    font-size: 2rem;
+    text-align: center;
+
+    //flex-basis: 100%;
+}
+
+.nav-bar {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
+}
 
-    //flex-basis: 12%;
-    flex-grow: 1;
-    flex-shrink: 0;
-
-    box-sizing: border-box;
-    padding: 1rem;
-    margin: 8px;
-    width: 4rem;
-    height: 4rem;
-    border-radius: .5rem;
-
-    background-color: var(--color-grey-light-4);
-    backface-visibility: hidden;
+.nav-btn {
     cursor: pointer;
 
-    transition: all .2s ease-out;
+    & span {
+        font-size: 2.5rem;
+        color: var(--color-primary-dark);
 
-    &:hover {
-        
-        background-color: var(--color-primary-light);
-        transform: scale(1.05);
-    }
-
-    &.inactive {
-
-        background-color: var(--color-grey-dark-3);
-        cursor: default;
+        transition: all .5s ease-out;
 
         &:hover {
-            background-color: var(--color-grey-dark-2);
-            transform: scale(1);
+            color: var(--color-primary-light);
         }
     }
-
-    &.today {
-        border: 5px solid var(--color-primary);//width style color
-        //background-color: var(--color-primary-light);
-    }
     
+}
+
+.time-block-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    width: 100%;
+    flex-grow: 1;
+    max-width: 500px;
+    min-height: 600px;
 }

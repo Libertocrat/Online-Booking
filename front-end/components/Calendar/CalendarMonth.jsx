@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styles from "./CalendarMonth.module.scss"; //SCSS Modules use example
 
-import CalendarDay from "./CalendarDay.jsx";
+import CalendarMonthDay from "./CalendarMonthDay.jsx";
 //import calendarMonth from "../../backend-test.js";
 
 function CalendarMonth (props) {
 
     // Initial context sent from backend
+
     const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
 
     /*
@@ -49,7 +50,7 @@ function CalendarMonth (props) {
                             {
                                 week.map( (monthDay, index) => {
                                 return(
-                                    <CalendarDay
+                                    <CalendarMonthDay
                                         key={monthDay.id}  
                                         id={monthDay.id}
                                         day={monthDay.day} 
@@ -64,7 +65,6 @@ function CalendarMonth (props) {
             }
             
         </div>
-        
     );
 
     /*

@@ -1,0 +1,41 @@
+.time-block {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+
+    //width: 10rem;
+    //height: 2rem;
+    background-color: lightblue;
+    //padding: .5rem;
+
+    &.active {
+        $background-color: green;
+        background-color: $background-color;
+        cursor: pointer;
+        border: 1px solid darken($background-color , 5%);
+
+        &:hover {
+            //background-color: var(--color-primary);
+            background-color: lighten($background-color , 5%);
+        }
+    }
+
+    &.blocked {
+        background-color: var(--color-grey-dark-3);
+    }
+
+    &.inactive {
+        background-color: var(--color-grey-dark-1);
+    }
+
+    & .block-hours {
+        color: var(--color-grey-light-1);
+        font-size: 1rem;
+    }
+
+}
+
