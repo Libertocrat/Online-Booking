@@ -5,7 +5,7 @@ function TimeBlock (props) {
 
     const timeBlockClasses = `${styles['time-block']} ${styles[props.status]}`;
     const blockHeight = `${parseInt(props.relHeight) * 50}px`;
-    console.log(blockHeight);
+    //console.log(blockHeight);
 
     function onClickHandler(event) {
 

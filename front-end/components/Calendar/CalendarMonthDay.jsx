@@ -6,7 +6,7 @@ function CalendarMonthDay (props) {
     const dayClasses = `${styles['day']} ${props.isToday && styles['today']} ${props.status === 'inactive' && styles['inactive']}`;
 
     function onClickHandler(event) {
-        alert(props.dayUrl);
+        //alert(props.dayUrl);
 
         fetch(props.dayUrl, {
             method: 'POST',
@@ -24,7 +24,7 @@ function CalendarMonthDay (props) {
             (result) => {
                 //handlePostSuccess(result); // success handling
                 console.log(result);
-                props.onDayChange(result);
+                props.onDayChange(result.calendarDay);
             },
             (error) => {
                 //handlePostError(error);  // error handling

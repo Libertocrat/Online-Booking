@@ -7,28 +7,52 @@ function CalendarDay (props) {
     // CalendarDay states
     const [calDay, setCalDay] = useState({
         display: false,
+        weekDay: '',
+        year: '',
+        month: '',
+        day: '',
+        timeBlocks: []
+        /*
         weekDay: props.dayData.weekDay,
         year: props.dayData.year,
         month: props.dayData.month,
         day: props.dayData.day,
         timeBlocks: props.dayData.timeBlocks
+        */
     });
 
     //const calendarDay = JSON.parse(document.getElementById('calendar-day').textContent);
 
-    // This will run just at the beginning, when the component renders for the first time
     useEffect(() => {
         // ... code here, what should happens when the component renders for the 1st time
         setCalDay({
-            weekDay: props.dayData.weekDay,
-            year: props.dayData.year,
-            month: props.dayData.month,
-            day: props.dayData.day,
-            timeBlocks: props.dayData.timeBlocks
+            ...calDay,
+            weekDay: props.calendarDay.weekDay,
+            year: props.calendarDay.year,
+            month: props.calendarDay.month,
+            day: props.calendarDay.day,
+            timeBlocks: props.calendarDay.timeBlocks
         });
 
     }, []);
 
+    
+    // This will run when new day data is passed through props
+    useEffect(() => {
+        // ... code here, what should happens when the component renders for the 1st time
+        setCalDay({
+            weekDay: props.calendarDay.weekDay,
+            year: props.calendarDay.year,
+            month: props.calendarDay.month,
+            day: props.calendarDay.day,
+            timeBlocks: props.calendarDay.timeBlocks
+        });
+
+    }, [props.calendarDay]);
+    
+    console.log("CalendarDay rendered. current props: ");
+    console.log(props.calendarDay);
+    
     const dayDate = `${calDay.weekDay}, ${calDay.month} ${calDay.day}, ${calDay.year}`
 
     function navClickHandler(event) {
@@ -44,7 +68,7 @@ function CalendarDay (props) {
                 <div className={styles['nav-btn']}>
                     <span className={`material-icons`} onClick={navClickHandler} aref={props.lastDayUrl}>chevron_left</span>
                 </div>
-                <div className={styles['title']}>{`${calDay.weekDay}, ${calDay.month} ${calDay.day}, ${calDay.year}`}</div>
+                <div className={styles['title']}>{dayDate}</div>
                 <div className={styles['nav-btn']}>
                     <span className={`material-icons`} onClick={navClickHandler} aref={props.nextDayUrl}>chevron_right</span>
                 </div>

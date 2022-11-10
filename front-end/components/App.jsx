@@ -23,14 +23,25 @@ function App(props) {
     });
     //console.log(app);
 
+    useEffect(() => {
+        // ... code here, what should happens when the component renders for the 1st time
+        console.log("useEffect: Day changed. New app object");
+        console.log(app);
+
+    }, [onDayChangeHandler]);
+
     // Updates the calendar day to show
-    function onDayChangeHandler(dayData) {
+    function onDayChangeHandler(calendarDay) {
+
         setApp({
             ...app,
-            calendarDay: dayData
+            calendarDay: calendarDay,
+            showDay: {year: calendarDay.year, month: calendarDay.month, day: calendarDay.day}
         });
 
-        alert("Day changed");
+        console.log("OnDayChangeHandler: Day changed. New calendar day data:");
+        console.log(calendarDay);
+        console.log("New app object:");
         console.log(app);
     }
 
@@ -52,7 +63,7 @@ function App(props) {
         <div>
             <Header />
             <CalendarMonth showMonth={app.showMonth} onDayChange={onDayChangeHandler}/>
-            <CalendarDay dayData={app.calendarDay}/>
+            <CalendarDay calendarDay={app.calendarDay} showDay={app.showDay} onDayChange={onDayChangeHandler}/>
         </div>
     );
 }

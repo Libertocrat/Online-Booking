@@ -109,16 +109,32 @@ def calendar_day(request, year, month, day):
         reqDay =  datetime.date(year,month,day)
 
         # Assembly requested calendar day
-        time_blocks = [
-            {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
-            {"id" : 2, "status" : "blocked", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
-            {"id" : 3, "status" : "active", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
-            {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
-            {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
-            {"id" : 6, "status" : "blocked", "relHeight" : 1, "startHour" : "1:00pm", "endHour" : "2:00pm"},
-            {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
-            {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
-        ]
+        if reqDay.strftime("%a") == "Sun":
+            time_blocks = [
+                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
+                {"id" : 2, "status" : "blocked", "relHeight" : 8, "startHour": "8:00am", "endHour" : "4:00pm"},
+                {"id" : 3, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
+            ]
+        elif reqDay.strftime("%a") == "Sat":
+            time_blocks = [
+                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
+                {"id" : 2, "status" : "active", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
+                {"id" : 3, "status" : "blocked", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
+                {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
+                {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
+                {"id" : 6, "status" : "inactive", "relHeight" : 4, "startHour" : "", "endHour" : ""}
+            ]
+        else:
+            time_blocks = [
+                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
+                {"id" : 2, "status" : "blocked", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
+                {"id" : 3, "status" : "active", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
+                {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
+                {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
+                {"id" : 6, "status" : "blocked", "relHeight" : 1, "startHour" : "1:00pm", "endHour" : "2:00pm"},
+                {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
+                {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
+            ]
 
         calendar_day = {
 
