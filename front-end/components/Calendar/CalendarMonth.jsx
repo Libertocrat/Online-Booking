@@ -9,6 +9,8 @@ function CalendarMonth (props) {
     // Initial context sent from backend
 
     const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
+    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+    console.log(csrfToken);
 
     /*
     console.log(calendarMonth.currentDate);
@@ -51,11 +53,15 @@ function CalendarMonth (props) {
                                 week.map( (monthDay, index) => {
                                 return(
                                     <CalendarMonthDay
-                                        key={monthDay.id}  
+                                        key={monthDay.id}
+                                        csrfToken={csrfToken}  
                                         id={monthDay.id}
+                                        dayUrl={monthDay.dayUrl}
                                         day={monthDay.day} 
                                         isToday={monthDay.isToday}
                                         status={monthDay.status}
+
+                                        onDayChange={props.onDayChange}
                                     />);
                                 })
                             }

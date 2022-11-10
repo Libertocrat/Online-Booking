@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse # User added
+from django.http import JsonResponse # User added
+import json # User added
 import datetime # User added
 import calendar # User added
 
@@ -48,9 +50,11 @@ def calendar_month(request, year, month):
             weekday_num = day.strftime("%w")
             status = "active" if (day >= today and int(weekday_num) != 0) else "inactive"
             is_today = (day == today)
+            calendar_day_url = reverse("eventcalendar:calendar_day", 
+                                kwargs={"year" : int(date_year), "month" : int(date_month), "day" : int(date_day) })
 
             # Create & add current day object
-            calendar_day = {"id": id, "weekNum": week_num, "date": date, "day": date_day, "month": date_month, "year": date_year, "weekDay": weekday, "weekDayNum": weekday_num, "status": status, "isToday": is_today}
+            calendar_day = {"id": id, "dayUrl" : calendar_day_url, "weekNum": week_num, "date": date, "day": date_day, "month": date_month, "year": date_year, "weekDay": weekday, "weekDayNum": weekday_num, "status": status, "isToday": is_today}
             week_days.append(calendar_day)
             id = id + 1
         
@@ -71,11 +75,62 @@ def calendar_month(request, year, month):
         "monthDays": month_calendar_days
     }
 
+    # Assembly requested calendar day
+    time_blocks = [
+        {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
+        {"id" : 2, "status" : "blocked", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
+        {"id" : 3, "status" : "active", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
+        {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
+        {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
+        {"id" : 6, "status" : "blocked", "relHeight" : 1, "startHour" : "1:00pm", "endHour" : "2:00pm"},
+        {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
+        {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
+    ]
+
+    calendar_day = {
+
+        "weekDay" : today.strftime("%a"),
+        "day" : today.strftime("%d"),
+        "month" : today.strftime("%b"),
+        "year" : today.strftime("%Y"),
+        "timeBlocks" : time_blocks
+    }
+
     return render(request, 'eventcalendar/calendarmonth.html', {
-        "calendar_month" : calendar_month
+        "calendar_month" : calendar_month,
+        "calendar_day" : calendar_day
     })
 
-def calendar_day(request, day_id):
-    return render(request, 'eventcalendar/calendarday.html', {
-        "day_id" : day_id
-    })
+def calendar_day(request, year, month, day):
+
+    if request.method == "POST":
+
+        # Get requested day
+        reqDay =  datetime.date(year,month,day)
+
+        # Assembly requested calendar day
+        time_blocks = [
+            {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
+            {"id" : 2, "status" : "blocked", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
+            {"id" : 3, "status" : "active", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
+            {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
+            {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
+            {"id" : 6, "status" : "blocked", "relHeight" : 1, "startHour" : "1:00pm", "endHour" : "2:00pm"},
+            {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
+            {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
+        ]
+
+        calendar_day = {
+
+            "weekDay" : reqDay.strftime("%a"),
+            "day" : reqDay.strftime("%d"),
+            "month" : reqDay.strftime("%b"),
+            "year" : reqDay.strftime("%Y"),
+            "timeBlocks" : time_blocks
+        }
+
+        response = {"success": True, "calendarDay" : calendar_day}
+        return JsonResponse(response)
+    else:
+        response = {"success": False, "message": "GET request isn't allowed on this endpoint, try POST"}
+        return JsonResponse(response)
