@@ -5,60 +5,112 @@ import styles from "./CalendarDay.module.scss";
 function CalendarDay (props) {
 
     // CalendarDay states
-    const [calDay, setCalDay] = useState({
+    const [state, setState] = useState({
         display: false,
         weekDay: '',
+        monthName: '',
         year: '',
         month: '',
         day: '',
         timeBlocks: []
-        /*
-        weekDay: props.dayData.weekDay,
-        year: props.dayData.year,
-        month: props.dayData.month,
-        day: props.dayData.day,
-        timeBlocks: props.dayData.timeBlocks
-        */
     });
 
-    //const calendarDay = JSON.parse(document.getElementById('calendar-day').textContent);
-
+    /* Effect hook on first render */
     useEffect(() => {
         // ... code here, what should happens when the component renders for the 1st time
-        setCalDay({
-            ...calDay,
+        /*
+        setState({
+            ...state,
             weekDay: props.calendarDay.weekDay,
             year: props.calendarDay.year,
-            month: props.calendarDay.month,
+            monthName: props.calendarDay.month,
             day: props.calendarDay.day,
             timeBlocks: props.calendarDay.timeBlocks
         });
+        */
+        setState({
+            ...state,
+            display: false
+        });
+        /*
+        console.log("First render day: ");
+        console.log(props.showDay);
+        */
+        //loadDay(props.showDay);
 
     }, []);
-
     
     // This will run when new day data is passed through props
     useEffect(() => {
-        // ... code here, what should happens when the component renders for the 1st time
-        setCalDay({
+        
+        /*
+        setState({
+            ...state,
             weekDay: props.calendarDay.weekDay,
             year: props.calendarDay.year,
-            month: props.calendarDay.month,
+            monthName: props.calendarDay.month,
             day: props.calendarDay.day,
             timeBlocks: props.calendarDay.timeBlocks
         });
+        */
+        if(props.showDay.year != '' && props.showDay.month != '' && props.showDay.day != '') {
+            loadDay(props.showDay);
+        }
 
-    }, [props.calendarDay]);
+    }, [props.showDay]);
     
-    console.log("CalendarDay rendered. current props: ");
-    console.log(props.calendarDay);
-    
-    const dayDate = `${calDay.weekDay}, ${calDay.month} ${calDay.day}, ${calDay.year}`
+    const dayDate = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
 
     function navClickHandler(event) {
         const dayUrl = event.target.getAttribute('aref');
         //window.open(dayUrl,"_self");
         alert(dayUrl);
+    }
+
+    function loadDay(dayDate) {
+        //alert(props.dayUrl);
+        const dayUrl = `/calendar/${dayDate.year}/${dayDate.month}/${dayDate.day}`; // Backend endpoint url: "/calendar/yyyy/mm/dd"
+
+        console.log("CalendarDay url request: " + dayUrl);
+
+        fetch(dayUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': props.csrfToken,
+                'Content-Type': 'application/json'
+              }/*,
+            body: JSON.stringify({
+                data: data,
+            })*/
+          }
+        )
+        .then(response => response.json())
+        .then(
+            (result) => {
+                //handlePostSuccess(result); // success handling
+                console.log(result);
+                //props.onDayChange(result.calendarDay);
+                const calendarDay = result.calendarDay;
+
+                setState({
+                    ...state,
+                    weekDay: calendarDay.weekDay,
+                    year: calendarDay.year,
+                    month: calendarDay.month,
+                    monthName: calendarDay.monthName,
+                    day: calendarDay.day,
+                    timeBlocks: calendarDay.timeBlocks
+                });
+
+                console.log("New CalendarDay successfully recieved from API :");
+                console.log(dayDate);
+                console.log(calendarDay);
+            },
+            (error) => {
+                //handlePostError(error);  // error handling
+                console.log(error);
+            }
+        );
     }
 
     return(
@@ -76,7 +128,7 @@ function CalendarDay (props) {
 
             <div className={styles['time-block-wrap']}>
                 {
-                    calDay.timeBlocks.map( (timeBlock, index) => {
+                    state.timeBlocks.map( (timeBlock, index) => {
                         return(
                             <TimeBlock
                                 key={timeBlock.id}  
@@ -95,14 +147,3 @@ function CalendarDay (props) {
 }
 
 export default CalendarDay;
-
-/*
-<TimeBlock status="inactive" relHeight="1"/>
-                <TimeBlock status="blocked" relHeight="2" startHour="8:00am" endHour="10:00am"/>
-                <TimeBlock status="active" relHeight="1" startHour="10:00am" endHour="11:00am"/>
-                <TimeBlock status="active" relHeight="1" startHour="11:00am" endHour="12:00pm"/>
-                <TimeBlock status="active" relHeight="1" startHour="12:00pm" endHour="1:00pm"/>
-                <TimeBlock status="blocked" relHeight="1" startHour="1:00pm" endHour="2:00pm"/>
-                <TimeBlock status="active" relHeight="2" startHour="2:00pm" endHour="4:00pm"/>
-                <TimeBlock status="inactive" relHeight="1"/>
-*/

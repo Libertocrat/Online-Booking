@@ -4,45 +4,50 @@ import styles from "./App.module.scss"; //SCSS Modules use example
 
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
-//import calendarMonth from "../backend-test-vars.js";
 
 function App(props) {
 
-    const calendarDay = JSON.parse(document.getElementById('calendar-day').textContent);
-
-    // Set month and day to today's date
-    const today = new Date();
-    let day = today.getDate();
-    let month = today.getMonth()+1;
-    let year = today.getFullYear();
+    // Get initial context from backend
+    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
 
     const [app, setApp] = useState({
-        showMonth: {year: year, month: month},
-        showDay: {year: year, month: month, day: day},
-        calendarDay: calendarDay
+        showMonth: {year: '', month: ''},
+        showDay: {year: '', month: '', day: ''},
+        csrfToken: csrfToken
     });
     //console.log(app);
 
+    /* Initial render effect*/
     useEffect(() => {
-        // ... code here, what should happens when the component renders for the 1st time
-        console.log("useEffect: Day changed. New app object");
-        console.log(app);
-
-    }, [onDayChangeHandler]);
-
-    // Updates the calendar day to show
-    function onDayChangeHandler(calendarDay) {
+        
+        // Set calendar day to today's date & calendar month to current month
+        const today = new Date();
+        let day = today.getDate();
+        let month = today.getMonth() + 1; // Month number starts on 0 for January
+        let year = today.getFullYear(); 
 
         setApp({
             ...app,
-            calendarDay: calendarDay,
-            showDay: {year: calendarDay.year, month: calendarDay.month, day: calendarDay.day}
+            showMonth: {year: year, month: month},
+            showDay: {year: year, month: month, day: day}
         });
 
+    }, []);
+
+    // Updates the calendar day to show
+    function onDayChangeHandler(dayDate) {
+
+        setApp({
+            ...app,
+            showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
+        });
+
+        /*
         console.log("OnDayChangeHandler: Day changed. New calendar day data:");
         console.log(calendarDay);
         console.log("New app object:");
         console.log(app);
+        */
     }
 
     /*
@@ -62,8 +67,17 @@ function App(props) {
     return(
         <div>
             <Header />
-            <CalendarMonth showMonth={app.showMonth} onDayChange={onDayChangeHandler}/>
-            <CalendarDay calendarDay={app.calendarDay} showDay={app.showDay} onDayChange={onDayChangeHandler}/>
+            <CalendarMonth 
+                showMonth={app.showMonth}
+                csrfToken={app.csrfToken}
+                onDayChange={onDayChangeHandler}
+            />
+            <CalendarDay 
+                //calendarDay={app.calendarDay} 
+                showDay={app.showDay}
+                csrfToken={app.csrfToken} 
+                onDayChange={onDayChangeHandler}
+            />
         </div>
     );
 }

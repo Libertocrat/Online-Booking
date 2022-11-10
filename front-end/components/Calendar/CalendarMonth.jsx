@@ -9,15 +9,6 @@ function CalendarMonth (props) {
     // Initial context sent from backend
 
     const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
-    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
-    console.log(csrfToken);
-
-    /*
-    console.log(calendarMonth.currentDate);
-    console.log(calendarMonth.monthDays[15].date);
-    console.log(calendarMonth.monthDays[15].weekDay);
-    console.log(calendarMonth.monthDays[15].status);
-    */
 
     function loadMonth(event) {
         const monthUrl = event.target.getAttribute('aref');
@@ -51,19 +42,23 @@ function CalendarMonth (props) {
                         <div className={styles['week']} key={weekNum}>
                             {
                                 week.map( (monthDay, index) => {
-                                return(
-                                    <CalendarMonthDay
-                                        key={monthDay.id}
-                                        csrfToken={csrfToken}  
-                                        id={monthDay.id}
-                                        dayUrl={monthDay.dayUrl}
-                                        day={monthDay.day} 
-                                        isToday={monthDay.isToday}
-                                        status={monthDay.status}
 
-                                        onDayChange={props.onDayChange}
-                                    />);
-                                })
+                                    let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
+
+                                    return(
+                                        <CalendarMonthDay
+                                            key={monthDay.id}
+                                            csrfToken={props.csrfToken}  
+                                            id={monthDay.id}
+                                            dayUrl={monthDay.dayUrl}
+                                            day={monthDay.day}
+                                            dayDate={dayDate}
+                                            isToday={monthDay.isToday}
+                                            status={monthDay.status}
+
+                                            onDayChange={props.onDayChange}
+                                        />);
+                                    })
                             }
                         </div>
                     );

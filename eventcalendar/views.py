@@ -140,8 +140,9 @@ def calendar_day(request, year, month, day):
 
             "weekDay" : reqDay.strftime("%a"),
             "day" : reqDay.strftime("%d"),
-            "month" : reqDay.strftime("%b"),
+            "month" : reqDay.strftime("%m"),
             "year" : reqDay.strftime("%Y"),
+            "monthName" : reqDay.strftime("%b"),
             "timeBlocks" : time_blocks
         }
 
