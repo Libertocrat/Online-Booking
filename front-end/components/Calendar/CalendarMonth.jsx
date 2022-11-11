@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CalendarMonth.module.scss"; //SCSS Modules use example
 
 import CalendarMonthDay from "./CalendarMonthDay.jsx";
@@ -7,66 +7,89 @@ import CalendarMonthDay from "./CalendarMonthDay.jsx";
 function CalendarMonth (props) {
 
     // Initial context sent from backend
-
     const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
+
+    const [state, setState] = useState({
+        calendarMonth: '',
+        csrfToken: props.csrfToken,
+        showMonth: props.showMonth
+    });
+
+    // Set initial state after first render
+    useEffect(() => {
+
+        setState({
+            ...state,
+            calendarMonth: calendarMonth
+        });
+
+    }, []);
 
     function loadMonth(event) {
         const monthUrl = event.target.getAttribute('aref');
         window.open(monthUrl,"_self");
     }
 
-    return (
-        <div className={styles['month']}>
+    if (state.calendarMonth != '') {
 
-            <div className={styles['nav-bar']}>
-                <div className={`${styles['nav-btn']}`}>
-                    <span className={`material-icons`} onClick={loadMonth} aref={calendarMonth.lastMonthUrl}>chevron_left</span>
+        return (
+            <div className={styles['month']}>
+    
+                <div className={styles['nav-bar']}>
+                    <div className={`${styles['nav-btn']}`}>
+                        <span className={`material-icons`} onClick={loadMonth} aref={state.calendarMonth.lastMonthUrl}>chevron_left</span>
+                    </div>
+                    <div className={styles['title']}>{state.calendarMonth.titleMonth} {state.calendarMonth.titleYear}</div>
+                    <div className={`${styles['nav-btn']}`}>
+                        <span className={`material-icons`} onClick={loadMonth} aref={state.calendarMonth.nextMonthUrl}>chevron_right</span>
+                    </div>
                 </div>
-                <div className={styles['title']}>{calendarMonth.titleMonth} {calendarMonth.titleYear}</div>
-                <div className={`${styles['nav-btn']}`}>
-                    <span className={`material-icons`} onClick={loadMonth} aref={calendarMonth.nextMonthUrl}>chevron_right</span>
+            
+                <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
+                {
+                    state.calendarMonth.weekDayLabels.map( dayLabel => {
+                        return(<div key={dayLabel}>{dayLabel}</div>);
+                    })
+                }
                 </div>
+                
+                {
+                    state.calendarMonth.monthDays.map((week, weekNum) => {
+                        return(
+                            <div className={styles['week']} key={weekNum}>
+                                {
+                                    week.map( (monthDay, index) => {
+    
+                                        let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
+    
+                                        return(
+                                            <CalendarMonthDay
+                                                key={monthDay.id}
+                                                csrfToken={state.csrfToken}  
+                                                id={monthDay.id}
+                                                dayUrl={monthDay.dayUrl}
+                                                day={monthDay.day}
+                                                dayDate={dayDate}
+                                                isToday={monthDay.isToday}
+                                                status={monthDay.status}
+    
+                                                onDayChange={props.onDayChange}
+                                            />);
+                                        })
+                                }
+                            </div>
+                        );
+                    })
+                }
+                
             </div>
-        
-            <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
-            {
-                calendarMonth.weekDayLabels.map( dayLabel => {
-                    return(<div key={dayLabel}>{dayLabel}</div>);
-                })
-            }
-            </div>
-            
-            {
-                calendarMonth.monthDays.map((week, weekNum) => {
-                    return(
-                        <div className={styles['week']} key={weekNum}>
-                            {
-                                week.map( (monthDay, index) => {
+        );
 
-                                    let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
-
-                                    return(
-                                        <CalendarMonthDay
-                                            key={monthDay.id}
-                                            csrfToken={props.csrfToken}  
-                                            id={monthDay.id}
-                                            dayUrl={monthDay.dayUrl}
-                                            day={monthDay.day}
-                                            dayDate={dayDate}
-                                            isToday={monthDay.isToday}
-                                            status={monthDay.status}
-
-                                            onDayChange={props.onDayChange}
-                                        />);
-                                    })
-                            }
-                        </div>
-                    );
-                })
-            }
-            
-        </div>
-    );
+    }
+    else {
+        return(<p className={styles['month']}>Loading...</p>);
+    }
+    
 
     /*
     return (
