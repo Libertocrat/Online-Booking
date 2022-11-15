@@ -35,6 +35,21 @@ body {
   box-sizing: border-box;
   background-color: rgba(var(--color-primary-rgb), 0.2);
 }
+
+.main-header {
+  color: #666;
+  background-image: linear-gradient(to right bottom, rgba(51, 51, 51, 0.2), rgba(187, 187, 187, 0.1));
+  font-weight: 600;
+  font-size: 5rem;
+  font-family: var(--font-family-default);
+  text-align: center;
+  transition: all 0.5s ease-out;
+  backface-visibility: hidden;
+}
+.main-header:hover {
+  font-size: 5.2rem;
+  transform: rotateZ(0.5deg);
+}
 /*!********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/App.module.scss ***!
   \********************************************************************************************************************************************************************/

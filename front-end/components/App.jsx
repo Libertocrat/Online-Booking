@@ -50,6 +50,15 @@ function App(props) {
         */
     }
 
+    // Updates the calendar month to show
+    function onMonthChangeHandler(monthDate) {
+
+        setApp({
+            ...app,
+            showMonth: {year: monthDate.year, month: monthDate.month}
+        });
+    }
+
     /*
     useEffect(() => {
         
@@ -70,6 +79,7 @@ function App(props) {
             <CalendarMonth 
                 showMonth={app.showMonth}
                 csrfToken={app.csrfToken}
+                onMonthChange={onMonthChangeHandler}
                 onDayChange={onDayChangeHandler}
             />
             <CalendarDay 
@@ -85,5 +95,5 @@ function App(props) {
 export default App;
 
 function Header() {
-    return(<h1 className={styles['main-header']}>Hello Django, React & Sass!</h1>);
+    return(<h1 className={styles['main-header']}>Online Booking App</h1>);
 }

@@ -54,12 +54,12 @@ function CalendarDay (props) {
         });
         */
         if(props.showDay.year != '' && props.showDay.month != '' && props.showDay.day != '') {
-            loadDay(props.showDay);
+            requestDay(props.showDay);
         }
 
     }, [props.showDay]);
     
-    const dayDate = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
+    const dayTitle = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
 
     function navClickHandler(event) {
         const dayUrl = event.target.getAttribute('aref');
@@ -67,7 +67,7 @@ function CalendarDay (props) {
         alert(dayUrl);
     }
 
-    function loadDay(dayDate) {
+    function requestDay(dayDate) {
         //alert(props.dayUrl);
         const dayUrl = `/calendar/${dayDate.year}/${dayDate.month}/${dayDate.day}`; // Backend endpoint url: "/calendar/yyyy/mm/dd"
 
@@ -120,7 +120,7 @@ function CalendarDay (props) {
                 <div className={styles['nav-btn']}>
                     <span className={`material-icons`} onClick={navClickHandler} aref={props.lastDayUrl}>chevron_left</span>
                 </div>
-                <div className={styles['title']}>{dayDate}</div>
+                <div className={styles['title']}>{dayTitle}</div>
                 <div className={styles['nav-btn']}>
                     <span className={`material-icons`} onClick={navClickHandler} aref={props.nextDayUrl}>chevron_right</span>
                 </div>
@@ -133,8 +133,10 @@ function CalendarDay (props) {
                             <TimeBlock
                                 key={timeBlock.id}  
                                 id={timeBlock.id}
+                                csrfToken={props.csrfToken}
                                 status={timeBlock.status} 
                                 relHeight={timeBlock.relHeight}
+                                dayDate={props.showDay}
                                 startHour={timeBlock.startHour}
                                 endHour={timeBlock.endHour}
                             />);

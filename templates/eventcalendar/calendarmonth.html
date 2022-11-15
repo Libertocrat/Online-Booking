@@ -3,7 +3,5 @@
 {% block title %}Event Calendar - Month View{% endblock %}
 
 {% block body %}
-  {% csrf_token %}
-  {{ calendar_month|json_script:"calendar-month" }}
   <div id="app"></div>
 {% endblock %}

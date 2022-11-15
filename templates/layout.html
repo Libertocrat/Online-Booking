@@ -14,6 +14,9 @@
         {% endblock %}
     </head>
     <body>
+        <!-- Required token to connect with Server API -->
+        {% csrf_token %}
+
         {% block body %}
         {% endblock %}
         <!-- Bundled JS by Webpack -->

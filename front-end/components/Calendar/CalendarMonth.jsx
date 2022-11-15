@@ -7,9 +7,10 @@ import CalendarMonthDay from "./CalendarMonthDay.jsx";
 function CalendarMonth (props) {
 
     // Initial context sent from backend
-    const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
+    //const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
 
     const [state, setState] = useState({
+        display: false,
         calendarMonth: '',
         csrfToken: props.csrfToken,
         showMonth: props.showMonth
@@ -20,15 +21,82 @@ function CalendarMonth (props) {
 
         setState({
             ...state,
-            calendarMonth: calendarMonth
+            display: false
         });
 
     }, []);
 
+    // Re-render when a new month is selected
+    useEffect(() => {
+
+        if(props.showMonth.year != '' && props.showMonth.month != '') {
+            requestMonth(props.showMonth);
+            setState({
+                ...state,
+                showMonth: props.showMonth
+            });
+        }
+
+    }, [props.showMonth]);
+    
+
     function loadMonth(event) {
-        const monthUrl = event.target.getAttribute('aref');
-        window.open(monthUrl,"_self");
+        //const monthUrl = event.target.getAttribute('aref');
+        //window.open(monthUrl,"_self");
+        const month = event.target.getAttribute('loadmonth');
+        const year = event.target.getAttribute('loadyear');
+        const monthDate = {year: year, month: month};
+        //const monthUrl = event.target.getAttribute('aref');
+
+        props.onMonthChange(monthDate);
+        //requestMonth(monthUrl);
+        //console.log(monthDate);
+        //alert(monthDate.year + "/" + monthDate.month);
+
+        // Pass new month to app
     }
+
+    function requestMonth(monthDate) {
+        //alert(props.dayUrl);
+        const monthUrl = `/calendar/${monthDate.year}/${monthDate.month}`; // Backend endpoint url: "/calendar/yyyy/mm"
+
+        //console.log("CalendarDay url request: " + dayUrl);
+
+        fetch(monthUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': props.csrfToken,
+                'Content-Type': 'application/json'
+              }/*,
+            body: JSON.stringify({
+                data: data,
+            })*/
+          }
+        )
+        .then(response => response.json())
+        .then(
+            (result) => {
+                //handlePostSuccess(result); // success handling
+                console.log(result);
+
+                const calendarMonth = result.calendarMonth;
+
+                setState({
+                    ...state,
+                    calendarMonth: calendarMonth
+                });
+
+                console.log("New CalendarMonth successfully recieved from API :");
+                console.log(calendarMonth);
+            },
+            (error) => {
+                //handlePostError(error);  // error handling
+                console.log(error);
+            }
+        );
+    }
+
+    /* COMPONENT RENDERING */
 
     if (state.calendarMonth != '') {
 
@@ -37,11 +105,27 @@ function CalendarMonth (props) {
     
                 <div className={styles['nav-bar']}>
                     <div className={`${styles['nav-btn']}`}>
-                        <span className={`material-icons`} onClick={loadMonth} aref={state.calendarMonth.lastMonthUrl}>chevron_left</span>
+                        <span 
+                            className={`material-icons`} 
+                            onClick={loadMonth} 
+                            aref={state.calendarMonth.lastMonthUrl} 
+                            loadmonth={state.calendarMonth.lastMonthDate.month}
+                            loadyear={state.calendarMonth.lastMonthDate.year}
+                        >
+                            chevron_left
+                        </span>
                     </div>
                     <div className={styles['title']}>{state.calendarMonth.titleMonth} {state.calendarMonth.titleYear}</div>
                     <div className={`${styles['nav-btn']}`}>
-                        <span className={`material-icons`} onClick={loadMonth} aref={state.calendarMonth.nextMonthUrl}>chevron_right</span>
+                        <span 
+                            className={`material-icons`} 
+                            onClick={loadMonth} 
+                            aref={state.calendarMonth.nextMonthUrl}
+                            loadmonth={state.calendarMonth.nextMonthDate.month}
+                            loadyear={state.calendarMonth.nextMonthDate.year}
+                        >
+                            chevron_right
+                        </span>
                     </div>
                 </div>
             
