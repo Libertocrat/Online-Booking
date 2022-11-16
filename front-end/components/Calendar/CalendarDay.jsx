@@ -12,6 +12,8 @@ function CalendarDay (props) {
         year: '',
         month: '',
         day: '',
+        nextDayUrl: '',
+        lastDayUrl: '',
         timeBlocks: []
     });
 
@@ -54,7 +56,9 @@ function CalendarDay (props) {
         });
         */
         if(props.showDay.year != '' && props.showDay.month != '' && props.showDay.day != '') {
-            requestDay(props.showDay);
+
+            const dayUrl = `/calendar/${props.showDay.year}/${props.showDay.month}/${props.showDay.day}`;
+            requestDay(dayUrl);
         }
 
     }, [props.showDay]);
@@ -64,12 +68,14 @@ function CalendarDay (props) {
     function navClickHandler(event) {
         const dayUrl = event.target.getAttribute('aref');
         //window.open(dayUrl,"_self");
-        alert(dayUrl);
+        //alert(dayUrl);
+
+        requestDay(dayUrl);
     }
 
-    function requestDay(dayDate) {
+    function requestDay(dayUrl) {
         //alert(props.dayUrl);
-        const dayUrl = `/calendar/${dayDate.year}/${dayDate.month}/${dayDate.day}`; // Backend endpoint url: "/calendar/yyyy/mm/dd"
+        //const dayUrl = `/calendar/${dayDate.year}/${dayDate.month}/${dayDate.day}`; // Backend endpoint url: "/calendar/yyyy/mm/dd"
 
         console.log("CalendarDay url request: " + dayUrl);
 
@@ -99,6 +105,8 @@ function CalendarDay (props) {
                     month: calendarDay.month,
                     monthName: calendarDay.monthName,
                     day: calendarDay.day,
+                    lastDayUrl: calendarDay.lastDayUrl,
+                    nextDayUrl: calendarDay.nextDayUrl,
                     timeBlocks: calendarDay.timeBlocks
                 });
 
@@ -118,11 +126,11 @@ function CalendarDay (props) {
 
             <div className={styles['nav-bar']}>
                 <div className={styles['nav-btn']}>
-                    <span className={`material-icons`} onClick={navClickHandler} aref={props.lastDayUrl}>chevron_left</span>
+                    <span className={`material-icons`} onClick={navClickHandler} aref={state.lastDayUrl}>chevron_left</span>
                 </div>
                 <div className={styles['title']}>{dayTitle}</div>
                 <div className={styles['nav-btn']}>
-                    <span className={`material-icons`} onClick={navClickHandler} aref={props.nextDayUrl}>chevron_right</span>
+                    <span className={`material-icons`} onClick={navClickHandler} aref={state.nextDayUrl}>chevron_right</span>
                 </div>
             </div>
 

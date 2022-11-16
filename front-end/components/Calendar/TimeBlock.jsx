@@ -10,21 +10,35 @@ function TimeBlock (props) {
     });
 
     useEffect(() => {
-
+        /*
         setState({
             ...state,
             status: props.status,
             classNames: `${styles['time-block']} ${styles[props.status]}`,
             height: `${parseInt(props.relHeight) * 50}px`
         });
+        */
+        setState((prevState) => {
+            return { ...prevState,
+                status: props.status,
+                classNames: `${styles['time-block']} ${styles[props.status]}`,
+                height: `${parseInt(props.relHeight) * 50}px`
+            }
+        });
 
     }, [props]);
 
     useEffect(() => {
 
+        /*
         setState({
             ...state,
             classNames: `${styles['time-block']} ${styles[state.status]}`
+        });
+        */
+
+        setState((prevState) => {
+            return { ...prevState, classNames: `${styles['time-block']} ${styles[state.status]}`}
         });
 
     }, [state.status]);

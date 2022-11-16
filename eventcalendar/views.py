@@ -98,16 +98,26 @@ def calendar_day(request, year, month, day):
     if request.method == "POST":
 
         # Get requested day
-        reqDay =  datetime.date(year,month,day)
+        req_day =  datetime.date(year,month,day)
+        last_day = req_day - datetime.timedelta(days=1)
+        last_day_url =  reverse("eventcalendar:calendar_day", 
+                                kwargs={"year" : int(last_day.strftime("%Y")), 
+                                "month" : int(last_day.strftime("%m")), 
+                                "day" : int(last_day.strftime("%d")) })
+        next_day = req_day + datetime.timedelta(days=1)
+        next_day_url =  reverse("eventcalendar:calendar_day", 
+                                kwargs={"year" : int(next_day.strftime("%Y")), 
+                                "month" : int(next_day.strftime("%m")), 
+                                "day" : int(next_day.strftime("%d")) })
 
         # Assembly requested calendar day
-        if reqDay.strftime("%a") == "Sun":
+        if req_day.strftime("%a") == "Sun":
             time_blocks = [
                 {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
                 {"id" : 2, "status" : "blocked", "relHeight" : 8, "startHour": "8:00am", "endHour" : "4:00pm"},
                 {"id" : 3, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
             ]
-        elif reqDay.strftime("%a") == "Sat":
+        elif req_day.strftime("%a") == "Sat":
             time_blocks = [
                 {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
                 {"id" : 2, "status" : "active", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
@@ -130,11 +140,13 @@ def calendar_day(request, year, month, day):
 
         calendar_day = {
 
-            "weekDay" : reqDay.strftime("%a"),
-            "day" : reqDay.strftime("%d"),
-            "month" : reqDay.strftime("%m"),
-            "year" : reqDay.strftime("%Y"),
-            "monthName" : reqDay.strftime("%b"),
+            "weekDay" : req_day.strftime("%a"),
+            "day" : req_day.strftime("%d"),
+            "month" : req_day.strftime("%m"),
+            "year" : req_day.strftime("%Y"),
+            "monthName" : req_day.strftime("%b"),
+            "lastDayUrl" : last_day_url,
+            "nextDayUrl" : next_day_url,
             "timeBlocks" : time_blocks
         }
 

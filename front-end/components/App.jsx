@@ -4,6 +4,7 @@ import styles from "./App.module.scss"; //SCSS Modules use example
 
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
+import ModalFS from "./Modal/ModalFS.jsx";
 
 function App(props) {
 
