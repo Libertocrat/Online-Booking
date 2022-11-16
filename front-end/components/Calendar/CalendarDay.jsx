@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TimeBlock from "./TimeBlock.jsx";
 import styles from "./CalendarDay.module.scss";
 
+import GlobalContext from "../Context/GlobalContext.jsx";
+
 function CalendarDay (props) {
+
+    // Get global context variables
+    const globalCtx = useContext(GlobalContext);
 
     // CalendarDay states
     const [state, setState] = useState({
@@ -82,7 +87,7 @@ function CalendarDay (props) {
         fetch(dayUrl, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': props.csrfToken,
+                'X-CSRFToken': globalCtx.csrfToken,
                 'Content-Type': 'application/json'
               }/*,
             body: JSON.stringify({
@@ -111,7 +116,6 @@ function CalendarDay (props) {
                 });
 
                 console.log("New CalendarDay successfully recieved from API :");
-                console.log(dayDate);
                 console.log(calendarDay);
             },
             (error) => {
@@ -141,7 +145,6 @@ function CalendarDay (props) {
                             <TimeBlock
                                 key={timeBlock.id}  
                                 id={timeBlock.id}
-                                csrfToken={props.csrfToken}
                                 status={timeBlock.status} 
                                 relHeight={timeBlock.relHeight}
                                 dayDate={props.showDay}

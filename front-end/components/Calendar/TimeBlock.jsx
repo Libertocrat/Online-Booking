@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styles from "./TimeBlock.module.scss";
 
+import GlobalContext from "../Context/GlobalContext.jsx";
+
 function TimeBlock (props) {
+
+    // Get global context variables
+    const globalCtx = useContext(GlobalContext);
 
     const [state, setState] = useState({
         status: props.status,
@@ -70,7 +75,7 @@ function TimeBlock (props) {
         fetch(postUrl, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': props.csrfToken,
+                'X-CSRFToken': globalCtx.csrfToken,
                 'Content-Type': 'application/json'
                 },
             body: JSON.stringify({

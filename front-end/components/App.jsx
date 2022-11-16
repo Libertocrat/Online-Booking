@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styles from "./App.module.scss"; //SCSS Modules use example
 
+import GlobalContext from "./Context/GlobalContext.jsx";
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
-import ModalFS from "./Modal/ModalFS.jsx";
+import Modal from "./Modal/Modal.jsx";
 
 function App(props) {
 
@@ -75,21 +76,25 @@ function App(props) {
     }, []);
 */
     return(
-        <div>
+        <GlobalContext.Provider
+            value={{
+                csrfToken: app.csrfToken
+            }}
+        >
             <Header />
-            <CalendarMonth 
-                showMonth={app.showMonth}
-                csrfToken={app.csrfToken}
-                onMonthChange={onMonthChangeHandler}
-                onDayChange={onDayChangeHandler}
-            />
-            <CalendarDay 
-                //calendarDay={app.calendarDay} 
-                showDay={app.showDay}
-                csrfToken={app.csrfToken} 
-                onDayChange={onDayChangeHandler}
-            />
-        </div>
+            <Modal>
+                <CalendarMonth 
+                    showMonth={app.showMonth}
+                    onMonthChange={onMonthChangeHandler}
+                    onDayChange={onDayChangeHandler}
+                />
+                <CalendarDay 
+                    //calendarDay={app.calendarDay} 
+                    showDay={app.showDay}
+                    onDayChange={onDayChangeHandler}
+                />
+            </Modal>
+        </GlobalContext.Provider>
     );
 }
 

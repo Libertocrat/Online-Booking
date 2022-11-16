@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./CalendarMonth.module.scss"; //SCSS Modules use example
 
+import GlobalContext from "../Context/GlobalContext.jsx";
 import CalendarMonthDay from "./CalendarMonthDay.jsx";
 //import calendarMonth from "../../backend-test.js";
 
 function CalendarMonth (props) {
 
-    // Initial context sent from backend
-    //const calendarMonth = JSON.parse(document.getElementById('calendar-month').textContent);
+    // Get global context variables
+    const globalCtx = useContext(GlobalContext);
 
     const [state, setState] = useState({
         display: false,
         calendarMonth: '',
-        csrfToken: props.csrfToken,
+        csrfToken: globalCtx.csrfToken,
         showMonth: props.showMonth
     });
 
@@ -65,7 +66,7 @@ function CalendarMonth (props) {
         fetch(monthUrl, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': props.csrfToken,
+                'X-CSRFToken': state.csrfToken,
                 'Content-Type': 'application/json'
               }/*,
             body: JSON.stringify({
