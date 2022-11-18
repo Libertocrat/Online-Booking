@@ -10,6 +10,10 @@ function CalendarMonthDay (props) {
         // Update calendar day date, by calling parent function passed by props
         if (props.status === 'active') {
             props.onDayChange(props.dayDate);
+
+            // Toggle day & month calendar views
+            props.onMonthDisplay(false);
+            props.onDayDisplay(true);
         }
     }
 

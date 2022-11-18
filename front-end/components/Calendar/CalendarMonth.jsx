@@ -39,6 +39,16 @@ function CalendarMonth (props) {
         }
 
     }, [props.showMonth]);
+
+    useEffect(() => {
+
+        setState((prevState) => {
+            return {...prevState,
+                display: props.displayMonth
+            }
+        });
+
+    }, [props.displayMonth]);
     
 
     function loadMonth(event) {
@@ -101,74 +111,82 @@ function CalendarMonth (props) {
 
     if (state.calendarMonth != '') {
 
-        return (
-            <div className={styles['month']}>
-    
-                <div className={styles['nav-bar']}>
-                    <div className={`${styles['nav-btn']}`}>
-                        <span 
-                            className={`material-icons`} 
-                            onClick={loadMonth} 
-                            aref={state.calendarMonth.lastMonthUrl} 
-                            loadmonth={state.calendarMonth.lastMonthDate.month}
-                            loadyear={state.calendarMonth.lastMonthDate.year}
-                        >
-                            chevron_left
-                        </span>
+        if (state.display) {
+            return (
+                <div className={styles['month']}>
+        
+                    <div className={styles['nav-bar']}>
+                        <div className={`${styles['nav-btn']}`}>
+                            <span 
+                                className={`material-icons`} 
+                                onClick={loadMonth} 
+                                aref={state.calendarMonth.lastMonthUrl} 
+                                loadmonth={state.calendarMonth.lastMonthDate.month}
+                                loadyear={state.calendarMonth.lastMonthDate.year}
+                            >
+                                chevron_left
+                            </span>
+                        </div>
+                        <div className={styles['title']}>{state.calendarMonth.titleMonth} {state.calendarMonth.titleYear}</div>
+                        <div className={`${styles['nav-btn']}`}>
+                            <span 
+                                className={`material-icons`} 
+                                onClick={loadMonth} 
+                                aref={state.calendarMonth.nextMonthUrl}
+                                loadmonth={state.calendarMonth.nextMonthDate.month}
+                                loadyear={state.calendarMonth.nextMonthDate.year}
+                            >
+                                chevron_right
+                            </span>
+                        </div>
                     </div>
-                    <div className={styles['title']}>{state.calendarMonth.titleMonth} {state.calendarMonth.titleYear}</div>
-                    <div className={`${styles['nav-btn']}`}>
-                        <span 
-                            className={`material-icons`} 
-                            onClick={loadMonth} 
-                            aref={state.calendarMonth.nextMonthUrl}
-                            loadmonth={state.calendarMonth.nextMonthDate.month}
-                            loadyear={state.calendarMonth.nextMonthDate.year}
-                        >
-                            chevron_right
-                        </span>
+                
+                    <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
+                    {
+                        state.calendarMonth.weekDayLabels.map( dayLabel => {
+                            return(<div key={dayLabel}>{dayLabel}</div>);
+                        })
+                    }
                     </div>
+                    
+                    {
+                        state.calendarMonth.monthDays.map((week, weekNum) => {
+                            return(
+                                <div className={styles['week']} key={weekNum}>
+                                    {
+                                        week.map( (monthDay, index) => {
+        
+                                            let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
+        
+                                            return(
+                                                <CalendarMonthDay
+                                                    key={monthDay.id}
+                                                    csrfToken={state.csrfToken}  
+                                                    id={monthDay.id}
+                                                    dayUrl={monthDay.dayUrl}
+                                                    day={monthDay.day}
+                                                    dayDate={dayDate}
+                                                    isToday={monthDay.isToday}
+                                                    status={monthDay.status}
+        
+                                                    onDayChange={props.onDayChange}
+                                                    onDayDisplay={props.onDayDisplay}
+                                                    onMonthDisplay={props.onMonthDisplay}
+                                                />);
+                                            })
+                                    }
+                                </div>
+                            );
+                        })
+                    }
+                    
                 </div>
-            
-                <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
-                {
-                    state.calendarMonth.weekDayLabels.map( dayLabel => {
-                        return(<div key={dayLabel}>{dayLabel}</div>);
-                    })
-                }
-                </div>
-                
-                {
-                    state.calendarMonth.monthDays.map((week, weekNum) => {
-                        return(
-                            <div className={styles['week']} key={weekNum}>
-                                {
-                                    week.map( (monthDay, index) => {
-    
-                                        let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
-    
-                                        return(
-                                            <CalendarMonthDay
-                                                key={monthDay.id}
-                                                csrfToken={state.csrfToken}  
-                                                id={monthDay.id}
-                                                dayUrl={monthDay.dayUrl}
-                                                day={monthDay.day}
-                                                dayDate={dayDate}
-                                                isToday={monthDay.isToday}
-                                                status={monthDay.status}
-    
-                                                onDayChange={props.onDayChange}
-                                            />);
-                                        })
-                                }
-                            </div>
-                        );
-                    })
-                }
-                
-            </div>
-        );
+            );
+        }
+        else {
+            return(<div></div>);
+        }
+        
 
     }
     else {

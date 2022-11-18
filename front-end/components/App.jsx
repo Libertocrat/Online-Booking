@@ -14,7 +14,9 @@ function App(props) {
 
     const [app, setApp] = useState({
         showMonth: {year: '', month: ''},
+        displayMonth: true,
         showDay: {year: '', month: '', day: ''},
+        displayDay: false,
         csrfToken: csrfToken
     });
     //console.log(app);
@@ -61,6 +63,30 @@ function App(props) {
         });
     }
 
+    function dayDisplayHandler(display) {
+
+        // Show/hide calendar day view
+        if (display != app.displayDay) {
+            setApp((prevState) => {
+                return { ...prevState,
+                    displayDay: display,
+                }
+            });
+        }
+    }
+
+    function monthDisplayHandler(display) {
+
+        // Show/hide calendar month view
+        if (display != app.displayMonth) {
+            setApp((prevState) => {
+                return { ...prevState,
+                    displayMonth: display,
+                }
+            });
+        }
+    }
+
     /*
     useEffect(() => {
         
@@ -81,17 +107,24 @@ function App(props) {
                 csrfToken: app.csrfToken
             }}
         >
-            <Header />
+            <h1 className={styles['main-header']}>Online Booking App</h1>
             <Modal>
                 <CalendarMonth 
                     showMonth={app.showMonth}
+                    displayMonth={app.displayMonth}
                     onMonthChange={onMonthChangeHandler}
                     onDayChange={onDayChangeHandler}
+                    onDayDisplay={dayDisplayHandler}
+                    onMonthDisplay={monthDisplayHandler}
                 />
                 <CalendarDay 
                     //calendarDay={app.calendarDay} 
                     showDay={app.showDay}
+                    displayDay={app.displayDay}
+                    displayMonth={app.displayMonth}
                     onDayChange={onDayChangeHandler}
+                    onDayDisplay={dayDisplayHandler}
+                    onMonthDisplay={monthDisplayHandler}
                 />
             </Modal>
         </GlobalContext.Provider>
@@ -99,7 +132,3 @@ function App(props) {
 }
 
 export default App;
-
-function Header() {
-    return(<h1 className={styles['main-header']}>Online Booking App</h1>);
-}
