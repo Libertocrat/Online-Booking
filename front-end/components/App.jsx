@@ -108,7 +108,7 @@ function App(props) {
             }}
         >
             <h1 className={styles['main-header']}>Online Booking App</h1>
-            <Modal>
+            <Modal display={true}>
                 <CalendarMonth 
                     showMonth={app.showMonth}
                     displayMonth={app.displayMonth}

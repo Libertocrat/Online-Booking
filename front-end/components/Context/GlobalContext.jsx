@@ -69,19 +69,21 @@ export const GlobalContextProvider = (props) => {
         }
     }
 
+    const context = {
+        csrfToken: state.csrfToken,
+        showDay: state.showDay,
+        displayDay: state.displayDay,
+        showMonth: state.showMonth,
+        displayMonth: state.displayMonth,
+        onDayChange: dayChangeHandler,
+        onMonthChange: monthChangeHandler,
+        onDayDisplay: dayDisplayHandler,
+        onMonthDisplay: monthDisplayHandler
+    };
+
     return (
         <GlobalContext.Provider
-            value={{
-                csrfToken: state.csrfToken,
-                showDay: state.showDay,
-                displayDay: state.displayDay,
-                showMonth: state.showMonth,
-                displayMonth: state.displayMonth,
-                onDayChange: dayChangeHandler,
-                onMonthChange: monthChangeHandler,
-                onDayDisplay: dayDisplayHandler,
-                onMonthDisplay: monthDisplayHandler
-            }}
+            value={context}
         >
             {props.children}
         </GlobalContext.Provider>
