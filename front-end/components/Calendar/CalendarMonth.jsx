@@ -20,9 +20,10 @@ function CalendarMonth (props) {
     // Set initial state after first render
     useEffect(() => {
 
-        setState({
-            ...state,
-            display: false
+        setState((prevState) => {
+            return {...prevState,
+                display: props.displayMonth
+            }
         });
 
     }, []);
@@ -32,9 +33,11 @@ function CalendarMonth (props) {
 
         if(props.showMonth.year != '' && props.showMonth.month != '') {
             requestMonth(props.showMonth);
-            setState({
-                ...state,
-                showMonth: props.showMonth
+
+            setState((prevState) => {
+                return {...prevState,
+                    showMonth: props.showMonth
+                }
             });
         }
 
@@ -92,9 +95,10 @@ function CalendarMonth (props) {
 
                 const calendarMonth = result.calendarMonth;
 
-                setState({
-                    ...state,
-                    calendarMonth: calendarMonth
+                setState((prevState) => {
+                    return {...prevState,
+                        calendarMonth: calendarMonth
+                    }
                 });
 
                 console.log("New CalendarMonth successfully recieved from API :");
@@ -193,89 +197,6 @@ function CalendarMonth (props) {
         return(<p className={styles['month']}>Loading...</p>);
     }
     
-
-    /*
-    return (
-        <div className={styles['month']}>
-            <div className={styles['title']}>{props.calendarMonth.titleMonth} {props.calendarMonth.titleYear}</div>
-        
-                <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
-                {
-                    props.calendarMonth.weekDayLabels.map( dayLabel => {
-                        return(<div key={dayLabel}>{dayLabel}</div>);
-                    })
-                }
-                </div>
-                <div className={styles['week']} key="week-01">
-                {
-                    props.calendarMonth.monthDays[0].map( (monthDay, index) => {
-                        return(
-                            <CalendarDay
-                                key={monthDay.id}  
-                                id={monthDay.id}
-                                day={monthDay.day} 
-                                status={monthDay.status}
-                            />);
-                    })
-                }
-                </div>
-                <div className={styles['week']} key="week-02">
-                {
-                    props.calendarMonth.monthDays[1].map( (monthDay, index) => {
-                        return(
-                            <CalendarDay
-                                key={monthDay.id}  
-                                id={monthDay.id}
-                                day={monthDay.day} 
-                                status={monthDay.status}
-                            />);
-                    })
-                }
-                </div>
-                <div className={styles['week']} key="week-03">
-                {
-                    props.calendarMonth.monthDays[2].map( (monthDay, index) => {
-                        return(
-                            <CalendarDay
-                                key={monthDay.id}  
-                                id={monthDay.id}
-                                day={monthDay.day} 
-                                status={monthDay.status}
-                            />);
-                    })
-                }
-                </div>
-                <div className={styles['week']} key="week-04">
-                {
-                    props.calendarMonth.monthDays[3].map( (monthDay, index) => {
-                        return(
-                            <CalendarDay
-                                key={monthDay.id}  
-                                id={monthDay.id}
-                                day={monthDay.day} 
-                                status={monthDay.status}
-                            />);
-                    })
-                }
-                </div>
-                <div className={styles['week']} key="week-05">
-                {
-                    props.calendarMonth.monthDays[4].map( (monthDay, index) => {
-                        return(
-                            <CalendarDay
-                                key={monthDay.id} 
-                                id={monthDay.id}
-                                day={monthDay.day} 
-                                status={monthDay.status}
-                            />);
-                    })
-                }
-                </div>
-            
-        </div>
-        
-    );
-    */
 }
 
 export default CalendarMonth;

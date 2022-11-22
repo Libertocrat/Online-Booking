@@ -7,6 +7,7 @@ function Modal(props) {
         display: props.display
     });
 
+    /*
     function onClickHandler(event) {
 
         setState((prevState) => {
@@ -15,12 +16,21 @@ function Modal(props) {
             }
         });
     }
+    */
+
+    useEffect(() => {
+
+        setState((prevState) => {
+            return {...prevState,
+                display: props.display}
+        });
+    }, [props.display]);
 
     // Example of a wrapper component, by using "props.children"
     if (state.display) {
         return(
         <div className={styles['modal-full']}>
-            <div className={styles['backdrop']} onClick={onClickHandler}></div>
+            <div className={styles['backdrop']} onClick={props.onClickHandler}></div>
             <div className={styles['modal-contents']}>
                 {props.children} 
             </div>

@@ -12,6 +12,7 @@ function CalendarDay (props) {
     // CalendarDay states
     const [state, setState] = useState({
         display: props.displayDay,
+        dayDate: '',
         weekDay: '',
         monthName: '',
         year: '',
@@ -37,22 +38,15 @@ function CalendarDay (props) {
     
     // This will run when new day data is passed through props
     useEffect(() => {
-        
-        /*
-        setState({
-            ...state,
-            weekDay: props.calendarDay.weekDay,
-            year: props.calendarDay.year,
-            monthName: props.calendarDay.month,
-            day: props.calendarDay.day,
-            timeBlocks: props.calendarDay.timeBlocks
-        });
-        */
-        if(props.showDay.year != '' && props.showDay.month != '' && props.showDay.day != '') {
+
+       const isNotEmpty = props.showDay.year != '' && props.showDay.month != '' && props.showDay.day != '';
+       const isEqual = state.dayDate.year == props.showDay.year && state.dayDate.month == props.showDay.month && state.dayDate.day == props.showDay.day;
+
+        if(isNotEmpty && !isEqual) {
 
             const dayUrl = `/calendar/${props.showDay.year}/${props.showDay.month}/${props.showDay.day}`;
+            // Update day from API request url
             requestDay(dayUrl);
-            
         }
 
     }, [props.showDay]);
@@ -73,9 +67,8 @@ function CalendarDay (props) {
 
     function navClickHandler(event) {
         const dayUrl = event.target.getAttribute('aref');
-        //window.open(dayUrl,"_self");
-        //alert(dayUrl);
 
+        // Update requested day, from API url
         requestDay(dayUrl);
     }
 
@@ -114,18 +107,21 @@ function CalendarDay (props) {
 
                 setState( (prevState) => {
                     
-                    return {
-                    ...prevState,
-                    weekDay: calendarDay.weekDay,
-                    year: calendarDay.year,
-                    month: calendarDay.month,
-                    monthName: calendarDay.monthName,
-                    day: calendarDay.day,
-                    lastDayUrl: calendarDay.lastDayUrl,
-                    nextDayUrl: calendarDay.nextDayUrl,
-                    timeBlocks: calendarDay.timeBlocks
+                    return {...prevState,
+                        dayDate: calendarDay.dayDate,
+                        weekDay: calendarDay.weekDay,
+                        year: calendarDay.year,
+                        month: calendarDay.month,
+                        monthName: calendarDay.monthName,
+                        day: calendarDay.day,
+                        lastDayUrl: calendarDay.lastDayUrl,
+                        nextDayUrl: calendarDay.nextDayUrl,
+                        timeBlocks: calendarDay.timeBlocks
                     }
                 });
+
+                // Notify app that display day changed
+                props.onDayChange(calendarDay.dayDate);
 
                 console.log("New CalendarDay successfully recieved from API :");
                 console.log(calendarDay);

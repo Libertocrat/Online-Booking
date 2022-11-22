@@ -17,3 +17,9 @@ $light-color: #bbb;
         transform: rotateZ(0.5deg);
     }
 }
+
+.calendar-button {
+    position: fixed;
+    bottom: 10rem;
+    right: 10rem;
+}

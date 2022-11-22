@@ -99,6 +99,7 @@ def calendar_day(request, year, month, day):
 
         # Get requested day
         req_day =  datetime.date(year,month,day)
+        day_date = {"year": year, "month": month, "day": day}
         last_day = req_day - datetime.timedelta(days=1)
         last_day_url =  reverse("eventcalendar:calendar_day", 
                                 kwargs={"year" : int(last_day.strftime("%Y")), 
@@ -139,7 +140,7 @@ def calendar_day(request, year, month, day):
             ]
 
         calendar_day = {
-
+            "dayDate" : day_date,
             "weekDay" : req_day.strftime("%a"),
             "day" : req_day.strftime("%d"),
             "month" : req_day.strftime("%m"),

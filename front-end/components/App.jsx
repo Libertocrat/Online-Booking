@@ -6,6 +6,7 @@ import GlobalContext from "./Context/GlobalContext.jsx";
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
 import Modal from "./Modal/Modal.jsx";
+import Button from "./Button/Button.jsx";
 
 function App(props) {
 
@@ -17,6 +18,7 @@ function App(props) {
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
         displayDay: false,
+        displayWizard: false,
         csrfToken: csrfToken
     });
     //console.log(app);
@@ -87,6 +89,23 @@ function App(props) {
         }
     }
 
+    function showWizard() {
+        // Show booking wizard
+        setApp((prevState) => {
+            return { ...prevState,
+                displayWizard: true
+            }
+        });
+    }
+
+    function hideWizard() {
+        // Show booking wizard
+        setApp((prevState) => {
+            return { ...prevState,
+                displayWizard: false
+            }
+        });
+    }
     /*
     useEffect(() => {
         
@@ -108,7 +127,10 @@ function App(props) {
             }}
         >
             <h1 className={styles['main-header']}>Online Booking App</h1>
-            <Modal display={true}>
+            <div className={styles['calendar-button']}>
+                <Button icon="event_available" onClickHandler={showWizard}/>
+            </div>
+            <Modal display={app.displayWizard} onClickHandler={hideWizard}>
                 <CalendarMonth 
                     showMonth={app.showMonth}
                     displayMonth={app.displayMonth}
