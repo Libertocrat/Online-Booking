@@ -14,7 +14,7 @@ function CalendarMonth (props) {
         display: false,
         calendarMonth: '',
         csrfToken: globalCtx.csrfToken,
-        showMonth: props.showMonth
+        showMonth: globalCtx.showMonth
     });
 
     // Set initial state after first render
@@ -22,7 +22,7 @@ function CalendarMonth (props) {
 
         setState((prevState) => {
             return {...prevState,
-                display: props.displayMonth
+                display: globalCtx.displayMonth
             }
         });
 
@@ -31,27 +31,27 @@ function CalendarMonth (props) {
     // Re-render when a new month is selected
     useEffect(() => {
 
-        if(props.showMonth.year != '' && props.showMonth.month != '') {
-            requestMonth(props.showMonth);
+        if(globalCtx.showMonth.year != '' && globalCtx.showMonth.month != '') {
+            requestMonth(globalCtx.showMonth);
 
             setState((prevState) => {
                 return {...prevState,
-                    showMonth: props.showMonth
+                    showMonth: globalCtx.showMonth
                 }
             });
         }
 
-    }, [props.showMonth]);
+    }, [globalCtx.showMonth]);
 
     useEffect(() => {
 
         setState((prevState) => {
             return {...prevState,
-                display: props.displayMonth
+                display: globalCtx.displayMonth
             }
         });
 
-    }, [props.displayMonth]);
+    }, [globalCtx.displayMonth]);
     
 
     function loadMonth(event) {
@@ -62,7 +62,7 @@ function CalendarMonth (props) {
         const monthDate = {year: year, month: month};
         //const monthUrl = event.target.getAttribute('aref');
 
-        props.onMonthChange(monthDate);
+        globalCtx.onMonthChange(monthDate);
         //requestMonth(monthUrl);
         //console.log(monthDate);
         //alert(monthDate.year + "/" + monthDate.month);
@@ -173,9 +173,9 @@ function CalendarMonth (props) {
                                                     isToday={monthDay.isToday}
                                                     status={monthDay.status}
         
-                                                    onDayChange={props.onDayChange}
-                                                    onDayDisplay={props.onDayDisplay}
-                                                    onMonthDisplay={props.onMonthDisplay}
+                                                    onDayChange={globalCtx.onDayChange}
+                                                    onDayDisplay={globalCtx.onDayDisplay}
+                                                    onMonthDisplay={globalCtx.onMonthDisplay}
                                                 />);
                                             })
                                     }

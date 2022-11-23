@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 const GlobalContext = React.createContext({
     csrfToken: '',
@@ -9,17 +9,15 @@ const GlobalContext = React.createContext({
     onMonthChange: (monthDate) => {},
     onDayDisplay: (display) => {},
     onMonthDisplay: (display) => {},
-    showWizard: () => {},
-    hideWizard: () => {}
+    onShowWizard: () => {},
+    onHideWizard: () => {}
 });
 
 export const GlobalContextProvider = (props) => {
 
-    // Get initial context from backend
-    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
-
+    // App wide global states
     const [state, setState] = useState({
-        csrfToken: csrfToken,
+        csrfToken: '',
         showMonth: {year: '', month: ''},
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
@@ -27,8 +25,30 @@ export const GlobalContextProvider = (props) => {
         displayWizard: false
     });
 
+    useEffect(() => {
+        
+        // Get initial context from backend
+        const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+
+        // Set calendar day to today's date & calendar month to current month
+        const today = new Date();
+        let day = today.getDate();
+        let month = today.getMonth() + 1; // Month number starts on 0 for January
+        let year = today.getFullYear(); 
+
+        setState((prevState) => {
+            return { ...prevState,
+                csrfToken: csrfToken,
+                showMonth: {year: year, month: month},
+                showDay: {year: year, month: month, day: day}
+            }
+        });
+        
+    }, []);
+
     const dayChangeHandler = (dayDate) => {
 
+        /*
         if (!_.isEqual(state.showDay, dayDate)) {
 
             setState((prevState) => {
@@ -37,10 +57,18 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
+        */
+
+        setState((prevState) => {
+            return { ...prevState,
+                showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
+            }
+        });
     };
 
     const monthChangeHandler = (monthDate) => {
 
+        /*
         if (!_.isEqual(state.showMonth, monthDate)) {
 
             setState((prevState) => {
@@ -49,6 +77,13 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
+        */
+
+        setState((prevState) => {
+            return { ...prevState,
+                showMonth: {year: monthDate.year, month: monthDate.month}
+            }
+        });
     };
 
     const dayDisplayHandler = (display) => {
@@ -75,7 +110,7 @@ export const GlobalContextProvider = (props) => {
         }
     };
 
-    const showWizard = () => {
+    const showWizardHandler = () => {
 
         // Show booking wizard
         setState((prevState) => {
@@ -85,7 +120,7 @@ export const GlobalContextProvider = (props) => {
         }); 
     };
 
-    const hideWizard = () => {
+    const hideWizardHandler = () => {
 
         // Show booking wizard
         setState((prevState) => {
@@ -106,8 +141,8 @@ export const GlobalContextProvider = (props) => {
         onMonthChange: monthChangeHandler,
         onDayDisplay: dayDisplayHandler,
         onMonthDisplay: monthDisplayHandler,
-        showWizard: showWizard,
-        hideWizard: hideWizard
+        onShowWizard: showWizardHandler,
+        onHideWizard: hideWizardHandler
     };
 
     return (
