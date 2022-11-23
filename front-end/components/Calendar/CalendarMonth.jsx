@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./CalendarMonth.module.scss"; //SCSS Modules use example
 
-import GlobalContext from "../Context/GlobalContext.jsx";
+import AppContext from "../AppContext.jsx";
 import CalendarMonthDay from "./CalendarMonthDay.jsx";
 //import calendarMonth from "../../backend-test.js";
 
 function CalendarMonth (props) {
 
     // Get global context variables
-    const globalCtx = useContext(GlobalContext);
+    const appCtx = useContext(AppContext);
 
     const [state, setState] = useState({
         display: false,
         calendarMonth: '',
-        csrfToken: globalCtx.csrfToken,
-        showMonth: globalCtx.showMonth
+        csrfToken: appCtx.csrfToken,
+        showMonth: appCtx.showMonth
     });
 
     // Set initial state after first render
@@ -22,7 +22,7 @@ function CalendarMonth (props) {
 
         setState((prevState) => {
             return {...prevState,
-                display: globalCtx.displayMonth
+                display: appCtx.displayMonth
             }
         });
 
@@ -31,27 +31,27 @@ function CalendarMonth (props) {
     // Re-render when a new month is selected
     useEffect(() => {
 
-        if(globalCtx.showMonth.year != '' && globalCtx.showMonth.month != '') {
-            requestMonth(globalCtx.showMonth);
+        if(appCtx.showMonth.year != '' && appCtx.showMonth.month != '') {
+            requestMonth(appCtx.showMonth);
 
             setState((prevState) => {
                 return {...prevState,
-                    showMonth: globalCtx.showMonth
+                    showMonth: appCtx.showMonth
                 }
             });
         }
 
-    }, [globalCtx.showMonth]);
+    }, [appCtx.showMonth]);
 
     useEffect(() => {
 
         setState((prevState) => {
             return {...prevState,
-                display: globalCtx.displayMonth
+                display: appCtx.displayMonth
             }
         });
 
-    }, [globalCtx.displayMonth]);
+    }, [appCtx.displayMonth]);
     
 
     function loadMonth(event) {
@@ -62,7 +62,7 @@ function CalendarMonth (props) {
         const monthDate = {year: year, month: month};
         //const monthUrl = event.target.getAttribute('aref');
 
-        globalCtx.onMonthChange(monthDate);
+        appCtx.onMonthChange(monthDate);
         //requestMonth(monthUrl);
         //console.log(monthDate);
         //alert(monthDate.year + "/" + monthDate.month);
@@ -173,9 +173,9 @@ function CalendarMonth (props) {
                                                     isToday={monthDay.isToday}
                                                     status={monthDay.status}
         
-                                                    onDayChange={globalCtx.onDayChange}
-                                                    onDayDisplay={globalCtx.onDayDisplay}
-                                                    onMonthDisplay={globalCtx.onMonthDisplay}
+                                                    onDayChange={appCtx.onDayChange}
+                                                    onDayDisplay={appCtx.onDayDisplay}
+                                                    onMonthDisplay={appCtx.onMonthDisplay}
                                                 />);
                                             })
                                     }

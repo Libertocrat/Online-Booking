@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-const GlobalContext = React.createContext({
+const AppContext = React.createContext({
     csrfToken: '',
     showMonth: {year: '', month: ''},
     showDay: {year: '', month: '', day: ''},
@@ -13,7 +13,7 @@ const GlobalContext = React.createContext({
     onHideWizard: () => {}
 });
 
-export const GlobalContextProvider = (props) => {
+export const AppContextProvider = (props) => {
 
     // App wide global states
     const [state, setState] = useState({
@@ -146,12 +146,12 @@ export const GlobalContextProvider = (props) => {
     };
 
     return (
-        <GlobalContext.Provider
+        <AppContext.Provider
             value={context}
         >
             {props.children}
-        </GlobalContext.Provider>
+        </AppContext.Provider>
     );
 };
 
-export default GlobalContext;
+export default AppContext;

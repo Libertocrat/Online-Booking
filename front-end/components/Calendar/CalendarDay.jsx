@@ -2,16 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import TimeBlock from "./TimeBlock.jsx";
 import styles from "./CalendarDay.module.scss";
 
-import GlobalContext from "../Context/GlobalContext.jsx";
+import AppContext from "../AppContext.jsx";
 
 function CalendarDay (props) {
 
     // Get global context variables
-    const globalCtx = useContext(GlobalContext);
+    const appCtx = useContext(AppContext);
 
     // CalendarDay states
     const [state, setState] = useState({
-        display: globalCtx.displayDay,
+        display: appCtx.displayDay,
         dayDate: '',
         weekDay: '',
         monthName: '',
@@ -29,7 +29,7 @@ function CalendarDay (props) {
         setState((prevState) => {
         
             return {...prevState,
-                display: globalCtx.displayDay
+                display: appCtx.displayDay
             }
         });
         //loadDay(props.showDay);
@@ -39,30 +39,30 @@ function CalendarDay (props) {
     // This will run when new day data is passed through props
     useEffect(() => {
 
-       const isNotEmpty = globalCtx.showDay.year != '' && globalCtx.showDay.month != '' && globalCtx.showDay.day != '';
-       const isEqual = state.dayDate.year == globalCtx.showDay.year && state.dayDate.month == globalCtx.showDay.month 
-                        && state.dayDate.day == globalCtx.showDay.day;
+       const isNotEmpty = appCtx.showDay.year != '' && appCtx.showDay.month != '' && appCtx.showDay.day != '';
+       const isEqual = state.dayDate.year == appCtx.showDay.year && state.dayDate.month == appCtx.showDay.month 
+                        && state.dayDate.day == appCtx.showDay.day;
 
         if(isNotEmpty && !isEqual) {
 
-            const dayUrl = `/calendar/${globalCtx.showDay.year}/${globalCtx.showDay.month}/${globalCtx.showDay.day}`;
+            const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
             // Update day from API request url
             requestDay(dayUrl);
         }
 
-    }, [globalCtx.showDay]);
+    }, [appCtx.showDay]);
 
     useEffect(() => {
 
         setState((prevState) => {
             return {...prevState,
-                display: globalCtx.displayDay
+                display: appCtx.displayDay
             }
         });
         
-        console.log("Display changed: " + state.display + ". Global ctx display: " + globalCtx.displayDay);
+        console.log("Display changed: " + state.display + ". Global ctx display: " + appCtx.displayDay);
 
-    }, [globalCtx.displayDay]);
+    }, [appCtx.displayDay]);
     
     const dayTitle = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
 
@@ -77,8 +77,8 @@ function CalendarDay (props) {
     function dayTitleClickHandler(event) {
 
         //Hide day calendar (this component) & show monthly calendar
-        globalCtx.onDayDisplay(false);
-        globalCtx.onMonthDisplay(true);
+        appCtx.onDayDisplay(false);
+        appCtx.onMonthDisplay(true);
     }
 
     function requestDay(dayUrl) {
@@ -90,7 +90,7 @@ function CalendarDay (props) {
         fetch(dayUrl, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': globalCtx.csrfToken,
+                'X-CSRFToken': appCtx.csrfToken,
                 'Content-Type': 'application/json'
               }/*,
             body: JSON.stringify({
@@ -122,7 +122,7 @@ function CalendarDay (props) {
                 });
 
                 // Notify app that display day changed
-                globalCtx.onDayChange(calendarDay.dayDate);
+                appCtx.onDayChange(calendarDay.dayDate);
 
                 console.log("New CalendarDay successfully recieved from API :");
                 console.log(calendarDay);

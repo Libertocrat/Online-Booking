@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import styles from "./TimeBlock.module.scss";
 
-import GlobalContext from "../Context/GlobalContext.jsx";
+import GlobalContext from "../AppContext.jsx";
 
 function TimeBlock (props) {
 
