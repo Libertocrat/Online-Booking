@@ -4,8 +4,13 @@ const GlobalContext = React.createContext({
     csrfToken: '',
     showMonth: {year: '', month: ''},
     showDay: {year: '', month: '', day: ''},
+    displayWizard: false,
     onDayChange: (dayDate) => {}, // Dummy functions added here, just for better IDE autocompletion
-    onMonthChange: (monthDate) => {}
+    onMonthChange: (monthDate) => {},
+    onDayDisplay: (display) => {},
+    onMonthDisplay: (display) => {},
+    showWizard: () => {},
+    hideWizard: () => {}
 });
 
 export const GlobalContextProvider = (props) => {
@@ -18,10 +23,11 @@ export const GlobalContextProvider = (props) => {
         showMonth: {year: '', month: ''},
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
-        displayDay: false
+        displayDay: false,
+        displayWizard: false
     });
 
-    function dayChangeHandler(dayDate) {
+    const dayChangeHandler = (dayDate) => {
 
         if (!_.isEqual(state.showDay, dayDate)) {
 
@@ -31,9 +37,9 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
-    }
+    };
 
-    function monthChangeHandler(monthDate) {
+    const monthChangeHandler = (monthDate) => {
 
         if (!_.isEqual(state.showMonth, monthDate)) {
 
@@ -43,9 +49,9 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
-    }
+    };
 
-    function dayDisplayHandler(display) {
+    const dayDisplayHandler = (display) => {
 
         // Show/hide calendar day view
         if (display != state.displayDay) {
@@ -55,9 +61,9 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
-    }
+    };
 
-    function monthDisplayHandler(display) {
+    const monthDisplayHandler = (display) => {
 
         // Show/hide calendar month view
         if (display != state.displayMonth) {
@@ -67,10 +73,31 @@ export const GlobalContextProvider = (props) => {
                 }
             });
         }
-    }
+    };
+
+    const showWizard = () => {
+
+        // Show booking wizard
+        setState((prevState) => {
+            return { ...prevState,
+                displayWizard: true
+            }
+        }); 
+    };
+
+    const hideWizard = () => {
+
+        // Show booking wizard
+        setState((prevState) => {
+            return { ...prevState,
+                displayWizard: false
+            }
+        });
+    };
 
     const context = {
         csrfToken: state.csrfToken,
+        displayWizard: state.displayWizard,
         showDay: state.showDay,
         displayDay: state.displayDay,
         showMonth: state.showMonth,
@@ -78,7 +105,9 @@ export const GlobalContextProvider = (props) => {
         onDayChange: dayChangeHandler,
         onMonthChange: monthChangeHandler,
         onDayDisplay: dayDisplayHandler,
-        onMonthDisplay: monthDisplayHandler
+        onMonthDisplay: monthDisplayHandler,
+        showWizard: showWizard,
+        hideWizard: hideWizard
     };
 
     return (

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styles from "./App.module.scss"; //SCSS Modules use example
 
-import GlobalContext from "./Context/GlobalContext.jsx";
+import GlobalContext, {GlobalContextProvider} from "./Context/GlobalContext.jsx";
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
 import Modal from "./Modal/Modal.jsx";
@@ -10,18 +10,14 @@ import Button from "./Button/Button.jsx";
 
 function App(props) {
 
-    // Get initial context from backend
-    const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+    const globalCtx = useContext(GlobalContext);
 
     const [app, setApp] = useState({
         showMonth: {year: '', month: ''},
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
-        displayDay: false,
-        displayWizard: false,
-        csrfToken: csrfToken
+        displayDay: false
     });
-    //console.log(app);
 
     /* Initial render effect*/
     useEffect(() => {
@@ -32,20 +28,22 @@ function App(props) {
         let month = today.getMonth() + 1; // Month number starts on 0 for January
         let year = today.getFullYear(); 
 
-        setApp({
-            ...app,
-            showMonth: {year: year, month: month},
-            showDay: {year: year, month: month, day: day}
+        setApp((prevState) => {
+            return { ...prevState,
+                showMonth: {year: year, month: month},
+                showDay: {year: year, month: month, day: day}
+            }
         });
-
+        
     }, []);
 
     // Updates the calendar day to show
     function onDayChangeHandler(dayDate) {
 
-        setApp({
-            ...app,
-            showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
+        setApp((prevState) => {
+            return { ...prevState,
+                showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
+            }
         });
 
         /*
@@ -59,9 +57,10 @@ function App(props) {
     // Updates the calendar month to show
     function onMonthChangeHandler(monthDate) {
 
-        setApp({
-            ...app,
-            showMonth: {year: monthDate.year, month: monthDate.month}
+        setApp((prevState) => {
+            return { ...prevState,
+                showMonth: {year: monthDate.year, month: monthDate.month}
+            }
         });
     }
 
@@ -71,7 +70,7 @@ function App(props) {
         if (display != app.displayDay) {
             setApp((prevState) => {
                 return { ...prevState,
-                    displayDay: display,
+                    displayDay: display
                 }
             });
         }
@@ -83,43 +82,13 @@ function App(props) {
         if (display != app.displayMonth) {
             setApp((prevState) => {
                 return { ...prevState,
-                    displayMonth: display,
+                    displayMonth: display
                 }
             });
         }
     }
 
-    function showWizard() {
-        // Show booking wizard
-        setApp((prevState) => {
-            return { ...prevState,
-                displayWizard: true
-            }
-        });
-    }
-
-    function hideWizard() {
-        // Show booking wizard
-        setApp((prevState) => {
-            return { ...prevState,
-                displayWizard: false
-            }
-        });
-    }
     /*
-    useEffect(() => {
-        
-        //console.log(`${day}/${month}/${year}`);
-        setApp({
-
-            year: toString(year),
-            month: toString(month),
-            day: toString(day)
-        });
-        
-        console.log(app);
-    }, []);
-*/
     return(
         <GlobalContext.Provider
             value={{
@@ -150,6 +119,35 @@ function App(props) {
                 />
             </Modal>
         </GlobalContext.Provider>
+    );
+    */
+
+    return(
+        <React.Fragment>
+            <h1 className={styles['main-header']}>Online Booking App</h1>
+            <div className={styles['calendar-button']}>
+                <Button icon="event_available" onClickHandler={globalCtx.showWizard}/>
+            </div>
+            <Modal display={globalCtx.displayWizard} onClickHandler={globalCtx.hideWizard}>
+                <CalendarMonth 
+                    showMonth={app.showMonth}
+                    displayMonth={app.displayMonth}
+                    onMonthChange={onMonthChangeHandler}
+                    onDayChange={onDayChangeHandler}
+                    onDayDisplay={dayDisplayHandler}
+                    onMonthDisplay={monthDisplayHandler}
+                />
+                <CalendarDay 
+                    //calendarDay={app.calendarDay} 
+                    showDay={app.showDay}
+                    displayDay={app.displayDay}
+                    displayMonth={app.displayMonth}
+                    onDayChange={onDayChangeHandler}
+                    onDayDisplay={dayDisplayHandler}
+                    onMonthDisplay={monthDisplayHandler}
+                />
+            </Modal>
+        </React.Fragment>
     );
 }
 
