@@ -7,6 +7,7 @@ import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
 import Modal from "./Modal/Modal.jsx";
 import Button from "./Button/Button.jsx";
+import WizardForm from "./WizardForm/WizardForm.jsx";
 
 function App(props) {
 
@@ -18,10 +19,14 @@ function App(props) {
             <div className={styles['calendar-button']}>
                 <Button icon="event_available" onClickHandler={appCtx.onShowWizard}/>
             </div>
+            
             <Modal display={appCtx.displayWizard} onClickHandler={appCtx.onHideWizard}>
-                <CalendarMonth />
-                <CalendarDay />
+                <WizardForm title="Booking form">
+                    <CalendarMonth />
+                    <CalendarDay />
+                </WizardForm>
             </Modal>
+            
         </React.Fragment>
     );
 }
