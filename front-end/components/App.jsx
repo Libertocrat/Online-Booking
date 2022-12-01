@@ -9,10 +9,21 @@ import Modal from "./Modal/Modal.jsx";
 import Button from "./Button/Button.jsx";
 import WizardForm from "./WizardForm/WizardForm.jsx";
 import WizardPage from "./WizardForm/WizardPage.jsx";
+import InputField from "./WizardForm/InputField.jsx";
+import SelectField from "./WizardForm/SelectField.jsx";
 
 function App(props) {
 
     const appCtx = useContext(AppContext);
+
+    // Added for test purposes. Services' list must be provided by backend server as initial app context
+    const services =[
+        {name:"Hair Cut with Blow Dry", value: 0},
+        {name:"Mens Hair Cut", value: 1},
+        {name:"Formal Hair Design", value: 2},
+        {name:"Basic Tint", value: 3},
+        {name:"Conditioning Treatment", value: 4}
+    ];
 
     return(
         <React.Fragment>
@@ -20,18 +31,29 @@ function App(props) {
             <div className={styles['calendar-button']}>
                 <Button icon="event_available" onClickHandler={appCtx.onShowWizard}/>
             </div>
-            <WizardForm title="Booking form" displayWizard={true} csrfToken={appCtx.csrfToken}>
-                <WizardPage pageName="Start"><div>Start</div></WizardPage>
-                <WizardPage pageName="Choose day"><div>Page 2</div></WizardPage>
-                <WizardPage pageName="Choose time block"><div>Page 3</div></WizardPage>
-                <WizardPage pageName="Enter name"><div>Page 4</div></WizardPage>
-                <WizardPage pageName="Enter mobile"><div>Page 5</div></WizardPage>
-                <WizardPage pageName="Finish"><div>Finish</div></WizardPage>
-            </WizardForm>
+            
+            {/* Booking wizard */}
             <Modal display={appCtx.displayWizard} onClickHandler={appCtx.onHideWizard}>
-                <WizardForm title="Booking form" display={true} csrfToken={appCtx.csrfToken}>
-                    <CalendarMonth />
-                    <CalendarDay />
+                <WizardForm title="Booking form" displayWizard={true} csrfToken={appCtx.csrfToken}>
+                    <WizardPage pageName="Service selection">
+                        <div>Select your service:</div>
+                        <SelectField options={services} />
+                        
+                    </WizardPage>
+                    <WizardPage pageName="Time Block selection">
+                        <CalendarMonth />
+                        <CalendarDay />
+                    </WizardPage>
+                    <WizardPage pageName="Enter name">
+                        <div>What's your name?:</div>
+                        <InputField type="text" name="name" placeholder="Your name"  required={true}/>
+                    </WizardPage>
+                    <WizardPage pageName="Enter mobile">
+                        <div>What's your phone number?:</div>
+                        <InputField type="tel" name="phone" placeholder="+1 111 111 1111"  required={true}/>
+                    </WizardPage>
+                    <WizardPage pageName="Summary & Submit"><div>Page 5</div></WizardPage>
+                    <WizardPage pageName="Confirmation"><div>Finish</div></WizardPage>
                 </WizardForm>
             </Modal>
             
