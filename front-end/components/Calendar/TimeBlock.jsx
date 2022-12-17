@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./TimeBlock.module.scss";
 
 import GlobalContext from "../AppContext.jsx";
+import {WizardFormContext} from "../WizardForm/WizardForm.jsx";
 
 function TimeBlock (props) {
 
     // Get global context variables
     const globalCtx = useContext(GlobalContext);
+    const formCtx = useContext(WizardFormContext);
 
     const [state, setState] = useState({
         status: props.status,
@@ -59,13 +61,13 @@ function TimeBlock (props) {
 
             // Send booking request to server (TEST for now)
             const data = {dayDate: props.dayDate, startHour: props.startHour, endHour: props.endHour, serviceId: '1'};
-            requestAppointment(data);
-
+            formCtx.onDataChange("timeblock", data);
+            //requestAppointment(data);
         }
         else {
             alert("This hour is unavailable for booking");
         }
-        
+
     }
 
     function requestAppointment(data) {
@@ -91,12 +93,12 @@ function TimeBlock (props) {
                 //props.onDayChange(result.calendarDay);
                 //const calendarDay = result.calendarDay;
 
-                
+
                 setState({
                     ...state,
                     status: 'blocked'
                 });
-                
+
                 console.log("Reservation request response recieved from API :");
                 console.log(result.message);
                 console.log(result.body);
@@ -109,14 +111,14 @@ function TimeBlock (props) {
     }
 
     return(
-        <div className = {state.classNames} 
-            style={{ height: state.height }} 
+        <div className = {state.classNames}
+            style={{ height: state.height }}
             onClick={onClickHandler}>
-            { props.startHour !== undefined && props.endHour !== undefined ? 
+            { props.startHour !== undefined && props.endHour !== undefined ?
                 <div className ={styles['block-hours']}>{`${props.startHour} - ${props.endHour}`}</div>
                 : null
             }
-            
+
         </div>
     );
 }

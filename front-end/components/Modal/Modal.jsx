@@ -28,34 +28,16 @@ function Modal(props) {
     }, [props.display]);
 
     // Example of a wrapper component, by using "props.children"
-    if (state.display) {
     return ReactDOM.createPortal(
-            <div className={styles['modal-full']}>
-            <div className={styles['backdrop']} onClick={props.onClickHandler}></div>
-            <div className={styles['modal-contents']}>
-                {props.children} 
-            </div>
-        </div>, 
+            <div className={styles['modal-full']} style={state.display ? null : {display: "none"}} >
+                <div className={styles['backdrop']} onClick={props.onClickHandler} ></div>
+                <div className={styles['modal-contents']} >
+                    {props.children}
+                </div>
+            </div>,
         document.querySelector('.modal-container')
     );
-    }
-    else {
-        return (null);
-    }
-    /*
-    if (state.display) {
-        return(
-        <div className={styles['modal-full']}>
-            <div className={styles['backdrop']} onClick={props.onClickHandler}></div>
-            <div className={styles['modal-contents']}>
-                {props.children} 
-            </div>
-        </div>);
-    }
-    else {
-        return(<div></div>);
-    }
-    */
+
 }
 
 export default Modal;

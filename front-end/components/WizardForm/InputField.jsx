@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./WizardForm.module.scss";
+import {WizardFormContext} from "./WizardForm.jsx";
 
 function InputField(props) {
+
+    const formCtx = useContext(WizardFormContext);
 
     const [state,setState] = useState(
         {
@@ -17,17 +20,18 @@ function InputField(props) {
             input: event.target.value
             };
         });
+
+        formCtx.onDataChange(props.name, event.target.value);
     }
 
     return(
         <React.Fragment>
-            <input 
-                type={props.type} 
-                name={props.name}  
-                placeholder={props.placeholder} 
+            <input
+                type={props.type}
+                name={props.name}
+                placeholder={props.placeholder}
                 value={state.input}
                 onChange={onChangeHandler}/>
-            <p>{state.input}</p>
         </React.Fragment>
     );
 }

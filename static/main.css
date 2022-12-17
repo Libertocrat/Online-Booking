@@ -76,6 +76,13 @@ body {
 /*!***************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarMonth.module.scss ***!
   \***************************************************************************************************************************************************************************************/
+/* Variables for CalendarMonth */
+.vajs3ViQQPwf7GZgQb5d {
+  --day-width: 3rem;
+  --day-height: var(--day-width);
+  --day-margin: 4px;
+}
+
 .vajs3ViQQPwf7GZgQb5d {
   position: relative;
   display: flex;
@@ -84,7 +91,6 @@ body {
   align-items: center;
   flex-wrap: nowrap;
   border-radius: 10px;
-  background-image: linear-gradient(to bottom, #ccc, #fff);
 }
 
 ._rvDXSDZYm__2193BYlp {
@@ -98,15 +104,48 @@ body {
 .DGB_XLdyv4gCIezU6w91 div {
   text-align: center;
   font-size: 1.2rem;
-  width: 4rem;
-  margin: 8px;
+  width: var(--day-width);
+  margin: var(--day-margin);
+}
+
+.fFEkh8nf6VFASW90TcPn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: var(--day-margin);
+  width: var(--day-width);
+  height: var(--day-height);
+  border-radius: 0.5rem;
+  background-color: var(--color-grey-light-4);
+  backface-visibility: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+.fFEkh8nf6VFASW90TcPn:hover {
+  background-color: var(--color-primary-light);
+  transform: scale(1.05);
+}
+.fFEkh8nf6VFASW90TcPn.arrxoSHmdzjwNXHVr1EG {
+  background-color: var(--color-grey-dark-3);
+  cursor: default;
+}
+.fFEkh8nf6VFASW90TcPn.arrxoSHmdzjwNXHVr1EG:hover {
+  background-color: var(--color-grey-dark-2);
+  transform: scale(1);
+}
+.fFEkh8nf6VFASW90TcPn.Cxjsbvbt9HaHCD_fxx7C {
+  border: 5px solid var(--color-primary);
 }
 
 .rotEjZcYFMxjufZsnZgH {
   color: #555;
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
   flex-basis: 100%;
 }
 
@@ -126,41 +165,6 @@ body {
 }
 .S43y75By4qvxPNLtig6U span:hover {
   color: var(--color-primary-light);
-}
-/*!******************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarMonthDay.module.scss ***!
-  \******************************************************************************************************************************************************************************************/
-.QvhPPpdvCtHCVy4mGSFV {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  padding: 1rem;
-  margin: 8px;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0.5rem;
-  background-color: var(--color-grey-light-4);
-  backface-visibility: hidden;
-  cursor: pointer;
-  transition: all 0.2s ease-out;
-}
-.QvhPPpdvCtHCVy4mGSFV:hover {
-  background-color: var(--color-primary-light);
-  transform: scale(1.05);
-}
-.QvhPPpdvCtHCVy4mGSFV.Q7z2vWqe3HphYmpDRMh1 {
-  background-color: var(--color-grey-dark-3);
-  cursor: default;
-}
-.QvhPPpdvCtHCVy4mGSFV.Q7z2vWqe3HphYmpDRMh1:hover {
-  background-color: var(--color-grey-dark-2);
-  transform: scale(1);
-}
-.QvhPPpdvCtHCVy4mGSFV.FRdUvWJfMXOzIhIng7_T {
-  border: 5px solid var(--color-primary);
 }
 /*!***********************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/TimeBlock.module.scss ***!
@@ -192,6 +196,54 @@ body {
 .yA_mXY8pL_jTDpkQNk3e .qyiBfYr4tWKRknerMaLl {
   color: var(--color-grey-light-1);
   font-size: 1rem;
+}
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/WizardForm/WizardForm.module.scss ***!
+  \**************************************************************************************************************************************************************************************/
+.Dlqe5HcBFTqWiwEn58Pu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 600px;
+  min-height: 600px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ddd, #bbb);
+}
+
+.oWPcsWWQbjdsTSzOPChT {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.YNfISccLpMPgAIMPDKLq {
+  font-size: 24px;
+  padding: 8px 0;
+}
+
+input, select {
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+button {
+  min-width: 50px;
+  height: 30px;
+  margin: 16px;
+}
+/*!******************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Button/Button.module.scss ***!
+  \******************************************************************************************************************************************************************************/
+.iRp4nABkpjjEuQhubJvZ {
+  padding: 1rem;
+  font-size: 48px;
+  color: white;
+  background-image: linear-gradient(to right bottom, green, lightgreen);
+  border-radius: 50%;
+  cursor: pointer;
 }
 /*!*************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarDay.module.scss ***!
@@ -265,31 +317,4 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 110;
-}
-/*!******************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Button/Button.module.scss ***!
-  \******************************************************************************************************************************************************************************/
-.iRp4nABkpjjEuQhubJvZ {
-  padding: 1rem;
-  font-size: 48px;
-  color: white;
-  background-image: linear-gradient(to right bottom, green, lightgreen);
-  border-radius: 50%;
-  cursor: pointer;
-}
-/*!**************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/WizardForm/WizardForm.module.scss ***!
-  \**************************************************************************************************************************************************************************************/
-.Dlqe5HcBFTqWiwEn58Pu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.Rwzgb7Zx6TvUFrn5hhzz {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }

@@ -27,7 +27,7 @@ function CalendarDay (props) {
     useEffect(() => {
 
         setState((prevState) => {
-        
+
             return {...prevState,
                 display: appCtx.displayDay
             }
@@ -35,12 +35,12 @@ function CalendarDay (props) {
         //loadDay(props.showDay);
 
     }, []);
-    
+
     // This will run when new day data is passed through props
     useEffect(() => {
 
        const isNotEmpty = appCtx.showDay.year != '' && appCtx.showDay.month != '' && appCtx.showDay.day != '';
-       const isEqual = state.dayDate.year == appCtx.showDay.year && state.dayDate.month == appCtx.showDay.month 
+       const isEqual = state.dayDate.year == appCtx.showDay.year && state.dayDate.month == appCtx.showDay.month
                         && state.dayDate.day == appCtx.showDay.day;
 
         if(isNotEmpty && !isEqual) {
@@ -59,11 +59,11 @@ function CalendarDay (props) {
                 display: appCtx.displayDay
             }
         });
-        
+
         console.log("Display changed: " + state.display + ". Global ctx display: " + appCtx.displayDay);
 
     }, [appCtx.displayDay]);
-    
+
     const dayTitle = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
 
     function navClickHandler(event) {
@@ -107,7 +107,7 @@ function CalendarDay (props) {
                 const calendarDay = result.calendarDay;
 
                 setState( (prevState) => {
-                    
+
                     return {...prevState,
                         dayDate: calendarDay.dayDate,
                         weekDay: calendarDay.weekDay,
@@ -137,7 +137,7 @@ function CalendarDay (props) {
     if (state.display === true) {
         return(
             <div className = {styles['calendar-day']}>
-    
+
                 <div className={styles['nav-bar']}>
                     <div className={styles['nav-btn']}>
                         <span className={`material-icons`} onClick={navClickHandler} aref={state.lastDayUrl}>chevron_left</span>
@@ -147,31 +147,31 @@ function CalendarDay (props) {
                         <span className={`material-icons`} onClick={navClickHandler} aref={state.nextDayUrl}>chevron_right</span>
                     </div>
                 </div>
-    
+
                 <div className={styles['time-block-wrap']}>
                     {
                         state.timeBlocks.map( (timeBlock, index) => {
                             return(
                                 <TimeBlock
-                                    key={timeBlock.id}  
+                                    key={timeBlock.id}
                                     id={timeBlock.id}
                                     dayDate={state.dayDate}
-                                    status={timeBlock.status} 
+                                    status={timeBlock.status}
                                     relHeight={timeBlock.relHeight}
                                     startHour={timeBlock.startHour}
-                                    endHour={timeBlock.endHour}  
+                                    endHour={timeBlock.endHour}
                                 />);
                             })
                     }
                 </div>
-                
+
             </div>
         );
     }
     else {
         return(<div></div>);
     }
-    
+
 }
 
 export default CalendarDay;

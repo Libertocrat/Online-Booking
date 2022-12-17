@@ -3,12 +3,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-width: 600px;
+    min-height: 600px;
+    border-radius: 20px;
+
+    background: linear-gradient(135deg, #ddd, #bbb);
 }
 
 
-.form-pages {
+.form-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.page-title {
+    font-size: 24px;
+    padding: 8px 0;
+}
+
+input, select {
+    font-size: 16px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+button {
+    min-width: 50px;
+    height: 30px;
+    margin: 16px;
 }

@@ -10,6 +10,8 @@ export const WizardFormContext = React.createContext({
     currentPage: '',
     currentContent: '',
     maxPages: '',
+    formData: {},
+    onDataChange: (name, value) => {},
     onLastPage: () => {},
     onNextPage: () => {},
     onFormSubmit: () => {},
@@ -22,16 +24,17 @@ function WizardForm(props) {
 
     // Wizard states
     const [state, setState] = useState({
-        csrfToken: '',
+        csrfToken: props.csrfToken,
         submitUrl: '',
         displayWizard: '',
         currentPage: '',
         currentContent: '',
-        maxPages: ''
+        maxPages: '',
+        formData: {}
     });
 
     useEffect(() => {
-        
+
         // Get initial state from props & checking children
         const arrayChildren = React.Children.toArray(props.children);
 
@@ -48,8 +51,21 @@ function WizardForm(props) {
                 maxPages: maxPages
             }
         });
-        
+
     }, []);
+
+    // Updates the value of the attribute with name "key", in the form data object
+    const onDataChangeHandler = (key, value) => {
+
+        setState((prevState) => {
+            return { ...prevState,
+                formData: {...prevState.formData, [key]:value}
+            }
+        });
+
+        //alert(key +" : "+value);
+        console.log("Form Data: " + state.formData);
+    }
 
     const onLastPageHandler = () => {
 
@@ -87,6 +103,46 @@ function WizardForm(props) {
         }
     }
 
+    const onFormSubmitHandler = () => {
+        //alert(props.dayUrl);
+        const postUrl = `/calendar/request_appointment/`;
+
+        fetch(postUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': props.csrfToken,
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                data: state.formData,
+            })
+            }
+        )
+        .then(response => response.json())
+        .then(
+            (result) => {
+                //handlePostSuccess(result); // success handling
+                console.log(result);
+                //props.onDayChange(result.calendarDay);
+                //const calendarDay = result.calendarDay;
+
+
+                setState({
+                    ...state,
+                    status: 'blocked'
+                });
+
+                console.log("Reservation request response recieved from API :");
+                console.log(result.message);
+                console.log(result.body);
+            },
+            (error) => {
+                //handlePostError(error);  // error handling
+                console.log(error);
+            }
+        );
+    }
+
     const context = {
         csrfToken: state.csrfToken,
         submitUrl: '',
@@ -94,8 +150,11 @@ function WizardForm(props) {
         currentPage: state.currentPage,
         currentContent: state.currentContent,
         maxPages: state.maxPages,
+        formData: state.formData,
+        onDataChange: onDataChangeHandler,
         onLastPage: onLastPageHandler,
-        onNextPage: onNextPageHandler
+        onNextPage: onNextPageHandler,
+        onFormSubmit: onFormSubmitHandler
     };
 
     return(
@@ -103,17 +162,8 @@ function WizardForm(props) {
             value={context}
         >
             <div className={styles['wizard-form']}>
-                <div className={styles['header']}>{props.title}</div>
-                <div className={styles['form-pages']}>
-                    {state.currentContent} 
-                </div>
-                { /*
-                <div className={styles['nav-butons']}>
-                    <button onClick={onLastPageHandler}>Last</button>
-                    <button onClick={onNextPageHandler}>Next</button>
-                </div>
-                */
-                }
+                {/* Each children is a WizardPage, they have their own wrapper */}
+                {props.children}
             </div>
         </WizardFormContext.Provider>
     );

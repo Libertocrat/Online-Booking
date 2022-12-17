@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./CalendarMonthDay.module.scss";
+import styles from "./CalendarMonth.module.scss";
 
 function CalendarMonthDay (props) {
 
     const dayClasses = `${styles['day']} ${props.isToday && styles['today']} ${props.status === 'inactive' && styles['inactive']}`;
 
     function onDayClickHandler() {
-        
+
         // Update calendar day date, by calling parent function passed by props
         if (props.status === 'active') {
             props.onDayChange(props.dayDate);

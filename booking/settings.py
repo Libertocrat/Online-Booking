@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-d_+9qdc480p23#-xhj8h()=jdrpn3g8szq_1cz+kl=2gg-=+mi
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CSRF_TRUSTED_ORIGINS = ['https://libertocrat-code50-104396872-r4vv779jv2pj6q-8000.githubpreview.dev',
+                        'https://libertocrat-code50-104396872-r4vv779jv2pj6q-8000.preview.app.github.dev',
+]
 
 # Application definition
 

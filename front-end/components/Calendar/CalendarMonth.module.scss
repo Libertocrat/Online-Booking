@@ -1,3 +1,10 @@
+/* Variables for CalendarMonth */
+.month {
+    --day-width: 3rem;
+    --day-height: var(--day-width);
+    --day-margin: 4px;
+}
+
 .month {
     position: relative;
     display: flex;
@@ -7,11 +14,11 @@
     flex-wrap: nowrap;
 
     border-radius: 10px;
-    background-image:linear-gradient(to bottom, #ccc, #fff);
+    //background-image:linear-gradient(to bottom, #ccc, #fff);
 }
 
 .week {
-    
+
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -21,22 +28,70 @@
     padding: 0 2rem;
 
     &__labels {
-        
+
         & div {
             text-align: center;
             font-size: 1.2rem;
-            width: 4rem;
-            margin: 8px;
+            width: var(--day-width);
+            margin: var(--day-margin);
         }
-        
+
     }
+}
+
+
+.day {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    //flex-basis: 12%;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    box-sizing: border-box;
+    padding: 1rem;
+    margin: var(--day-margin);
+    width: var(--day-width);
+    height: var(--day-height);
+    border-radius: .5rem;
+
+    background-color: var(--color-grey-light-4);
+    backface-visibility: hidden;
+    cursor: pointer;
+
+    transition: all .2s ease-out;
+
+    &:hover {
+
+        background-color: var(--color-primary-light);
+        transform: scale(1.05);
+    }
+
+    &.inactive {
+
+        background-color: var(--color-grey-dark-3);
+        cursor: default;
+
+        &:hover {
+            background-color: var(--color-grey-dark-2);
+            transform: scale(1);
+        }
+    }
+
+    &.today {
+        border: 5px solid var(--color-primary);//width style color
+        //background-color: var(--color-primary-light);
+    }
+
 }
 
 .title {
     color: #555;
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
 
     flex-basis: 100%;
 }
@@ -60,5 +115,6 @@
             color: var(--color-primary-light);
         }
     }
-    
+
 }
+

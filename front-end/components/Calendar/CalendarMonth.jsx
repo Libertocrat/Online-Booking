@@ -13,7 +13,6 @@ function CalendarMonth (props) {
     const [state, setState] = useState({
         display: false,
         calendarMonth: '',
-        csrfToken: appCtx.csrfToken,
         showMonth: appCtx.showMonth
     });
 
@@ -52,7 +51,7 @@ function CalendarMonth (props) {
         });
 
     }, [appCtx.displayMonth]);
-    
+
 
     function loadMonth(event) {
         //const monthUrl = event.target.getAttribute('aref');
@@ -79,7 +78,7 @@ function CalendarMonth (props) {
         fetch(monthUrl, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': state.csrfToken,
+                'X-CSRFToken': appCtx.csrfToken,
                 'Content-Type': 'application/json'
               }/*,
             body: JSON.stringify({
@@ -118,13 +117,13 @@ function CalendarMonth (props) {
         if (state.display) {
             return (
                 <div className={styles['month']}>
-        
+
                     <div className={styles['nav-bar']}>
                         <div className={`${styles['nav-btn']}`}>
-                            <span 
-                                className={`material-icons`} 
-                                onClick={loadMonth} 
-                                aref={state.calendarMonth.lastMonthUrl} 
+                            <span
+                                className={`material-icons`}
+                                onClick={loadMonth}
+                                aref={state.calendarMonth.lastMonthUrl}
                                 loadmonth={state.calendarMonth.lastMonthDate.month}
                                 loadyear={state.calendarMonth.lastMonthDate.year}
                             >
@@ -133,9 +132,9 @@ function CalendarMonth (props) {
                         </div>
                         <div className={styles['title']}>{state.calendarMonth.titleMonth} {state.calendarMonth.titleYear}</div>
                         <div className={`${styles['nav-btn']}`}>
-                            <span 
-                                className={`material-icons`} 
-                                onClick={loadMonth} 
+                            <span
+                                className={`material-icons`}
+                                onClick={loadMonth}
                                 aref={state.calendarMonth.nextMonthUrl}
                                 loadmonth={state.calendarMonth.nextMonthDate.month}
                                 loadyear={state.calendarMonth.nextMonthDate.year}
@@ -144,7 +143,7 @@ function CalendarMonth (props) {
                             </span>
                         </div>
                     </div>
-                
+
                     <div className={styles['week'] + " " + styles['week__labels']} key="week-label">
                     {
                         state.calendarMonth.weekDayLabels.map( dayLabel => {
@@ -152,27 +151,27 @@ function CalendarMonth (props) {
                         })
                     }
                     </div>
-                    
+
                     {
                         state.calendarMonth.monthDays.map((week, weekNum) => {
                             return(
                                 <div className={styles['week']} key={weekNum}>
                                     {
                                         week.map( (monthDay, index) => {
-        
+
                                             let dayDate = {year: monthDay.year, month: monthDay.month, day: monthDay.day};
-        
+
                                             return(
                                                 <CalendarMonthDay
                                                     key={monthDay.id}
-                                                    csrfToken={state.csrfToken}  
+                                                    csrfToken={state.csrfToken}
                                                     id={monthDay.id}
                                                     dayUrl={monthDay.dayUrl}
                                                     day={monthDay.day}
                                                     dayDate={dayDate}
                                                     isToday={monthDay.isToday}
                                                     status={monthDay.status}
-        
+
                                                     onDayChange={appCtx.onDayChange}
                                                     onDayDisplay={appCtx.onDayDisplay}
                                                     onMonthDisplay={appCtx.onMonthDisplay}
@@ -183,20 +182,20 @@ function CalendarMonth (props) {
                             );
                         })
                     }
-                    
+
                 </div>
             );
         }
         else {
             return(<div></div>);
         }
-        
+
 
     }
     else {
         return(<p className={styles['month']}>Loading...</p>);
     }
-    
+
 }
 
 export default CalendarMonth;

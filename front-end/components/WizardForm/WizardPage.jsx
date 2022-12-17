@@ -7,12 +7,20 @@ function WizardPage(props) {
 
     const formCtx = useContext(WizardFormContext);
 
+    let isPageOn = props.pageNum === formCtx.currentPage;
+
     return (
-        <React.Fragment>
-            {props.children}
-            <div className={styles['nav-buttons']}>
-                <button onClick={formCtx.onLastPage}>Last</button>
-                <button onClick={formCtx.onNextPage}>Next</button>
+        <React.Fragment >
+            <div className={styles['form-page']} style={isPageOn ? null : {display: "none"}}>
+                <div className={styles['page-title']} > {props.title} </div>
+                {props.children}
+                <div className={styles['nav-buttons']}>
+                    <button onClick={formCtx.onLastPage}>Last</button>
+                    { !props.submit ?
+                        <button onClick={formCtx.onNextPage}>Next</button> :
+                        <button onClick={formCtx.onFormSubmit}>Submit</button>
+                    }
+                </div>
             </div>
         </React.Fragment>
     );

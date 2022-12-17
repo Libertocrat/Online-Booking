@@ -26,7 +26,7 @@ export const AppContextProvider = (props) => {
     });
 
     useEffect(() => {
-        
+
         // Get initial context from backend
         const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
 
@@ -34,7 +34,7 @@ export const AppContextProvider = (props) => {
         const today = new Date();
         let day = today.getDate();
         let month = today.getMonth() + 1; // Month number starts on 0 for January
-        let year = today.getFullYear(); 
+        let year = today.getFullYear();
 
         setState((prevState) => {
             return { ...prevState,
@@ -43,7 +43,7 @@ export const AppContextProvider = (props) => {
                 showDay: {year: year, month: month, day: day}
             }
         });
-        
+
     }, []);
 
     const dayChangeHandler = (dayDate) => {
@@ -117,7 +117,7 @@ export const AppContextProvider = (props) => {
             return { ...prevState,
                 displayWizard: true
             }
-        }); 
+        });
     };
 
     const hideWizardHandler = () => {

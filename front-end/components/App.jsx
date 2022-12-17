@@ -31,32 +31,28 @@ function App(props) {
             <div className={styles['calendar-button']}>
                 <Button icon="event_available" onClickHandler={appCtx.onShowWizard}/>
             </div>
-            
+
             {/* Booking wizard */}
             <Modal display={appCtx.displayWizard} onClickHandler={appCtx.onHideWizard}>
                 <WizardForm title="Booking form" displayWizard={true} csrfToken={appCtx.csrfToken}>
-                    <WizardPage pageName="Service selection">
-                        <div>Select your service:</div>
-                        <SelectField options={services} />
-                        
+                    <WizardPage pageNum={1} pageName="Service selection" title="Select your service:">
+                        <SelectField options={services} name="service" required={true}/>
                     </WizardPage>
-                    <WizardPage pageName="Time Block selection">
+                    <WizardPage pageNum={2} pageName="Time Block selection">
                         <CalendarMonth />
                         <CalendarDay />
                     </WizardPage>
-                    <WizardPage pageName="Enter name">
-                        <div>What's your name?:</div>
+                    <WizardPage pageNum={3} pageName="Enter name" title="What's your name?:">
                         <InputField type="text" name="name" placeholder="Your name"  required={true}/>
                     </WizardPage>
-                    <WizardPage pageName="Enter mobile">
-                        <div>What's your phone number?:</div>
+                    <WizardPage pageNum={4} pageName="Enter mobile" title="What's your phone number?:">
                         <InputField type="tel" name="phone" placeholder="+1 111 111 1111"  required={true}/>
                     </WizardPage>
-                    <WizardPage pageName="Summary & Submit"><div>Page 5</div></WizardPage>
-                    <WizardPage pageName="Confirmation"><div>Finish</div></WizardPage>
+                    <WizardPage pageNum={5} pageName="Summary & Submit" title="Page 5"></WizardPage>
+                    <WizardPage pageNum={6} pageName="Confirmation" title="Finish" submit={true}></WizardPage>
                 </WizardForm>
             </Modal>
-            
+
         </React.Fragment>
     );
 }
