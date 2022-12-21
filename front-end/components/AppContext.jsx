@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 
 const AppContext = React.createContext({
     csrfToken: '',
+    serviceId: '',
     showMonth: {year: '', month: ''},
     showDay: {year: '', month: '', day: ''},
     displayWizard: false,
-    onDayChange: (dayDate) => {}, // Dummy functions added here, just for better IDE autocompletion
+    onServiceChange: (serviceId) => {}, // Dummy functions added here, just for better IDE autocompletion
+    onDayChange: (dayDate) => {},
     onMonthChange: (monthDate) => {},
     onDayDisplay: (display) => {},
     onMonthDisplay: (display) => {},
@@ -18,6 +20,7 @@ export const AppContextProvider = (props) => {
     // App wide global states
     const [state, setState] = useState({
         csrfToken: '',
+        serviceId: '',
         showMonth: {year: '', month: ''},
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
@@ -39,12 +42,25 @@ export const AppContextProvider = (props) => {
         setState((prevState) => {
             return { ...prevState,
                 csrfToken: csrfToken,
+                serviceId: '',
                 showMonth: {year: year, month: month},
                 showDay: {year: year, month: month, day: day}
             }
         });
 
     }, []);
+
+    // Updates current service Id, when a new one is selected
+    const serviceChangeHandler = (serviceId) => {
+
+        setState((prevState) => {
+            return { ...prevState,
+                serviceId: serviceId
+            }
+        });
+
+        console.log("New service chosen with id: "+serviceId);
+    };
 
     const dayChangeHandler = (dayDate) => {
 
@@ -133,10 +149,12 @@ export const AppContextProvider = (props) => {
     const context = {
         csrfToken: state.csrfToken,
         displayWizard: state.displayWizard,
+        serviceId: state.serviceId,
         showDay: state.showDay,
         displayDay: state.displayDay,
         showMonth: state.showMonth,
         displayMonth: state.displayMonth,
+        onServiceChange: serviceChangeHandler,
         onDayChange: dayChangeHandler,
         onMonthChange: monthChangeHandler,
         onDayDisplay: dayDisplayHandler,

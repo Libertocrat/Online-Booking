@@ -2,13 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./TimeBlock.module.scss";
 
 import GlobalContext from "../AppContext.jsx";
-import {WizardFormContext} from "../WizardForm/WizardForm.jsx";
 
 function TimeBlock (props) {
 
     // Get global context variables
     const globalCtx = useContext(GlobalContext);
-    const formCtx = useContext(WizardFormContext);
 
     const [state, setState] = useState({
         status: props.status,
@@ -56,13 +54,7 @@ function TimeBlock (props) {
     function onClickHandler(event) {
 
         if (props.status === "active") {
-            const hours = `${props.startHour} - ${props.endHour}`;
-            //alert("Available for booking: " + hours);
-
-            // Send booking request to server (TEST for now)
-            const data = {dayDate: props.dayDate, startHour: props.startHour, endHour: props.endHour, serviceId: '1'};
-            formCtx.onDataChange("timeblock", data);
-            //requestAppointment(data);
+            props.onTimeBlockClick(props.id);
         }
         else {
             alert("This hour is unavailable for booking");

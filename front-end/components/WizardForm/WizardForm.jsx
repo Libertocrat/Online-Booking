@@ -10,8 +10,12 @@ export const WizardFormContext = React.createContext({
     currentPage: '',
     currentContent: '',
     maxPages: '',
+    isFieldValid: {},
+    isPageValid: [],
     formData: {},
     onDataChange: (name, value) => {},
+    onFieldValidate: (fieldName, isValid) => {},
+    onPageValidate: (pageNum, isValid) => {},
     onLastPage: () => {},
     onNextPage: () => {},
     onFormSubmit: () => {},
@@ -30,6 +34,8 @@ function WizardForm(props) {
         currentPage: '',
         currentContent: '',
         maxPages: '',
+        isFieldValid: {},
+        isPageValid: [],
         formData: {}
     });
 
@@ -40,6 +46,7 @@ function WizardForm(props) {
 
         let maxPages = arrayChildren.length;
         let currentContent = arrayChildren[0];
+        let isPageValid = Array(maxPages).fill(false);
 
         setState((prevState) => {
             return { ...prevState,
@@ -48,7 +55,8 @@ function WizardForm(props) {
                 displayWizard: props.displayWizard,
                 currentPage: 1,
                 currentContent: currentContent,
-                maxPages: maxPages
+                maxPages: maxPages,
+                isPageValid: isPageValid
             }
         });
 
@@ -65,6 +73,28 @@ function WizardForm(props) {
 
         //alert(key +" : "+value);
         console.log("Form Data: " + state.formData);
+    }
+
+    const onPageValidateHandler = (pageNum, isValid) => {
+
+        const isPageValid = state.isPageValid;
+        isPageValid[pageNum - 1] = isValid;
+
+        setState((prevState) => {
+            return { ...prevState,
+                isPageValid: isPageValid
+            }
+        });
+    }
+
+    // Updates the validation status for the field with name "fieldName"
+    const onFieldValidateHandler = (fieldName, isValid) => {
+
+        setState((prevState) => {
+            return { ...prevState,
+                isFieldValid: {...prevState.isFieldValid, [fieldName]:isValid}
+            }
+        });
     }
 
     const onLastPageHandler = () => {
@@ -150,8 +180,12 @@ function WizardForm(props) {
         currentPage: state.currentPage,
         currentContent: state.currentContent,
         maxPages: state.maxPages,
+        isFieldValid: state.isFieldValid,
+        isPageValid: state.isPageValid,
         formData: state.formData,
         onDataChange: onDataChangeHandler,
+        onFieldValidate: onFieldValidateHandler,
+        onPageValidate: onPageValidateHandler,
         onLastPage: onLastPageHandler,
         onNextPage: onNextPageHandler,
         onFormSubmit: onFormSubmitHandler

@@ -197,54 +197,6 @@ body {
   color: var(--color-grey-light-1);
   font-size: 1rem;
 }
-/*!**************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/WizardForm/WizardForm.module.scss ***!
-  \**************************************************************************************************************************************************************************************/
-.Dlqe5HcBFTqWiwEn58Pu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: 600px;
-  min-height: 600px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #ddd, #bbb);
-}
-
-.oWPcsWWQbjdsTSzOPChT {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.YNfISccLpMPgAIMPDKLq {
-  font-size: 24px;
-  padding: 8px 0;
-}
-
-input, select {
-  font-size: 16px;
-  height: 30px;
-  border-radius: 5px;
-}
-
-button {
-  min-width: 50px;
-  height: 30px;
-  margin: 16px;
-}
-/*!******************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Button/Button.module.scss ***!
-  \******************************************************************************************************************************************************************************/
-.iRp4nABkpjjEuQhubJvZ {
-  padding: 1rem;
-  font-size: 48px;
-  color: white;
-  background-image: linear-gradient(to right bottom, green, lightgreen);
-  border-radius: 50%;
-  cursor: pointer;
-}
 /*!*************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Calendar/CalendarDay.module.scss ***!
   \*************************************************************************************************************************************************************************************/
@@ -292,6 +244,54 @@ button {
   flex-grow: 1;
   max-width: 500px;
   min-height: 600px;
+}
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/WizardForm/WizardForm.module.scss ***!
+  \**************************************************************************************************************************************************************************************/
+.Dlqe5HcBFTqWiwEn58Pu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 600px;
+  min-height: 600px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ddd, #bbb);
+}
+
+.oWPcsWWQbjdsTSzOPChT {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.YNfISccLpMPgAIMPDKLq {
+  font-size: 24px;
+  padding: 8px 0;
+}
+
+input, select {
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+button {
+  min-width: 50px;
+  height: 30px;
+  margin: 16px;
+}
+/*!******************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Button/Button.module.scss ***!
+  \******************************************************************************************************************************************************************************/
+.iRp4nABkpjjEuQhubJvZ {
+  padding: 1rem;
+  font-size: 48px;
+  color: white;
+  background-image: linear-gradient(to right bottom, green, lightgreen);
+  border-radius: 50%;
+  cursor: pointer;
 }
 /*!****************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[0].use[1]!./node_modules/sass-loader/dist/cjs.js!./front-end/components/Modal/Modal.module.scss ***!

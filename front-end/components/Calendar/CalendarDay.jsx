@@ -3,11 +3,15 @@ import TimeBlock from "./TimeBlock.jsx";
 import styles from "./CalendarDay.module.scss";
 
 import AppContext from "../AppContext.jsx";
+import {WizardFormContext} from "../WizardForm/WizardForm.jsx";
 
 function CalendarDay (props) {
 
     // Get global context variables
     const appCtx = useContext(AppContext);
+
+    // Wizard form context
+    const formCtx = useContext(WizardFormContext);
 
     // CalendarDay states
     const [state, setState] = useState({
@@ -34,6 +38,9 @@ function CalendarDay (props) {
         });
         //loadDay(props.showDay);
 
+        // Reset validation status on day change
+        formCtx.onFieldValidate(props.name, false);
+
     }, []);
 
     // This will run when new day data is passed through props
@@ -48,6 +55,10 @@ function CalendarDay (props) {
             const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
             // Update day from API request url
             requestDay(dayUrl);
+
+            // Reset timeblock value & validation status on day change
+            formCtx.onDataChange(props.name, "");
+            formCtx.onFieldValidate(props.name, false);
         }
 
     }, [appCtx.showDay]);
@@ -60,8 +71,6 @@ function CalendarDay (props) {
             }
         });
 
-        console.log("Display changed: " + state.display + ". Global ctx display: " + appCtx.displayDay);
-
     }, [appCtx.displayDay]);
 
     const dayTitle = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
@@ -71,6 +80,10 @@ function CalendarDay (props) {
 
         // Update requested day, from API url
         requestDay(dayUrl);
+
+        // Reset timeblock value & validation status on day change
+        formCtx.onDataChange(props.name, "");
+        formCtx.onFieldValidate(props.name, false);
     }
 
     // Display monthly calendar & hide day calendar, after clicking on day title
@@ -79,6 +92,23 @@ function CalendarDay (props) {
         //Hide day calendar (this component) & show monthly calendar
         appCtx.onDayDisplay(false);
         appCtx.onMonthDisplay(true);
+    }
+
+    function timeBlockClickHandler(timeBlockId) {
+
+        // Search for the clicked timeblock by Id
+        const timeBlockById = state.timeBlocks.filter((timeBlock) => {return(timeBlock.id === timeBlockId);});
+
+        if (timeBlockById.length > 0 && timeBlockById[0].status ==="active") {
+
+            const selectedTimeBlock = {dayDate: state.dayDate, ...timeBlockById[0]};
+            //const timeBlock = {dayDate: selectedTimeBlock.dayDate, startHour: selectedTimeBlock.startHour, endHour: selectedTimeBlock.endHour, serviceId: '1'};
+
+            // Lift selected timeblock up into Form Context
+            formCtx.onDataChange(props.name, selectedTimeBlock);
+            // Lift timeblock validation status up into Form Context
+            formCtx.onFieldValidate(props.name, true);
+        }
     }
 
     function requestDay(dayUrl) {
@@ -160,6 +190,8 @@ function CalendarDay (props) {
                                     relHeight={timeBlock.relHeight}
                                     startHour={timeBlock.startHour}
                                     endHour={timeBlock.endHour}
+
+                                    onTimeBlockClick={timeBlockClickHandler}
                                 />);
                             })
                     }
