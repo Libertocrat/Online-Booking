@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./WizardForm.module.scss";
 
+import SuccessPage from "./SuccessPage.jsx";
+import ErrorPage from "./ErrorPage.jsx";
 import Button from "../Button/Button.jsx";
 
 export const WizardFormContext = React.createContext({
@@ -8,10 +10,11 @@ export const WizardFormContext = React.createContext({
     submitUrl: '',
     displayWizard: '',
     currentPage: '',
-    currentContent: '',
+    responseStatus: '',
     maxPages: '',
     isFieldValid: {},
     isPageValid: [],
+    isFormReady: false,
     formData: {},
     onDataChange: (name, value) => {},
     onFieldValidate: (fieldName, isValid) => {},
@@ -19,7 +22,7 @@ export const WizardFormContext = React.createContext({
     onLastPage: () => {},
     onNextPage: () => {},
     onFormSubmit: () => {},
-    onSubmitConfirmation: () => {},
+    onFormReset: () => {},
     onShowWizard: () => {},
     onHideWizard: () => {}
 });
@@ -32,10 +35,11 @@ function WizardForm(props) {
         submitUrl: '',
         displayWizard: '',
         currentPage: '',
-        currentContent: '',
+        responseStatus: '',
         maxPages: '',
         isFieldValid: {},
         isPageValid: [],
+        isFormReady: false,
         formData: {}
     });
 
@@ -56,11 +60,37 @@ function WizardForm(props) {
                 currentPage: 1,
                 currentContent: currentContent,
                 maxPages: maxPages,
-                isPageValid: isPageValid
+                isPageValid: isPageValid,
+                isFormReady: false
             }
         });
 
     }, []);
+
+    // Check if form is ready to be submitted
+    useEffect(() => {
+
+        // Check if all fields are valid
+        const fieldsStatus = Object.values(state.isFieldValid);
+
+        // If all fields are valid, the form is ready to be submitted
+        let isFormReady = true;
+        if (fieldsStatus.length > 0) {
+
+            fieldsStatus.forEach((fieldStat) => {
+                isFormReady = isFormReady && fieldStat;
+            });
+        }
+        else {
+            isFormReady = false;
+        }
+
+        setState((prevState) => {
+            return { ...prevState,
+            isFormReady: isFormReady};
+        });
+
+    }, [state.isFieldValid]);
 
     // Updates the value of the attribute with name "key", in the form data object
     const onDataChangeHandler = (key, value) => {
@@ -165,12 +195,42 @@ function WizardForm(props) {
                 console.log("Reservation request response recieved from API :");
                 console.log(result.message);
                 console.log(result.body);
+
+                // Display "SUCCESS PAGE" and hide form pages
+                setState((prevState) => {
+                    return {
+                        ...prevState,
+                        currentPage: '',
+                        responseStatus: 'success'};
+                });
             },
             (error) => {
                 //handlePostError(error);  // error handling
                 console.log(error);
+
+                // Display "ERROR PAGE" and hide form pages
+                setState((prevState) => {
+                    return {
+                        ...prevState,
+                        currentPage: '',
+                        responseStatus: 'error'};
+                });
             }
         );
+    }
+
+    // Resets all form fields into their default values, and changes to the 1st page
+    // Triggered after closing a response page (Success or Error)
+    const onFormResetHandler = () => {
+
+        // Go to page 1 & reset response status
+        setState((prevState) => {
+            return {
+                ...prevState,
+                currentPage: 1,
+                responseStatus: ''
+            };
+        });
     }
 
     const context = {
@@ -178,17 +238,20 @@ function WizardForm(props) {
         submitUrl: '',
         displayWizard: state.displayWizard,
         currentPage: state.currentPage,
-        currentContent: state.currentContent,
+        responseStatus: state.responseStatus,
         maxPages: state.maxPages,
         isFieldValid: state.isFieldValid,
         isPageValid: state.isPageValid,
+        isFormReady: state.isFormReady,
         formData: state.formData,
         onDataChange: onDataChangeHandler,
         onFieldValidate: onFieldValidateHandler,
         onPageValidate: onPageValidateHandler,
         onLastPage: onLastPageHandler,
         onNextPage: onNextPageHandler,
-        onFormSubmit: onFormSubmitHandler
+        onFormSubmit: onFormSubmitHandler,
+        onFormReset: onFormResetHandler,
+        onHideWizard: props.onHideWizard
     };
 
     return(
@@ -198,6 +261,8 @@ function WizardForm(props) {
             <div className={styles['wizard-form']}>
                 {/* Each children is a WizardPage, they have their own wrapper */}
                 {props.children}
+                <SuccessPage />
+                <ErrorPage />
             </div>
         </WizardFormContext.Provider>
     );

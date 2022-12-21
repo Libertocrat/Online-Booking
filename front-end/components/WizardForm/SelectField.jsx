@@ -49,7 +49,10 @@ function SelectField(props) {
         });
 
         // Lift the new value up into Form Context
-        formCtx.onDataChange(props.name, event.target.value);
+        formCtx.onDataChange(props.name+"-value", event.target.value);
+        // Lift the new value up into Form Context
+        const optionLabel = event.target.options[event.target.selectedIndex].text;
+        formCtx.onDataChange(props.name+"-label", optionLabel);
 
         // Lift the new value up into App Context
         props.onDataChange(event.target.value);

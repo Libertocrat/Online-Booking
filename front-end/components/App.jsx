@@ -11,6 +11,7 @@ import WizardForm from "./WizardForm/WizardForm.jsx";
 import WizardPage from "./WizardForm/WizardPage.jsx";
 import InputField from "./WizardForm/InputField.jsx";
 import SelectField from "./WizardForm/SelectField.jsx";
+import SummaryPage from "./WizardForm/SummaryPage.jsx";
 
 function App(props) {
 
@@ -35,13 +36,18 @@ function App(props) {
 
             {/* Booking wizard */}
             <Modal display={appCtx.displayWizard} onClickHandler={appCtx.onHideWizard}>
-                <WizardForm title="Booking form" displayWizard={true} csrfToken={appCtx.csrfToken}>
+                <WizardForm
+                    title="Booking form"
+                    displayWizard={true}
+                    csrfToken={appCtx.csrfToken}
+                    onHideWizard={appCtx.onHideWizard}
+                >
                     <WizardPage pageNum={1} pageName="Service selection" title="Select your service:">
                         <SelectField options={services} name="service" required={true} onDataChange={appCtx.onServiceChange}/>
                     </WizardPage>
                     <WizardPage pageNum={2} pageName="Time Block selection">
                         <CalendarMonth />
-                        <CalendarDay name="timeblock"/>
+                        <CalendarDay name="timeblock" required={true}/>
                     </WizardPage>
                     <WizardPage pageNum={3} pageName="Enter name" title="What's your name?:">
                         <InputField type="text" name="name" placeholder="Your name"  required={true}/>
@@ -49,8 +55,9 @@ function App(props) {
                     <WizardPage pageNum={4} pageName="Enter mobile" title="What's your phone number?:">
                         <InputField type="tel" name="phone" placeholder="+1 111 111 1111"  required={true}/>
                     </WizardPage>
-                    <WizardPage pageNum={5} pageName="Summary & Submit" title="Summary & Submit" submit={true}></WizardPage>
-                    <WizardPage pageNum={6} pageName="Confirmation" title="Confirmation" ></WizardPage>
+                    <WizardPage pageNum={5} pageName="Summary & Submit" title="Please confirm your request & submit:" submit={true}>
+                        <SummaryPage />
+                    </WizardPage>
                 </WizardForm>
             </Modal>
 

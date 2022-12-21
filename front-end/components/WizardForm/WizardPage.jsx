@@ -47,7 +47,6 @@ function WizardPage(props) {
 
             if (child.props.name) {
 
-                console.log("Child name: "+child.props.name);
                 let isFieldValid = formCtx.isFieldValid[child.props.name];
                 if (isFieldValid != true) {
                     return (false);
@@ -64,7 +63,7 @@ function WizardPage(props) {
     let leftButton =   isLastOn ? <button type="button" onClick={formCtx.onLastPage}>Last</button> : null;
     let rightButton =  !props.submit ?
         <button type="button" disabled={!state.isValid} onClick={formCtx.onNextPage}>Next</button> :
-        <button type="button" disabled={!state.isValid} onClick={formCtx.onFormSubmit}>Submit</button>;
+        <button type="button" disabled={!formCtx.isFormReady} onClick={formCtx.onFormSubmit}>Submit</button>;
 
     return (
         <React.Fragment >
