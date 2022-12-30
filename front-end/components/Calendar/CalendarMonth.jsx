@@ -82,7 +82,7 @@ function CalendarMonth (props) {
                 'Content-Type': 'application/json'
               }/*,
             body: JSON.stringify({
-                data: data,
+                data: {service_id : formCtx.formData.service-value},
             })*/
           }
         )

@@ -38,7 +38,8 @@ function CalendarDay (props) {
         });
         //loadDay(props.showDay);
 
-        // Reset validation status on day change
+        // Reset timeblock value & validation status on first render
+        formCtx.onDataChange(props.name, "");
         formCtx.onFieldValidate(props.name, false);
 
     }, []);
@@ -53,15 +54,50 @@ function CalendarDay (props) {
         if(isNotEmpty && !isEqual) {
 
             const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
-            // Update day from API request url
-            requestDay(dayUrl);
+
+            if (appCtx.serviceId != "") {
+                // Update day from API request url
+                requestDay(dayUrl);
+            }
 
             // Reset timeblock value & validation status on day change
             formCtx.onDataChange(props.name, "");
             formCtx.onFieldValidate(props.name, false);
         }
 
-    }, [appCtx.showDay]);
+    }, [appCtx.showDay, appCtx.serviceId]);
+
+    // This runs when the selected service changes
+    useEffect(() => {
+
+        const isNotEmpty = appCtx.showDay.year != '' && appCtx.showDay.month != '' && appCtx.showDay.day != '';
+
+        if (appCtx.serviceId != "" && isNotEmpty) {
+
+            // Update day from API request url
+            const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
+            requestDay(dayUrl);
+        }
+        /*
+        const isEqual = state.dayDate.year == appCtx.showDay.year && state.dayDate.month == appCtx.showDay.month
+                         && state.dayDate.day == appCtx.showDay.day;
+
+         if(isNotEmpty && !isEqual) {
+
+             const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
+
+             if (appCtx.serviceId != "") {
+                 // Update day from API request url
+                 requestDay(dayUrl);
+             }
+
+             // Reset timeblock value & validation status on day change
+             formCtx.onDataChange(props.name, "");
+             formCtx.onFieldValidate(props.name, false);
+         }
+         */
+
+     }, [appCtx.serviceId]);
 
     useEffect(() => {
 
@@ -72,6 +108,21 @@ function CalendarDay (props) {
         });
 
     }, [appCtx.displayDay]);
+
+    // Set time block default value if Form is reset
+    useEffect(() => {
+
+        const defValue = '';
+
+        // If form has been submitted, reset the field value
+        if (formCtx.isFormSubmitted) {
+
+            // Reset timeblock value & validation status
+            formCtx.onDataChange(props.name, "");
+            formCtx.onFieldValidate(props.name, false);
+        }
+
+    }, [formCtx.isFormSubmitted]);
 
     const dayTitle = `${state.weekDay}, ${state.monthName} ${state.day}, ${state.year}`
 
@@ -104,10 +155,26 @@ function CalendarDay (props) {
             const selectedTimeBlock = {dayDate: state.dayDate, ...timeBlockById[0]};
             //const timeBlock = {dayDate: selectedTimeBlock.dayDate, startHour: selectedTimeBlock.startHour, endHour: selectedTimeBlock.endHour, serviceId: '1'};
 
-            // Lift selected timeblock up into Form Context
-            formCtx.onDataChange(props.name, selectedTimeBlock);
-            // Lift timeblock validation status up into Form Context
-            formCtx.onFieldValidate(props.name, true);
+            // Check if a Time Block was already selected
+            let currentTimeBlock = {id: ''};
+            if (formCtx.formData.hasOwnProperty(props.name) && formCtx.formData[props.name] != "") {
+                currentTimeBlock = formCtx.formData[props.name];
+            }
+
+            // If time block was already selected, unselected it, otherwise update it in the Form
+            if (selectedTimeBlock.id != currentTimeBlock.id) {
+                // Lift selected timeblock up into Form Context
+                formCtx.onDataChange(props.name, selectedTimeBlock);
+                // Lift timeblock validation status up into Form Context
+                formCtx.onFieldValidate(props.name, true);
+            }
+            else {
+                // Reset time block
+                formCtx.onDataChange(props.name, "");
+                // Lift timeblock validation status up into Form Context
+                formCtx.onFieldValidate(props.name, false);
+            }
+
         }
     }
 
@@ -122,10 +189,10 @@ function CalendarDay (props) {
             headers: {
                 'X-CSRFToken': appCtx.csrfToken,
                 'Content-Type': 'application/json'
-              }/*,
+              },
             body: JSON.stringify({
-                data: data,
-            })*/
+                data: {service_id : appCtx.serviceId},
+            })
           }
         )
         .then(response => response.json())
@@ -181,6 +248,14 @@ function CalendarDay (props) {
                 <div className={styles['time-block-wrap']}>
                     {
                         state.timeBlocks.map( (timeBlock, index) => {
+
+                            // Check if current time block is selected
+                            let isSelected = false;
+                            if ( formCtx.formData.hasOwnProperty(props.name) && formCtx.formData[props.name] != "") {
+                                const selTimeBlock = formCtx.formData[props.name];
+                                isSelected = selTimeBlock.id === timeBlock.id;
+                            }
+
                             return(
                                 <TimeBlock
                                     key={timeBlock.id}
@@ -190,6 +265,7 @@ function CalendarDay (props) {
                                     relHeight={timeBlock.relHeight}
                                     startHour={timeBlock.startHour}
                                     endHour={timeBlock.endHour}
+                                    selected={isSelected}
 
                                     onTimeBlockClick={timeBlockClickHandler}
                                 />);

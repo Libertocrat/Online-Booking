@@ -2,7 +2,9 @@ import React, {useState, useEffect} from "react";
 
 const AppContext = React.createContext({
     csrfToken: '',
+    business: '',
     serviceId: '',
+    services: [],
     showMonth: {year: '', month: ''},
     showDay: {year: '', month: '', day: ''},
     displayWizard: false,
@@ -20,7 +22,9 @@ export const AppContextProvider = (props) => {
     // App wide global states
     const [state, setState] = useState({
         csrfToken: '',
+        business: '',
         serviceId: '',
+        services: [],
         showMonth: {year: '', month: ''},
         displayMonth: true,
         showDay: {year: '', month: '', day: ''},
@@ -30,8 +34,12 @@ export const AppContextProvider = (props) => {
 
     useEffect(() => {
 
-        // Get initial context from backend
+        // Get CSRF Token published by the backend
         const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+
+        // Get initial context from backend
+        const pageContext = JSON.parse(document.getElementById('page-context').textContent);
+        console.log(pageContext);
 
         // Set calendar day to today's date & calendar month to current month
         const today = new Date();
@@ -42,7 +50,9 @@ export const AppContextProvider = (props) => {
         setState((prevState) => {
             return { ...prevState,
                 csrfToken: csrfToken,
+                business: pageContext.business,
                 serviceId: '',
+                services: pageContext.services,
                 showMonth: {year: year, month: month},
                 showDay: {year: year, month: month, day: day}
             }
@@ -148,8 +158,10 @@ export const AppContextProvider = (props) => {
 
     const context = {
         csrfToken: state.csrfToken,
+        business: state.business,
         displayWizard: state.displayWizard,
         serviceId: state.serviceId,
+        services: state.services,
         showDay: state.showDay,
         displayDay: state.displayDay,
         showMonth: state.showMonth,

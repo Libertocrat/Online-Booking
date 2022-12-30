@@ -1,13 +1,46 @@
 from django.shortcuts import render
 from django.urls import reverse # User added
 from django.http import JsonResponse # User added
+from django.core.exceptions import ValidationError # User added: manage model fields validation errors
 import json # User added
 import datetime # User added
 import calendar # User added
+import pytz # Manage time zones
+import eventcalendar.helpers as h # User custom helper functions
+
+# MODEL IMPORTS
+from .models import User, Business, Service, Customer, Appointment
 
 # Create your views here.
 
+def index(request):
+
+    # Prepare initial context
+    business = Business.objects.get(pk=1)
+    time_zone = pytz.timezone(business.time_zone) # Business local time zone
+    now = datetime.datetime.now(tz=time_zone)
+
+    service_list = Service.objects.filter(business=business)
+    services = [{"value": "", "name": "-- Please choose a service --"}]
+    for service in service_list:
+        services.append({"value": service.pk, "name": service.name + " - $"+str(service.price)})
+
+    business_data = {
+        "name": business.name,
+        "tagline": business.tagline,
+        "phone": business.phone,
+        "timeZone": business.time_zone,
+        "now": str(now) }
+    page_context = { "services": services, "business": business_data}
+
+    return render(request, "index.html", {
+        "page_context": page_context
+    })
+
 def calendar_month(request, year, month):
+
+    # Get business object
+    business = Business.objects.get(pk=1)
 
     # Build calendar for requested month
     first_of_month = datetime.date(year,month,1)
@@ -53,16 +86,16 @@ def calendar_month(request, year, month):
             date = str(date_day) + str(date_month) + str(date_year)
             weekday = day.strftime("%a")
             weekday_num = day.strftime("%w")
-            status = "active" if (day >= today and int(weekday_num) != 0) else "inactive"
+            status = "active" if (day >= today and (int(weekday_num) != 0 or business.open_on_sunday)) else "inactive"
             is_today = (day == today)
-            calendar_day_url = reverse("eventcalendar:calendar_day", 
+            calendar_day_url = reverse("eventcalendar:calendar_day",
                                 kwargs={"year" : int(date_year), "month" : int(date_month), "day" : int(date_day) })
 
             # Create & add current day object
             calendar_day = {"id": id, "dayUrl" : calendar_day_url, "weekNum": week_num, "date": date, "day": date_day, "month": date_month, "year": date_year, "weekDay": weekday, "weekDayNum": weekday_num, "status": status, "isToday": is_today}
             week_days.append(calendar_day)
             id = id + 1
-        
+
         # Add week into month calendar days object array
         month_calendar_days.append(week_days)
         week_num = 1
@@ -84,7 +117,12 @@ def calendar_month(request, year, month):
 
     if request.method == "POST":
 
-        response = {"success": True, "calendarMonth" : calendar_month}
+        try:
+            post_data = json.load(request)['data']
+        except:
+            post_data = ""
+
+        response = {"success": True, "calendarMonth" : calendar_month, "data": post_data}
         return JsonResponse(response);
        # return render(request, 'eventcalendar/calendarmonth.html', {
        #     "calendar_month" : calendar_month
@@ -97,20 +135,29 @@ def calendar_day(request, year, month, day):
 
     if request.method == "POST":
 
+        # Get requested service
+        try:
+            post_data = json.load(request)['data']
+            service_id = int(post_data['service_id'])
+        except:
+            post_data = ""
+            service_id = 1
+
         # Get requested day
         req_day =  datetime.date(year,month,day)
         day_date = {"year": year, "month": month, "day": day}
         last_day = req_day - datetime.timedelta(days=1)
-        last_day_url =  reverse("eventcalendar:calendar_day", 
-                                kwargs={"year" : int(last_day.strftime("%Y")), 
-                                "month" : int(last_day.strftime("%m")), 
+        last_day_url =  reverse("eventcalendar:calendar_day",
+                                kwargs={"year" : int(last_day.strftime("%Y")),
+                                "month" : int(last_day.strftime("%m")),
                                 "day" : int(last_day.strftime("%d")) })
         next_day = req_day + datetime.timedelta(days=1)
-        next_day_url =  reverse("eventcalendar:calendar_day", 
-                                kwargs={"year" : int(next_day.strftime("%Y")), 
-                                "month" : int(next_day.strftime("%m")), 
+        next_day_url =  reverse("eventcalendar:calendar_day",
+                                kwargs={"year" : int(next_day.strftime("%Y")),
+                                "month" : int(next_day.strftime("%m")),
                                 "day" : int(next_day.strftime("%d")) })
 
+        """
         # Assembly requested calendar day
         if req_day.strftime("%a") == "Sun":
             time_blocks = [
@@ -138,6 +185,9 @@ def calendar_day(request, year, month, day):
                 {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
                 {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
             ]
+        """
+
+        time_blocks = h.get_day_schedule(service_id, year, month, day)
 
         calendar_day = {
             "dayDate" : day_date,
@@ -160,19 +210,107 @@ def calendar_day(request, year, month, day):
 
 def request_appointment(request):
 
+    # The only allowed method is POST
     if request.method == "POST":
 
+        # Get posted data
         post_data = json.load(request)['data']
 
-        # date = post_data.date
-        # start_hour = post_data.startHour
-        # end_hour = post_data.endHour
-        # service_id = post_data.serviceId
+        # time-block: post_data.timeblock
+            # day = timeblock.dayDate
+            # start_hour = timeblock.startHour
+            # end_hour = timeblock.endHour
+            # status = timeblock.status (active, blocked or inactive)
+        # service_id = post_data.service-value
+        # customer.name = post_data.name
+        # customer.phone = post_data.phone
 
-        message = "The appointment request was successfully recieved"
-        response = {"success": True, "message": message, "body": post_data}
-        return JsonResponse(response)
+        try:
+            # GET POST INFO
+            customer_name = post_data['name']
+            customer_phone = post_data['phone']
+            service_id = int(post_data['service-value'])
+            time_block = post_data['timeblock']
+
+            day_date = time_block['dayDate']
+            day = datetime.date(day_date['year'],day_date['month'],day_date['day'])
+            start_hour = h.parse_time(time_block['startHour'],"%I:%M %p")
+            end_hour = h.parse_time(time_block['endHour'],"%I:%M %p")
+
+            # GET/CREATE RELATED MODELS
+
+            # Get business object
+            try:
+                business = h.get_main_business()
+            except:
+                # Respond with an error message and status
+                message = "No business was found. Please contact the administrator." + e
+                response = {"success": False, "message": message, "body": post_data}
+                return JsonResponse(response)
+
+            # Get service
+            try:
+                service = Service.objects.get(pk=service_id)
+            except:
+                # Respond with an error message and status
+                message = "Service with id=" + str(service_id) + " wasn't found"
+                response = {"success": False, "message": message, "body": post_data}
+                return JsonResponse(response)
+
+            # Create/update customer
+
+            # Check if there's already a customer with the entered phone number
+            customers = Customer.objects.filter(phone=customer_phone)
+
+            if len(customers) > 0:
+                # Get the first result (should be the only, since "phone" is a unique field)
+                customer = customers[0]
+                # Update customer name
+                customer.name = customer_name
+            else:
+                # Create a new customer, since no one has the entered phone
+                customer = Customer(name=customer_name, phone=customer_phone)
+
+            # Save/update customer
+            try:
+                # Check field validations
+                customer.full_clean()
+                customer.save()
+
+                # Add main business to customer's supplier list
+                customer.suppliers.add(business)
+            except ValidationError as e:
+                # Respond with an error message and status
+                message = "An error has ocurred:\n" + str(e)
+                response = {"success": False, "message": message, "body": post_data}
+                return JsonResponse(response)
+
+            # Create appointment
+            appointment = Appointment(service=service, customer=customer, business=business,
+            day=day, start_hour=start_hour, end_hour=end_hour,
+            service_name=service.name, service_price=service.price,
+            customer_phone=customer.phone, customer_name=customer.name)
+
+            # Save appointment
+            try:
+                # Check field validations
+                appointment.full_clean()
+                appointment.save()
+            except ValidationError as e:
+                # Respond with an error message and status
+                message = "An error has ocurred:\n" + str(e)
+                response = {"success": False, "message": message, "body": post_data}
+                return JsonResponse(response)
+
+            message = "Your request was successfully received.\nWe'll contact you very soon."
+            response = {"success": True, "message": message, "body": post_data}
+            return JsonResponse(response)
+
+        except:
+            message = "An error has ocurred, please contact the web administrator."
+            response = {"success": False, "message": message, "body": post_data}
+            return JsonResponse(response)
 
     else:
-        response = {"success": False, "message": "GET request isn't allowed on this endpoint, try POST"}
+        response = {"success": False, "message": "GET request isn't allowed on this endpoint, try POST."}
         return JsonResponse(response)

@@ -11,10 +11,12 @@ export const WizardFormContext = React.createContext({
     displayWizard: '',
     currentPage: '',
     responseStatus: '',
+    responseMessage: '',
     maxPages: '',
     isFieldValid: {},
     isPageValid: [],
     isFormReady: false,
+    isFormSubmitted: false,
     formData: {},
     onDataChange: (name, value) => {},
     onFieldValidate: (fieldName, isValid) => {},
@@ -36,10 +38,12 @@ function WizardForm(props) {
         displayWizard: '',
         currentPage: '',
         responseStatus: '',
+        responseMessage: '',
         maxPages: '',
         isFieldValid: {},
         isPageValid: [],
         isFormReady: false,
+        isFormSubmitted: false,
         formData: {}
     });
 
@@ -49,7 +53,6 @@ function WizardForm(props) {
         const arrayChildren = React.Children.toArray(props.children);
 
         let maxPages = arrayChildren.length;
-        let currentContent = arrayChildren[0];
         let isPageValid = Array(maxPages).fill(false);
 
         setState((prevState) => {
@@ -58,10 +61,10 @@ function WizardForm(props) {
                 submitUrl: props.submitUrl,
                 displayWizard: props.displayWizard,
                 currentPage: 1,
-                currentContent: currentContent,
                 maxPages: maxPages,
                 isPageValid: isPageValid,
-                isFormReady: false
+                isFormReady: false,
+                isFormSubmitted: false,
             }
         });
 
@@ -136,8 +139,7 @@ function WizardForm(props) {
 
             setState((prevState) => {
                 return { ...prevState,
-                    currentPage: newPageNumber,
-                    currentContent: content
+                    currentPage: newPageNumber
                 }
             });
 
@@ -154,8 +156,7 @@ function WizardForm(props) {
 
             setState((prevState) => {
                 return { ...prevState,
-                    currentPage: newPageNumber,
-                    currentContent: content
+                    currentPage: newPageNumber
                 }
             });
 
@@ -186,23 +187,34 @@ function WizardForm(props) {
                 //props.onDayChange(result.calendarDay);
                 //const calendarDay = result.calendarDay;
 
-
-                setState({
-                    ...state,
-                    status: 'blocked'
-                });
-
                 console.log("Reservation request response recieved from API :");
-                console.log(result.message);
-                console.log(result.body);
+                //console.log(result.message);
+                //console.log(result.body);
 
-                // Display "SUCCESS PAGE" and hide form pages
-                setState((prevState) => {
-                    return {
-                        ...prevState,
-                        currentPage: '',
-                        responseStatus: 'success'};
-                });
+                if(result.success) {
+                    // Display "SUCCESS PAGE" and trigger field reset (isFormSubmitted=true)
+                    setState((prevState) => {
+                        return {
+                            ...prevState,
+                            isFormSubmitted: true,
+                            currentPage: '',
+                            responseStatus: 'success',
+                            responseMessage: result.message
+                        };
+                    });
+                }
+                else {
+                    // Display "ERROR PAGE" and hide form pages
+                    setState((prevState) => {
+                        return {
+                            ...prevState,
+                            currentPage: '',
+                            responseStatus: 'error',
+                            responseMessage: result.message
+                        };
+                    });
+                }
+
             },
             (error) => {
                 //handlePostError(error);  // error handling
@@ -213,7 +225,9 @@ function WizardForm(props) {
                     return {
                         ...prevState,
                         currentPage: '',
-                        responseStatus: 'error'};
+                        responseStatus: 'error',
+                        responseMessage: result.message
+                    };
                 });
             }
         );
@@ -227,6 +241,7 @@ function WizardForm(props) {
         setState((prevState) => {
             return {
                 ...prevState,
+                isFormSubmitted: false,
                 currentPage: 1,
                 responseStatus: ''
             };
@@ -239,10 +254,12 @@ function WizardForm(props) {
         displayWizard: state.displayWizard,
         currentPage: state.currentPage,
         responseStatus: state.responseStatus,
+        responseMessage: state.responseMessage,
         maxPages: state.maxPages,
         isFieldValid: state.isFieldValid,
         isPageValid: state.isPageValid,
         isFormReady: state.isFormReady,
+        isFormSubmitted: state.isFormSubmitted,
         formData: state.formData,
         onDataChange: onDataChangeHandler,
         onFieldValidate: onFieldValidateHandler,
@@ -261,8 +278,8 @@ function WizardForm(props) {
             <div className={styles['wizard-form']}>
                 {/* Each children is a WizardPage, they have their own wrapper */}
                 {props.children}
-                <SuccessPage />
-                <ErrorPage />
+                <SuccessPage message={state.responseMessage}/>
+                <ErrorPage message={state.responseMessage}/>
             </div>
         </WizardFormContext.Provider>
     );

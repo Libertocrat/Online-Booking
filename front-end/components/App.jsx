@@ -17,19 +17,10 @@ function App(props) {
 
     const appCtx = useContext(AppContext);
 
-    // Added for test purposes. Services' list must be provided by backend server as initial app context
-    const services =[
-        {name:"--Please choose a service--", value: ''},
-        {name:"Hair Cut with Blow Dry", value: 0},
-        {name:"Mens Hair Cut", value: 1},
-        {name:"Formal Hair Design", value: 2},
-        {name:"Basic Tint", value: 3},
-        {name:"Conditioning Treatment", value: 4}
-    ];
-
     return(
         <React.Fragment>
-            <h1 className={styles['main-header']}>Online Booking App</h1>
+            <h1 className={styles['main-header']}>{appCtx.business.name}</h1>
+            <h2 className={styles['main-tagline']}>{appCtx.business.tagline}</h2>
             <div className={styles['calendar-button']}>
                 <Button icon="event_available" onClickHandler={appCtx.onShowWizard}/>
             </div>
@@ -43,17 +34,17 @@ function App(props) {
                     onHideWizard={appCtx.onHideWizard}
                 >
                     <WizardPage pageNum={1} pageName="Service selection" title="Select your service:">
-                        <SelectField options={services} name="service" required={true} onDataChange={appCtx.onServiceChange}/>
+                        <SelectField options={appCtx.services} name="service" default="" icon="verified" onDataChange={appCtx.onServiceChange}/>
                     </WizardPage>
                     <WizardPage pageNum={2} pageName="Time Block selection">
                         <CalendarMonth />
                         <CalendarDay name="timeblock" required={true}/>
                     </WizardPage>
                     <WizardPage pageNum={3} pageName="Enter name" title="What's your name?:">
-                        <InputField type="text" name="name" placeholder="Your name"  required={true}/>
+                        <InputField type="text" name="name" placeholder="Your name" default="" icon="person" validator={/^[a-z]{2,}/i}/>
                     </WizardPage>
                     <WizardPage pageNum={4} pageName="Enter mobile" title="What's your phone number?:">
-                        <InputField type="tel" name="phone" placeholder="+1 111 111 1111"  required={true}/>
+                        <InputField type="tel" name="phone" placeholder="(XXX) XXX-XXXX" default="" icon="phone_android" validator={/^\(\d{3}\)\s\d{3}-\d{4}$/}/>
                     </WizardPage>
                     <WizardPage pageNum={5} pageName="Summary & Submit" title="Please confirm your request & submit:" submit={true}>
                         <SummaryPage />

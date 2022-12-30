@@ -33,12 +33,17 @@ CSRF_TRUSTED_ORIGINS = ['https://libertocrat-code50-104396872-r4vv779jv2pj6q-800
 # Application definition
 
 INSTALLED_APPS = [
+    # User apps
+    'eventcalendar',
+    # Built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Other required apps (install with pip before running the server)
+    'pytz',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -130,3 +134,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+AUTH_USER_MODEL = "eventcalendar.User"

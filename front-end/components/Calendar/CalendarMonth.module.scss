@@ -14,6 +14,7 @@
     flex-wrap: nowrap;
 
     border-radius: 10px;
+    margin-bottom: 16px;
     //background-image:linear-gradient(to bottom, #ccc, #fff);
 }
 
@@ -25,7 +26,7 @@
     align-items: center;
     flex-wrap: nowrap;
 
-    padding: 0 2rem;
+    padding: 0;
 
     &__labels {
 

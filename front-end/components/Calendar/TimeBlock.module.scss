@@ -9,8 +9,9 @@
 
     //width: 10rem;
     //height: 2rem;
-    background-color: lightblue;
-    //padding: .5rem;
+    border-radius: 10px;
+
+    transition: all 0.5s ease-out;
 
     &.active {
         $background-color: green;
@@ -21,6 +22,11 @@
         &:hover {
             //background-color: var(--color-primary);
             background-color: lighten($background-color , 5%);
+        }
+
+        &.selected {
+            background-color: lighten($background-color , 10%);
+            border: 3px solid darken($background-color , 10%);
         }
     }
 

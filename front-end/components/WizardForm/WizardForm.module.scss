@@ -1,3 +1,7 @@
+$brand-orange: #ffa000;
+$brand-blue: #0095cb;
+$brand-green: #51bc05;
+
 .wizard-form {
     display: flex;
     flex-direction: column;
@@ -16,11 +20,166 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    & .page-title {
+        font-size: 24px;
+        padding: 8px 0;
+        color: #444;
+    }
+
+    & .page-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding-bottom: 32px;
+    }
 }
 
-.page-title {
-    font-size: 24px;
+
+.field-wrap {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
     padding: 8px 0;
+    position: relative;
+
+    & .icon {
+        position: absolute;
+        left: 8px;
+        font-size: 32px;
+        color: #777;
+        z-index: 1;
+
+        padding: 0;
+    }
+
+    & .input-field {
+        box-sizing: border-box;
+        padding-left: 40px;
+        min-width: 250px;
+        min-height: 40px;
+        border-radius: 10px;
+        z-index: 0;
+
+        color: #444;
+    }
+
+    & .select-field {
+        box-sizing: border-box;
+        padding-left: 48px;
+        min-width: 250px;
+        min-height: 40px;
+        border-radius: 10px;
+        z-index: 0;
+
+        //Test color
+        //background-color: #bbaaff;
+        background-color: #ddd;
+        color: #444;
+    }
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    & button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 20px;
+        color: #444;
+        font-size: 16px;
+        font-weight: 600;
+
+        transition: all .5s ease-out;
+    }
+
+    & .next, .back, .submit {
+        min-width: 50px;
+        min-height: 50px;
+        font-size: 16px;
+        padding: 16px;
+        margin: 8px 0;
+
+        &[disabled] {
+            background-color: #888;
+            color: #ccc;
+        }
+
+        &:hover {
+            filter: brightness(120%);
+        }
+    }
+
+    & .next, .submit {
+        align-self: flex-end;
+        background-color: $brand-green;
+    }
+
+    & .back {
+        align-self: flex-start;
+        background-color: $brand-orange;
+    }
+
+    & .submit {
+        background-color: $brand-blue;
+    }
+
+    & .icon {
+        font-size: 32px;
+    }
+}
+
+.summary-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    min-width: 250px;
+
+    margin: 16px 0;
+
+    & .summary-field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px 0;
+
+        font-size: 18px;
+        color: #444;
+
+        & .field-value {
+            padding-left: 16px;
+        }
+
+        &:hover {
+
+            & .icon {
+                filter: brightness(120%);
+            }
+        }
+    }
+
+    & .icon {
+        font-size: 40px;
+        //color: #777;
+        //color: #bbaaff;
+        color: $brand-blue;
+
+    }
 }
 
 .response-page {
@@ -31,25 +190,37 @@
     align-items: center;
     max-width: 100%;
 
-    .title {
+    & .title {
         font-size: 36px;
     }
 
-    .success-icon {
+    & .success-icon {
         color: green;
         font-size: 120px;
     }
 
-    .error-icon {
+    & .error-icon {
         color: red;
         font-size: 120px;
     }
 
-    .message {
+    & .message {
         white-space: pre-wrap;
         text-align: center;
         max-width: 50%;
         min-width: 300px;
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    & .nav-buttons {
+        justify-content: center;
+
+        & button {
+            min-width: 80px;
+            min-height: 40px;
+            border-radius: 10px;
+        }
     }
 }
 

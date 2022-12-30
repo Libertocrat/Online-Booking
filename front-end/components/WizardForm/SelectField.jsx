@@ -5,10 +5,13 @@ import {WizardFormContext} from "./WizardForm.jsx";
 function SelectField(props) {
 
     const formCtx = useContext(WizardFormContext);
+    // Default selected value. If no default is passed by props, it'll be set to an empty value
+    const defValue = props.default != undefined ? props.default : '';
 
     const [state,setState] = useState(
         {
-            value: '',
+            value: defValue,
+            defValue: defValue,
             isValid: false
         }
     );
@@ -28,6 +31,38 @@ function SelectField(props) {
 
     }, []);
 
+    // Set selector default value if Form is reset
+    useEffect(() => {
+
+        const defValue = state.defValue;
+
+        // Get default label
+        let defLabel = "";
+        const labels = props.options.filter((option) => {return(option.value === defValue);});
+        if (labels.length >0) {
+            defLabel = labels[0].name;
+        }
+
+
+        // If form has been submitted, reset the field value
+        if (formCtx.isFormSubmitted) {
+
+            // Update state with default values
+            setState((prevState) => {
+                return {
+                    ...prevState,
+                    value: defValue,
+                    isValid: false
+                };
+            });
+
+            // Reset timeblock value & validation status
+            formCtx.onDataChange(props.name+"-value", defValue);
+            formCtx.onDataChange(props.name+"-label", defLabel);
+            formCtx.onFieldValidate(props.name, false);
+        }
+
+    }, [formCtx.isFormSubmitted]);
 
     function onChangeHandler(event) {
 
@@ -69,13 +104,16 @@ function SelectField(props) {
 
     return(
         <React.Fragment>
-            <select onChange={onChangeHandler} placeholder="Please choose a service" data-isvalid={state.isValid}>
-                {
-                    props.options.map((option,i) => {
-                        return(<option value={option.value} key={i} >{option.name}</option>);
-                    })
-                }
-            </select>
+            <div className={styles['field-wrap']}>
+                <span className={`${styles['icon']} material-icons`}>{props.icon}</span>
+                <select className={styles['select-field']} value={state.value} onChange={onChangeHandler} placeholder="Please choose a service" data-isvalid={state.isValid}>
+                    {
+                        props.options.map((option,i) => {
+                            return(<option value={option.value} key={i} >{option.name}</option>);
+                        })
+                    }
+                </select>
+            </div>
         </React.Fragment>
     );
 }

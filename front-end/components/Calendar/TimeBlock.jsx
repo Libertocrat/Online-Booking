@@ -8,9 +8,16 @@ function TimeBlock (props) {
     // Get global context variables
     const globalCtx = useContext(GlobalContext);
 
+    let classNames = `${styles['time-block']} ${styles[props.status]}`;
+
+    if (props.selected) {
+        classNames = `${styles['time-block']} ${styles[props.status]} ${styles['selected']}`;
+    }
+
+
     const [state, setState] = useState({
         status: props.status,
-        classNames: `${styles['time-block']} ${styles[props.status]}`,
+        classNames: classNames,
         height: `${parseInt(props.relHeight) * 50}px`
     });
 
@@ -23,10 +30,16 @@ function TimeBlock (props) {
             height: `${parseInt(props.relHeight) * 50}px`
         });
         */
+        classNames = `${styles['time-block']} ${styles[props.status]}`;
+
+        if (props.selected) {
+            classNames = `${styles['time-block']} ${styles[props.status]} ${styles['selected']}`;
+        }
+
         setState((prevState) => {
             return { ...prevState,
                 status: props.status,
-                classNames: `${styles['time-block']} ${styles[props.status]}`,
+                classNames: classNames,
                 height: `${parseInt(props.relHeight) * 50}px`
             }
         });
@@ -41,6 +54,11 @@ function TimeBlock (props) {
             classNames: `${styles['time-block']} ${styles[state.status]}`
         });
         */
+        classNames = `${styles['time-block']} ${styles[props.status]}`;
+
+        if (props.selected) {
+            classNames = `${styles['time-block']} ${styles[props.status]} ${styles['selected']}`;
+        }
 
         setState((prevState) => {
             return { ...prevState, classNames: `${styles['time-block']} ${styles[state.status]}`}
@@ -105,7 +123,8 @@ function TimeBlock (props) {
     return(
         <div className = {state.classNames}
             style={{ height: state.height }}
-            onClick={onClickHandler}>
+            onClick={onClickHandler}
+        >
             { props.startHour !== undefined && props.endHour !== undefined ?
                 <div className ={styles['block-hours']}>{`${props.startHour} - ${props.endHour}`}</div>
                 : null

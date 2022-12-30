@@ -60,19 +60,27 @@ function WizardPage(props) {
     let isPageOn = props.pageNum === formCtx.currentPage;
     let isLastOn = props.pageNum != 1;
 
-    let leftButton =   isLastOn ? <button type="button" onClick={formCtx.onLastPage}>Last</button> : null;
+    let leftButton =   isLastOn ? <button type="button" className={styles['back']} onClick={formCtx.onLastPage}>
+                                    <span className={`${styles['icon']} material-icons`}>navigate_before</span> Back
+                                  </button> : null;
     let rightButton =  !props.submit ?
-        <button type="button" disabled={!state.isValid} onClick={formCtx.onNextPage}>Next</button> :
-        <button type="button" disabled={!formCtx.isFormReady} onClick={formCtx.onFormSubmit}>Submit</button>;
+        <button type="button" className={styles['next']} disabled={!state.isValid} onClick={formCtx.onNextPage}>
+            Next  <span className={`${styles['icon']} material-icons`}>navigate_next</span>
+        </button> :
+        <button type="button" className={styles['submit']} disabled={!formCtx.isFormReady} onClick={formCtx.onFormSubmit}>
+            Submit <span className={`${styles['icon']} material-icons`}>navigate_next</span>
+        </button>;
 
     return (
         <React.Fragment >
             <div className={styles['form-page']} style={isPageOn ? null : {display: "none"}}>
                 <div className={styles['page-title']} > {props.title} </div>
-                {props.children}
-                <div className={styles['nav-buttons']}>
-                    {leftButton}
-                    {rightButton}
+                <div className={styles['page-body']}>
+                    {props.children}
+                    <div className={styles['nav-buttons']}>
+                        {leftButton}
+                        {rightButton}
+                    </div>
                 </div>
             </div>
         </React.Fragment>

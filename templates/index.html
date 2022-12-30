@@ -3,6 +3,8 @@
 {% block title %}Online Booking App{% endblock %}
 
 {% block body %}
+
+  {{ page_context | json_script:'page-context' }}
   <div id="app"></div>
   <div class="modal-container"></div>
 {% endblock %}

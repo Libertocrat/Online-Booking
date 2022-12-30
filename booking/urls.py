@@ -18,8 +18,7 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView # User added
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html')), # App root
-    path('hello-world/', TemplateView.as_view(template_name='hello_world.html')), # Initial install test
-    path('calendar/', include('eventcalendar.urls'))
+    path('admin/', admin.site.urls), # Admin dashboard
+    path('', include('eventcalendar.urls')), # App root & API defined in eventcalendar
+    path('hello-world/', TemplateView.as_view(template_name='hello_world.html')) # Initial install test
 ]
