@@ -36,7 +36,6 @@ function CalendarDay (props) {
                 display: appCtx.displayDay
             }
         });
-        //loadDay(props.showDay);
 
         // Reset timeblock value & validation status on first render
         formCtx.onDataChange(props.name, "");
@@ -78,24 +77,6 @@ function CalendarDay (props) {
             const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
             requestDay(dayUrl);
         }
-        /*
-        const isEqual = state.dayDate.year == appCtx.showDay.year && state.dayDate.month == appCtx.showDay.month
-                         && state.dayDate.day == appCtx.showDay.day;
-
-         if(isNotEmpty && !isEqual) {
-
-             const dayUrl = `/calendar/${appCtx.showDay.year}/${appCtx.showDay.month}/${appCtx.showDay.day}`;
-
-             if (appCtx.serviceId != "") {
-                 // Update day from API request url
-                 requestDay(dayUrl);
-             }
-
-             // Reset timeblock value & validation status on day change
-             formCtx.onDataChange(props.name, "");
-             formCtx.onFieldValidate(props.name, false);
-         }
-         */
 
      }, [appCtx.serviceId]);
 
@@ -179,10 +160,6 @@ function CalendarDay (props) {
     }
 
     function requestDay(dayUrl) {
-        //alert(props.dayUrl);
-        //const dayUrl = `/calendar/${dayDate.year}/${dayDate.month}/${dayDate.day}`; // Backend endpoint url: "/calendar/yyyy/mm/dd"
-
-        console.log("CalendarDay url request: " + dayUrl);
 
         fetch(dayUrl, {
             method: 'POST',
@@ -198,9 +175,7 @@ function CalendarDay (props) {
         .then(response => response.json())
         .then(
             (result) => {
-                //handlePostSuccess(result); // success handling
-                console.log(result);
-                //props.onDayChange(result.calendarDay);
+
                 const calendarDay = result.calendarDay;
 
                 setState( (prevState) => {
@@ -221,8 +196,6 @@ function CalendarDay (props) {
                 // Notify app that display day changed
                 appCtx.onDayChange(calendarDay.dayDate);
 
-                console.log("New CalendarDay successfully recieved from API :");
-                console.log(calendarDay);
             },
             (error) => {
                 //handlePostError(error);  // error handling

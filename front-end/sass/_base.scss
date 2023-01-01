@@ -1,11 +1,11 @@
 html {
+    box-sizing: border-box;
     font-family: var(--font-family-default);
 }
 
 body {
-    box-sizing: border-box;
-    //background-color: rgba(rgb(46, 254, 66),.2);
-    background-color: rgba(var(--color-primary-rgb), .2);
+    box-sizing: inherit;
+    margin: 0;
 }
 
 $dark-color: #333;

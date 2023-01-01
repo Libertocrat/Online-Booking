@@ -3,7 +3,6 @@ import styles from "./CalendarMonth.module.scss"; //SCSS Modules use example
 
 import AppContext from "../AppContext.jsx";
 import CalendarMonthDay from "./CalendarMonthDay.jsx";
-//import calendarMonth from "../../backend-test.js";
 
 function CalendarMonth (props) {
 
@@ -54,26 +53,18 @@ function CalendarMonth (props) {
 
 
     function loadMonth(event) {
-        //const monthUrl = event.target.getAttribute('aref');
-        //window.open(monthUrl,"_self");
+
         const month = event.target.getAttribute('loadmonth');
         const year = event.target.getAttribute('loadyear');
         const monthDate = {year: year, month: month};
-        //const monthUrl = event.target.getAttribute('aref');
-
-        appCtx.onMonthChange(monthDate);
-        //requestMonth(monthUrl);
-        //console.log(monthDate);
-        //alert(monthDate.year + "/" + monthDate.month);
 
         // Pass new month to app
+        appCtx.onMonthChange(monthDate);
     }
 
     function requestMonth(monthDate) {
-        //alert(props.dayUrl);
-        const monthUrl = `/calendar/${monthDate.year}/${monthDate.month}`; // Backend endpoint url: "/calendar/yyyy/mm"
 
-        //console.log("CalendarDay url request: " + dayUrl);
+        const monthUrl = `/calendar/${monthDate.year}/${monthDate.month}`; // Backend endpoint url: "/calendar/yyyy/mm"
 
         fetch(monthUrl, {
             method: 'POST',
@@ -89,8 +80,6 @@ function CalendarMonth (props) {
         .then(response => response.json())
         .then(
             (result) => {
-                //handlePostSuccess(result); // success handling
-                console.log(result);
 
                 const calendarMonth = result.calendarMonth;
 
@@ -100,11 +89,9 @@ function CalendarMonth (props) {
                     }
                 });
 
-                console.log("New CalendarMonth successfully recieved from API :");
-                console.log(calendarMonth);
             },
             (error) => {
-                //handlePostError(error);  // error handling
+                // error handling
                 console.log(error);
             }
         );

@@ -6,6 +6,7 @@ import App from "./components/App.jsx";
 import {AppContextProvider} from "./components/AppContext.jsx";
 
 // React 18 App rendering
+
 const container = document.getElementById('app');
 const root = createRoot(container);
 root.render(
@@ -13,8 +14,3 @@ root.render(
         <App />
     </AppContextProvider>
 );
-
-/*
-const calendarMonth = createRoot(document.getElementById('calendar-month'));
-calendarMonth.render(<CalendarMonth />);
-*/

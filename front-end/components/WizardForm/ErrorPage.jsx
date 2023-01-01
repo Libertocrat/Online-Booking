@@ -17,8 +17,8 @@ function ErrorPage(props) {
     let isPageOn = formCtx.responseStatus === "error";
 
     return(<div className={styles['response-page']} style={isPageOn ? null : {display: "none"}}>
+        <div className={`${styles['error-icon']} ${styles['icon']} material-icons`}><span>error</span></div>
         <div className={styles['title']}>An Error Occurred</div>
-        <div className={`${styles['error-icon']} material-icons`}><span>error</span></div>
         <div className={styles['message']}>{props.message}</div>
         <div className={styles['nav-buttons']}>
             <button type="button" onClick={onCloseHandler}>OK</button>

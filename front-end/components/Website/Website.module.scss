@@ -1,0 +1,234 @@
+// SCSS website global variables
+$primary-color: #0378A6;
+$secondary-color: #41D2F2;
+$cta-color: #51bc05;
+$white-color: #F2F2F2;
+$dark-color: #403F3C;
+
+$section-padding-lat: 5%;
+
+// Website component styles
+.website {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  background-image: linear-gradient(135deg, $secondary-color,$primary-color);
+}
+
+// Header component styles
+.header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  background-color: transparent;
+  padding: 1rem $section-padding-lat;
+  padding-top: 32px;
+
+  max-height: 100px;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: auto;
+    max-height: 300px;
+
+    & .cta-button {
+      margin-top: 16px;
+    }
+  };
+
+  & .brand {
+
+    display: flex;
+    align-items: center;
+    //flex-shrink: 0;
+
+    height: 100%;
+    margin-right: 32px;
+
+    & .logo {
+      display: flex;
+      //height: 100%;
+
+      & img {
+        //position: relative;
+        //display: block;
+        height: 80px;
+        width: auto;
+      }
+    }
+
+    & .name {
+      color: $white-color;
+      font-size: 32px;
+      padding-left: 24px;
+    }
+
+  }
+
+  .nav-menu {
+
+    ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-right: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Nav CTA button is smaller and have a less attention grabbing color than the Hero CTA
+  .cta-button {
+
+    font-size: 24px;
+    font-weight: 400;
+    color: $primary-color;
+    background-color: $white-color;
+
+    &:hover {
+      background-color: darken($primary-color, 0%);
+      color: $white-color;
+    }
+  }
+}
+
+// Hero component styles
+.hero {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  min-height: 80vh;
+  color: $dark-color;
+  font-size: 2rem;
+  font-weight: 600;
+
+  padding: 32px $section-padding-lat;
+  padding-bottom: 64px;
+
+  .hero-title {
+    font-size: 64px;
+  }
+
+  .hero-tagline {
+    font-size: 40px;
+    font-style: italic;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //margin-left: 2rem;
+    //flex-basis: 50%;
+    flex-basis: 45%;
+    //min-width: 450px;
+    flex-grow: 1;
+    order: 1;
+
+    padding: 32px 16px;
+
+    text-align: center;
+  }
+
+  .hero-image {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 45%;
+    min-width: 400px;
+
+    flex-grow: 1;
+    order: 0;
+
+    padding: 32px 16px;
+
+    img {
+      height: 90%;
+      max-width: 500px;
+      //object-fit: cover;
+    }
+  }
+
+
+}
+
+// CTA component styles
+.cta-button {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $cta-color;
+  color: $white-color;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 16px 16px;
+  border: none;
+  border-radius: 10px;
+
+  transition: background-color 0.5s ease-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: darken($cta-color, 10%);
+  }
+
+  & .icon {
+    font-size: 32px;
+    padding-right: 16px;
+  }
+
+}
+
+// Footer component styles
+.footer {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $dark-color;
+    color: $white-color;
+    padding: 16px $section-padding-lat;
+
+    flex-wrap: wrap;
+
+    .footer-column {
+
+      flex-shrink: 0;
+      flex-grow: 1;
+      padding: 8px 16px;
+
+      p {
+        margin: 0;
+        font-size: 16px;
+        //font-weight: 400;
+
+      }
+    }
+
+    @media only screen and (max-width: 750px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+     };
+  }

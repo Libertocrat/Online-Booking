@@ -1,6 +1,13 @@
 $brand-orange: #ffa000;
 $brand-blue: #0095cb;
 $brand-green: #51bc05;
+$brand-red: red;
+
+$primary-color: #0378A6;
+$secondary-color: #41D2F2;
+$cta-color: #51bc05;
+$white-color: #F2F2F2;
+$dark-color: #403F3C;
 
 .wizard-form {
     display: flex;
@@ -24,7 +31,7 @@ $brand-green: #51bc05;
     & .page-title {
         font-size: 24px;
         padding: 8px 0;
-        color: #444;
+        color: $dark-color;
     }
 
     & .page-body {
@@ -66,7 +73,7 @@ $brand-green: #51bc05;
         border-radius: 10px;
         z-index: 0;
 
-        color: #444;
+        color: $dark-color;
     }
 
     & .select-field {
@@ -77,10 +84,8 @@ $brand-green: #51bc05;
         border-radius: 10px;
         z-index: 0;
 
-        //Test color
-        //background-color: #bbaaff;
-        background-color: #ddd;
-        color: #444;
+        background-color: $white-color;
+        color: $dark-color;
     }
 }
 
@@ -98,7 +103,7 @@ $brand-green: #51bc05;
         align-items: center;
 
         border-radius: 20px;
-        color: #444;
+        color: $dark-color;
         font-size: 16px;
         font-weight: 600;
 
@@ -124,16 +129,19 @@ $brand-green: #51bc05;
 
     & .next, .submit {
         align-self: flex-end;
-        background-color: $brand-green;
+        background-color: $primary-color;
+        color: $white-color;
     }
 
     & .back {
         align-self: flex-start;
-        background-color: $brand-orange;
+        background-color: lighten($primary-color, 10%);
+        color: $white-color;
     }
 
     & .submit {
-        background-color: $brand-blue;
+        background-color: $cta-color;
+        color: $white-color;
     }
 
     & .icon {
@@ -159,7 +167,7 @@ $brand-green: #51bc05;
         padding: 8px 0;
 
         font-size: 18px;
-        color: #444;
+        color: $dark-color;
 
         & .field-value {
             padding-left: 16px;
@@ -175,9 +183,7 @@ $brand-green: #51bc05;
 
     & .icon {
         font-size: 40px;
-        //color: #777;
-        //color: #bbaaff;
-        color: $brand-blue;
+        color: lighten($primary-color, 10%);
 
     }
 }
@@ -190,18 +196,22 @@ $brand-green: #51bc05;
     align-items: center;
     max-width: 100%;
 
-    & .title {
-        font-size: 36px;
+    & .icon {
+        font-size: 160px;
+        padding-bottom: 32px;
     }
 
     & .success-icon {
-        color: green;
-        font-size: 120px;
+        color: $brand-green;
     }
 
     & .error-icon {
-        color: red;
-        font-size: 120px;
+        color: $brand-red;
+    }
+
+    & .title {
+        font-size: 36px;
+        padding: 16px 0;
     }
 
     & .message {
@@ -211,6 +221,8 @@ $brand-green: #51bc05;
         min-width: 300px;
         font-size: 20px;
         font-weight: 400;
+
+        padding-bottom: 16px;
     }
 
     & .nav-buttons {

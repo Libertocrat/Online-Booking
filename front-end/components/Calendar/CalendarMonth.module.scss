@@ -15,7 +15,6 @@
 
     border-radius: 10px;
     margin-bottom: 16px;
-    //background-image:linear-gradient(to bottom, #ccc, #fff);
 }
 
 .week {
@@ -47,7 +46,6 @@
     justify-content: center;
     align-items: center;
 
-    //flex-basis: 12%;
     flex-grow: 1;
     flex-shrink: 0;
 
@@ -83,7 +81,6 @@
 
     &.today {
         border: 5px solid var(--color-primary);//width style color
-        //background-color: var(--color-primary-light);
     }
 
 }

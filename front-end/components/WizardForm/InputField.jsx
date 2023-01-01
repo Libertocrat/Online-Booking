@@ -81,17 +81,7 @@ function InputField(props) {
 
     function onChangeHandler(event) {
 
-        /*
-        // Check if input is valid, by calling props passed function
-        const isValid = validateInput(event.target.value);
-        // Lift the validation status up into Form Context, if status changed
-        if (state.isValid != isValid) {
-            formCtx.onFieldValidate(props.name, isValid);
-        }
-
-        // Lift new value up into Form Context
-        formCtx.onDataChange(props.name, event.target.value);
-        */
+        //Update input state with the formatted value
         setState((prevState) => {
             return {
             ...prevState,
@@ -101,6 +91,7 @@ function InputField(props) {
 
     }
 
+    // Formats the input before saving it into the state
     function formatInput(value) {
 
         switch (props.type) {
@@ -111,6 +102,7 @@ function InputField(props) {
         }
     }
 
+    // Sets a phone number to a USA phone format (xxx) xxx-xxxx
     function normalizePhone(value) {
         // return nothing if no value
         if (!value) return value;
@@ -129,11 +121,11 @@ function InputField(props) {
         return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
     }
 
+    // Checks if the input satisfies the REGEX validator passed through props
     function validateInput(value) {
 
         const regex = state.validator;
         return regex.test(value);
-
     }
 
     return(

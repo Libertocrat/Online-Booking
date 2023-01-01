@@ -18,8 +18,8 @@ function SuccessPage(props) {
 
     return(
     <div className={styles['response-page']} style={isPageOn ? null : {display: "none"}}>
+        <div className={`${styles['success-icon']} ${styles['icon']} material-icons`}><span>check_circle</span></div>
         <div className={styles['title']}>Request received!</div>
-        <div className={`${styles['success-icon']} material-icons`}><span>check_circle</span></div>
         <div className={styles['message']}>{props.message}</div>
         <div className={styles['nav-buttons']}>
             <button type="button" onClick={onCloseHandler}>OK</button>

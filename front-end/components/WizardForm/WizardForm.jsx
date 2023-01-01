@@ -104,8 +104,6 @@ function WizardForm(props) {
             }
         });
 
-        //alert(key +" : "+value);
-        console.log("Form Data: " + state.formData);
     }
 
     const onPageValidateHandler = (pageNum, isValid) => {
@@ -143,7 +141,6 @@ function WizardForm(props) {
                 }
             });
 
-            console.log(props.children[newPageNumber - 1]);
         }
     }
 
@@ -160,12 +157,11 @@ function WizardForm(props) {
                 }
             });
 
-            console.log(props.children[newPageNumber - 1]);
         }
     }
 
     const onFormSubmitHandler = () => {
-        //alert(props.dayUrl);
+
         const postUrl = `/calendar/request_appointment/`;
 
         fetch(postUrl, {
@@ -182,14 +178,7 @@ function WizardForm(props) {
         .then(response => response.json())
         .then(
             (result) => {
-                //handlePostSuccess(result); // success handling
-                console.log(result);
-                //props.onDayChange(result.calendarDay);
-                //const calendarDay = result.calendarDay;
-
-                console.log("Reservation request response recieved from API :");
-                //console.log(result.message);
-                //console.log(result.body);
+                // success handling
 
                 if(result.success) {
                     // Display "SUCCESS PAGE" and trigger field reset (isFormSubmitted=true)
@@ -217,7 +206,7 @@ function WizardForm(props) {
 
             },
             (error) => {
-                //handlePostError(error);  // error handling
+                // error handling
                 console.log(error);
 
                 // Display "ERROR PAGE" and hide form pages

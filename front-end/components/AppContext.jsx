@@ -39,7 +39,6 @@ export const AppContextProvider = (props) => {
 
         // Get initial context from backend
         const pageContext = JSON.parse(document.getElementById('page-context').textContent);
-        console.log(pageContext);
 
         // Set calendar day to today's date & calendar month to current month
         const today = new Date();
@@ -68,23 +67,11 @@ export const AppContextProvider = (props) => {
                 serviceId: serviceId
             }
         });
-
-        console.log("New service chosen with id: "+serviceId);
     };
 
     const dayChangeHandler = (dayDate) => {
 
-        /*
-        if (!_.isEqual(state.showDay, dayDate)) {
-
-            setState((prevState) => {
-                return { ...prevState,
-                    showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
-                }
-            });
-        }
-        */
-
+        // Update active day to display
         setState((prevState) => {
             return { ...prevState,
                 showDay: {year: dayDate.year, month: dayDate.month, day: dayDate.day}
@@ -94,17 +81,7 @@ export const AppContextProvider = (props) => {
 
     const monthChangeHandler = (monthDate) => {
 
-        /*
-        if (!_.isEqual(state.showMonth, monthDate)) {
-
-            setState((prevState) => {
-                return { ...prevState,
-                    showMonth: {year: monthDate.year, month: monthDate.month}
-                }
-            });
-        }
-        */
-
+        // Update active month to display
         setState((prevState) => {
             return { ...prevState,
                 showMonth: {year: monthDate.year, month: monthDate.month}

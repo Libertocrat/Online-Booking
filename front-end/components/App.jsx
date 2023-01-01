@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import styles from "./App.module.scss"; //SCSS Modules use example
+import styles from "./App.module.scss"; //SCSS Modules
 
 import AppContext from "./AppContext.jsx";
+import Website from "./Website/Website.jsx";
 import CalendarMonth from "./Calendar/CalendarMonth.jsx";
 import CalendarDay from "./Calendar/CalendarDay.jsx";
 import Modal from "./Modal/Modal.jsx";
@@ -19,11 +20,24 @@ function App(props) {
 
     return(
         <React.Fragment>
-            <h1 className={styles['main-header']}>{appCtx.business.name}</h1>
-            <h2 className={styles['main-tagline']}>{appCtx.business.tagline}</h2>
-            <div className={styles['calendar-button']}>
-                <Button icon="event_available" onClickHandler={appCtx.onShowWizard}/>
-            </div>
+            {/* Static Business Website */}
+            <Website
+                brandName={appCtx.business.brandName}
+                businessName={appCtx.business.legalName}
+                businessLogo="/static/images/logo-200x200.png"
+                ctaClickHandler={appCtx.onShowWizard}
+                heroTitle={appCtx.business.tagline}
+                heroTagline="Holistic body health starts with healthy teeth"
+                heroImage="/static/images/hero-image-330x550.png"
+                businessPhone={appCtx.business.phone}
+                businessEmail={appCtx.business.email}
+                businessAddress={appCtx.business.address}
+                navLinks={[]}
+                ctaHeaderText="Book Online"
+                ctaHeaderIcon="schedule_send"
+                ctaHeroText="Book Your Appointment"
+                ctaHeroIcon="event_available"
+            />
 
             {/* Booking wizard */}
             <Modal display={appCtx.displayWizard} onClickHandler={appCtx.onHideWizard}>

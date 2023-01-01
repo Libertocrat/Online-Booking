@@ -8,16 +8,6 @@ function Modal(props) {
         display: props.display
     });
 
-    /*
-    function onClickHandler(event) {
-
-        setState((prevState) => {
-            return {...prevState,
-                display: false
-            }
-        });
-    }
-    */
 
     useEffect(() => {
 
@@ -27,7 +17,7 @@ function Modal(props) {
         });
     }, [props.display]);
 
-    // Example of a wrapper component, by using "props.children"
+    // Component rendering
     return ReactDOM.createPortal(
             <div className={styles['modal-full']} style={state.display ? null : {display: "none"}} >
                 <div className={styles['backdrop']} onClick={props.onClickHandler} ></div>

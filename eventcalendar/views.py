@@ -20,15 +20,27 @@ def index(request):
     time_zone = pytz.timezone(business.time_zone) # Business local time zone
     now = datetime.datetime.now(tz=time_zone)
 
-    service_list = Service.objects.filter(business=business)
+    # Get the service list, ordered by price
+    service_list = Service.objects.filter(business=business).order_by('price')
     services = [{"value": "", "name": "-- Please choose a service --"}]
     for service in service_list:
         services.append({"value": service.pk, "name": service.name + " - $"+str(service.price)})
 
+    business_address = {
+        "street" : business.street,
+        "city" : business.city,
+        "state" : business.state,
+        "postalCode": business.postal_code,
+        "country": business.country}
+
     business_data = {
-        "name": business.name,
+        "legalName": business.name,
+        "brandName": business.brand_name,
         "tagline": business.tagline,
         "phone": business.phone,
+        "email": business.email,
+        "website": business.website,
+        "address": business_address,
         "timeZone": business.time_zone,
         "now": str(now) }
     page_context = { "services": services, "business": business_data}
@@ -105,8 +117,6 @@ def calendar_month(request, year, month):
         "titleYear": first_of_month.strftime("%Y"),
         "currentDate": today,
         "monthDate" : month_date,
-        #"startDate": month_calendar_days[0][0].date,
-        #"endDate": month_calendar_days[4][6].date,
         "weekDayLabels": weekday_labels,
         "lastMonthUrl" : last_month_url,
         "nextMonthUrl" : next_month_url,
@@ -124,9 +134,7 @@ def calendar_month(request, year, month):
 
         response = {"success": True, "calendarMonth" : calendar_month, "data": post_data}
         return JsonResponse(response);
-       # return render(request, 'eventcalendar/calendarmonth.html', {
-       #     "calendar_month" : calendar_month
-        #})
+
     else:
         response = {"success": False, "message": "GET request isn't allowed on this endpoint, try POST"}
         return JsonResponse(response)
@@ -157,36 +165,7 @@ def calendar_day(request, year, month, day):
                                 "month" : int(next_day.strftime("%m")),
                                 "day" : int(next_day.strftime("%d")) })
 
-        """
-        # Assembly requested calendar day
-        if req_day.strftime("%a") == "Sun":
-            time_blocks = [
-                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
-                {"id" : 2, "status" : "blocked", "relHeight" : 8, "startHour": "8:00am", "endHour" : "4:00pm"},
-                {"id" : 3, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
-            ]
-        elif req_day.strftime("%a") == "Sat":
-            time_blocks = [
-                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
-                {"id" : 2, "status" : "active", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
-                {"id" : 3, "status" : "blocked", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
-                {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
-                {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
-                {"id" : 6, "status" : "inactive", "relHeight" : 4, "startHour" : "", "endHour" : ""}
-            ]
-        else:
-            time_blocks = [
-                {"id" : 1, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""},
-                {"id" : 2, "status" : "blocked", "relHeight" : 2, "startHour" : "8:00am", "endHour" : "10:00am"},
-                {"id" : 3, "status" : "active", "relHeight" : 1, "startHour" : "10:00am", "endHour" : "11:00am"},
-                {"id" : 4, "status" : "active", "relHeight" : 1, "startHour" : "11:00am", "endHour" : "12:00pm"},
-                {"id" : 5, "status" : "active", "relHeight" : 1, "startHour" : "12:00pm", "endHour" : "1:00pm"},
-                {"id" : 6, "status" : "blocked", "relHeight" : 1, "startHour" : "1:00pm", "endHour" : "2:00pm"},
-                {"id" : 7, "status" : "active", "relHeight" : 2, "startHour" : "2:00pm", "endHour" : "4:00pm"},
-                {"id" : 8, "status" : "inactive", "relHeight" : 1, "startHour" : "", "endHour" : ""}
-            ]
-        """
-
+        # Assembly requested calendar day time blocks
         time_blocks = h.get_day_schedule(service_id, year, month, day)
 
         calendar_day = {

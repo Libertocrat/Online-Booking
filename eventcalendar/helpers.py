@@ -1,6 +1,4 @@
 import datetime
-import time
-import calendar
 import pytz # Manage time zones
 
 # MODEL IMPORTS
@@ -89,19 +87,6 @@ def get_day_schedule(service_id, year, month, day):
       # Append the current time slot to the schedule
       time_schedule.append(timeslot)
       timeblock_index += 1
-
-   """
-   while (end_timeslot <= close_hour):
-
-      start_hour = start_timeslot.strftime("%I:%M %p")
-      end_hour = end_timeslot.strftime("%I:%M %p")
-      timeslot = {"id" : timeblock_index + 1, "status" : "active", "relHeight" : 1, "startHour": start_hour, "endHour" : end_hour}
-      time_schedule.append(timeslot)
-
-      start_timeslot = end_timeslot
-      end_timeslot = start_timeslot + datetime.timedelta(minutes=service.duration)
-      timeblock_index += 1
-   """
 
    return time_schedule
 

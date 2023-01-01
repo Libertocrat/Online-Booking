@@ -63,6 +63,7 @@ class Business(models.Model):
 
     # Business general info
     name = models.CharField(max_length=64, unique=True, blank=False)
+    brand_name = models.CharField(max_length=64, unique=False, blank=False, default=name)
     tagline = models.CharField(max_length=128, blank=True)
     description = models.TextField(max_length=256, blank=True)
     time_zone = models.CharField(
@@ -184,7 +185,6 @@ class Appointment(models.Model):
     day = models.DateField(blank=False)
     start_hour = models.TimeField(blank=False)
     end_hour = models.TimeField(blank=False)
-    # duration = models.IntegerField(default=60, blank=False) # In minutes
 
     # Appointment status fields
     STATUS_NEW = 0

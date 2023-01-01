@@ -14,7 +14,6 @@ function TimeBlock (props) {
         classNames = `${styles['time-block']} ${styles[props.status]} ${styles['selected']}`;
     }
 
-
     const [state, setState] = useState({
         status: props.status,
         classNames: classNames,
@@ -22,14 +21,7 @@ function TimeBlock (props) {
     });
 
     useEffect(() => {
-        /*
-        setState({
-            ...state,
-            status: props.status,
-            classNames: `${styles['time-block']} ${styles[props.status]}`,
-            height: `${parseInt(props.relHeight) * 50}px`
-        });
-        */
+
         classNames = `${styles['time-block']} ${styles[props.status]}`;
 
         if (props.selected) {
@@ -48,12 +40,6 @@ function TimeBlock (props) {
 
     useEffect(() => {
 
-        /*
-        setState({
-            ...state,
-            classNames: `${styles['time-block']} ${styles[state.status]}`
-        });
-        */
         classNames = `${styles['time-block']} ${styles[props.status]}`;
 
         if (props.selected) {
@@ -65,9 +51,7 @@ function TimeBlock (props) {
         });
 
     }, [state.status]);
-    //const timeBlockClasses = `${styles['time-block']} ${styles[props.status]}`;
-    //const blockHeight = `${parseInt(props.relHeight) * 50}px`;
-    //console.log(blockHeight);
+
 
     function onClickHandler(event) {
 
@@ -81,7 +65,7 @@ function TimeBlock (props) {
     }
 
     function requestAppointment(data) {
-        //alert(props.dayUrl);
+
         const postUrl = `/calendar/request_appointment/`;
 
         fetch(postUrl, {
@@ -98,23 +82,16 @@ function TimeBlock (props) {
         .then(response => response.json())
         .then(
             (result) => {
-                //handlePostSuccess(result); // success handling
-                console.log(result);
-                //props.onDayChange(result.calendarDay);
-                //const calendarDay = result.calendarDay;
-
+                // success handling
 
                 setState({
                     ...state,
                     status: 'blocked'
                 });
 
-                console.log("Reservation request response recieved from API :");
-                console.log(result.message);
-                console.log(result.body);
             },
             (error) => {
-                //handlePostError(error);  // error handling
+                // error handling
                 console.log(error);
             }
         );
