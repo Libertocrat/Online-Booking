@@ -19,7 +19,7 @@ In the admin area, the user is able to manage appointments, create new services,
 
 ### **1.2 Product value**
 
-For business owners, the value lies on increase sales & decrease appointment cancelations, as well as to save time and stop interruptions to answer the phone just to book appointments. Since the app books the apointments automatically, and the customer is presented with the available time slots, it frees the business owner up, to focus on delivering the service and provide their customers with a better experience.
+For business owners, the value lies on increased sales & decreased appointment cancelations, as well as to save time and stop interruptions to answer the phone just to book appointments. Since the app books the appointments automatically, and the customer is presented with the available time slots, it frees the business owner up, to focus on delivering the service and provide their customers with a better experience.
 
 For business' customers, the app offers them a better experience to book services faster and easier at the time they need, without having to wait until the phone is answered or the business opens.
 
