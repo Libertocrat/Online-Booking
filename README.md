@@ -7,8 +7,6 @@
 
 ## **1. Intro & Overview**
 
----
-
 ### **1.1 Product scope**
 
 The app allows professionals and SMBs to offer their customers to book services directly on a business website. The front-end presents an intuitive, clean and beautifully stylized interface for the customer, to book a service and enter details in a fast & easy to understand animated and interactive form-based wizard.
