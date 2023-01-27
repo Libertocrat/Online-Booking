@@ -1,7 +1,7 @@
 # ONLINE BOOKING APP
 
-**Video Demo**:  <https://youtu.be/hU1TNWC_eOY>
-**Description**: An Online Booking app that allows SMBs & service professionals to offer online service booking to their customers, as well as a back-end to manage their services, work-hours, prices, appointments and customers. It also offers a dynamic, responsive and beautiful website, integrated with the backend.
+- **Video Demo**:  <https://youtu.be/hU1TNWC_eOY>
+- **Description**: An Online Booking app that allows SMBs & service professionals to offer online service booking to their customers, as well as a back-end to manage their services, work-hours, prices, appointments and customers. It also offers a dynamic, responsive and beautiful website, integrated with the backend.
 
 ---
 
