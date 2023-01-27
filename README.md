@@ -91,8 +91,6 @@ An Online Booking app that allows SMBs & service professionals to offer online s
 
 ## **2. Installation & Setup**
 
----
-
 ### **2.1 Installation**
 
 The app runs on a **Django** backend and uses **React** for the frontend. To install the app follow these steps:
@@ -192,8 +190,6 @@ If you want to be able to modify `react` or `scss` source files, then start a de
 
 ## **3. App Code & Tech Structure**
 
----
-
 ### **3.1 App technology stack**
 
 The app is running on a **Django** backend with a **React** + **Sass/SCSS** frontend. The frontend uses a modern JavaScript pipeline managed by **Webpack**, to allow using modern `javascript` and `css` frameworks.
@@ -285,8 +281,6 @@ This is the backend file & folder structure, starting from the app root folder:
 ---
 
 ## **4. Resources**
-
----
 
 ### **Django & React**
 
